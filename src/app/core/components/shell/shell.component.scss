@@ -1,0 +1,17 @@
+.page {
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 100vh;
+  
+    &-body {
+      width: 100%;
+      margin-top: 60px;
+      padding: 16px 0;
+    }
+  
+    &.footer {
+      width: 100%;
+    }
+}
