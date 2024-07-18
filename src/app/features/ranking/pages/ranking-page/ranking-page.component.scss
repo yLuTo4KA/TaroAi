@@ -1,0 +1,13 @@
+.ranking-page {
+    height: calc(100vh - 30px);
+
+    &__top {
+        width: 100%;
+        height: 30%;
+    }
+
+    &__list {
+        width: 100%;
+        height: 70%;
+    }
+}
