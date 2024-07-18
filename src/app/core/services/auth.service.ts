@@ -10,8 +10,11 @@ import { WebAppUser } from '../models/webAppUser.model';
 
 export class AuthService {
   telegramService = inject(TelegramService);
+  
+  private loadingSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   private tokenSubject: BehaviorSubject<string | null> = new BehaviorSubject<string | null>(this.getToken());
 
+  loading$: Observable<boolean> = this.loadingSubject.asObservable();
   token$: Observable<string | null> = this.tokenSubject.asObservable();
 
   tokenMock: string  = "jJJFSn238dsjfJNSJKDnsfuNJDNSKDNjdfsjkdnmm";
