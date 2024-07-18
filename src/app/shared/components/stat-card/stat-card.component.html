@@ -1,0 +1,22 @@
+<div class="stat-card">
+  <div class="stat-card__logo">
+    <app-avatar [displayName]="user.displayName" [height]="placeObj.height" [width]="placeObj.width">
+      <div *ngIf="isTop" [class]="placeObj.class">
+        {{place}}
+      </div>
+    </app-avatar>
+  </div>
+  <div class="stat-card__user-data">
+    <div class="stat-card__name">
+      {{user.displayName}}
+    </div>
+    <div class="stat-card__score">
+      {{user.userScore}}
+    </div>
+    <div class="stat-card__reward">
+      {{user.userReward}}
+    </div>
+  </div>
+
+
+</div>

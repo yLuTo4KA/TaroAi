@@ -1,0 +1,74 @@
+.stat-card {
+    margin: 0 auto;
+    &__user-data {
+        padding-top: 15%;
+        margin: 0 auto;
+    }
+
+    &__name {
+        color: #ffffff;
+        font-weight: bold;
+        text-align: center;
+    }
+    &__score {
+        color: #ffffff;
+        font-weight: bold;
+        text-align: center;
+        position: relative; // Ensure the parent element is positioned
+        &:before {
+            content: '';
+            background: url('/assets/images/Telegram_Star.png') center/contain no-repeat; // Adjust background properties
+            width: 15px;
+            height: 15px;
+            display: inline-block;
+            position: absolute; // Position the pseudo-element relative to its parent
+            left: 0; // Adjust positioning as needed
+            top: 50%; // Adjust positioning as needed
+            transform: translateY(-50%); // Center vertically
+            margin-right: 10px; // Adjust spacing between icon and text
+        }
+    }
+    &__reward {
+        color: #727fbb;
+        font-weight: bold;
+        text-align: center;
+        position: relative;
+        &:before {
+            content: '';
+            background: url('/assets/images/Telegram_Star.png') center/contain no-repeat;
+            width: 15px;
+            height: 15px;
+            display: inline-block;
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            margin-right: 10px;
+        }
+    }
+}
+
+
+.place {
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    color: #ffffff;
+    font-weight: bold;
+    justify-content: center;
+    width: 25px;
+    height: 25px;
+    border: 3px solid var(--tg-theme-bg-color);
+
+    &_gold {
+        background-color: #d4af37;
+    }
+
+    &_silver {
+        background-color: #777777;
+    }
+
+    &_bronze {
+        background-color: #cd7f32;
+    }
+}

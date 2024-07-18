@@ -1,0 +1,25 @@
+.ranking-top {
+    width: 100%;
+    height: 100%;
+
+    &__leaders,
+    &__stats,
+    &__buttons {
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+    }
+
+    &__leaders {
+        height: 50%;
+        margin-top: 10%;
+    }
+
+    &__stats {
+        height: 15%;
+    }
+
+    &__buttons {
+        height: 15%;
+    }
+}
