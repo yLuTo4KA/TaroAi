@@ -1,4 +1,6 @@
 .stat-card {
+    width: 100%;
+
     margin: 0 auto;
     &__user-data {
         padding-top: 15%;
@@ -7,54 +9,53 @@
 
     &__name {
         color: #ffffff;
-        font-weight: bold;
+        font-family: var(--font-bold);
         text-align: center;
     }
     &__score {
         color: #ffffff;
-        font-weight: bold;
+        font-family: var(--font-bold);
         text-align: center;
         position: relative; // Ensure the parent element is positioned
-        &:before {
-            content: '';
-            background: url('/assets/images/Telegram_Star.png') center/contain no-repeat; // Adjust background properties
-            width: 15px;
-            height: 15px;
-            display: inline-block;
-            position: absolute; // Position the pseudo-element relative to its parent
-            left: 0; // Adjust positioning as needed
-            top: 50%; // Adjust positioning as needed
-            transform: translateY(-50%); // Center vertically
-            margin-right: 10px; // Adjust spacing between icon and text
-        }
+        // &:before {
+        //     content: '';
+        //     background: url('/assets/images/Telegram_Star.png') center/contain no-repeat; // Adjust background properties
+        //     width: 15px;
+        //     height: 15px;
+        //     display: inline-block;
+        //     position: absolute;
+        //     left: 0;
+        //     top: 50%;
+        //     transform: translateY(-50%);
+        //     margin-right: 10px;
+        // }
     }
     &__reward {
         color: #727fbb;
-        font-weight: bold;
+        font-family: var(--font-bold);
         text-align: center;
         position: relative;
-        &:before {
-            content: '';
-            background: url('/assets/images/Telegram_Star.png') center/contain no-repeat;
-            width: 15px;
-            height: 15px;
-            display: inline-block;
-            position: absolute;
-            left: 0;
-            top: 50%;
-            transform: translateY(-50%);
-            margin-right: 10px;
-        }
+        // &:before {
+        //     content: '';
+        //     background: url('/assets/images/Telegram_Star.png') center/contain no-repeat;
+        //     width: 15px;
+        //     height: 15px;
+        //     display: inline-block;
+        //     position: absolute;
+        //     left: 0;
+        //     top: 50%;
+        //     transform: translateY(-50%);
+        //     margin-right: 10px;
+        // }
     }
 }
-
 
 .place {
     border-radius: 50%;
     display: flex;
     align-items: center;
     color: #ffffff;
-    font-weight: bold;
+    font-family: var(--font-bold);
     justify-content: center;
     width: 25px;
     height: 25px;

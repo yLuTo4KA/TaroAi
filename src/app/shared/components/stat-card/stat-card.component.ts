@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { UserModel } from 'src/app/features/ranking/pages/ranking-page/ranking-page.component';
 
 @Component({
   selector: 'app-stat-card',
@@ -32,13 +33,3 @@ export class StatCardComponent implements OnInit {
   }
 
 }
-
-// TO BE DELETED
-class UserModel {
-  constructor(
-    public displayName: string = 'Lol Boba',
-    public userScore: number = 1545413,
-    public userReward = 150
-  ){}
-}
-//

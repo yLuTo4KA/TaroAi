@@ -1,0 +1,63 @@
+@function rem($pixels, $context: 16) {
+    @return #{$pixels/$context}rem;
+  }
+  
+  $colorMap: (
+    primary: (
+      text: var(--tg-theme-text-color),
+      base: var(--tg-theme-button-color),
+      light: #d84f6d,
+      dark: #9b344a,
+    )
+  );
+  
+  @mixin color-modifiers() {
+    @each $color-group, $ruleset in $colorMap{
+      &--#{$color-group} {
+        color: map-get($ruleset, text);
+        background-color: map-get($ruleset, base);
+        border-color: map-get($ruleset, dark);
+        font-family: var(--font-bold);
+      }
+    }
+  }
+  
+  .custom-button {
+    border: none;
+    border-radius: rem(6);
+    font-size: rem(16);
+    line-height: rem(15);
+  
+    width:  100%;
+    height: rem(50);
+    padding: rem(6) rem(12);
+  
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+  
+    &__wrapper {
+      display: flex;
+      align-items: center;
+  
+      &__icon-left {
+        flex-direction: row-reverse;
+  
+        img {
+          margin: 0 rem(5) 0 0;
+        }
+      }
+  
+      img {
+        width: rem(24);
+        height: rem(24);
+        margin-left: rem(5);
+      }
+    }
+  
+    &:disabled {
+      cursor: not-allowed;
+    }
+  
+    @include color-modifiers;
+  }
