@@ -1,3 +1,7 @@
-<p>
-  ranking-list works!
-</p>
+<div class="ranking-list">
+  <div class="rank-list_container" *ngFor="let user of users">
+      <app-ranking-item
+      [user]="user"
+      ></app-ranking-item>
+  </div>
+</div>

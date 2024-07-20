@@ -1,0 +1,37 @@
+:host {
+    width: 100%;
+}
+
+.footer {
+    display: flex;
+    align-items: center;
+    width: 100%;
+
+    background-color: var(--tg-theme-bg-color);
+    &__container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 1% 7%;
+        width: 100%;
+    }
+
+    fa-icon {
+        font-size: 1.2em;
+    }
+
+
+    &__button {
+        color: var(--tg-theme-second-text-color);
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        font-family: var(--font-regular);
+        font-size: 14px;
+        width: 20%;
+    }
+
+    &__label {
+        margin-top: 5px;
+    }
+}

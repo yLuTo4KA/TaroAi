@@ -23,7 +23,9 @@ export class UserModel {
     public displayName: string = 'Lol Boba',
     public userScore: number = 1545413,
     public userRank: number = 1564,
-    public userReward = 150
+    public userReward = 150,
+    public photoUrl = '',
+    public userPlace = 1
   ){}
 }
 //

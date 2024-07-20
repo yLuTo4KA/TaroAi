@@ -1,0 +1,23 @@
+<div class="ranking-item">
+  <div class="ranking-item__container">
+    <app-avatar
+      [displayName]="user.displayName"
+      [photoURL]="user.photoUrl"
+      [height]="3"
+      [width]="3"
+    ></app-avatar>
+    <div class="ranking-item__user-block">
+      <div class="wrapper">
+        <div class="ranking-item__user-block-userName">
+          {{ user.displayName }}
+        </div>
+        <div class="ranking-item__user-block-score">
+          {{ user.userScore }}
+        </div>
+      </div>
+      <div class="ranking-item__place">
+        {{ user.userPlace }}
+      </div>
+    </div>
+  </div>
+</div>

@@ -5,7 +5,7 @@ import { ButtonComponent } from './components/button/button.component';
 import { AvatarComponent } from './components/avatar/avatar.component';
 import { StatCardComponent } from './components/stat-card/stat-card.component';
 import { FaIconLibrary, FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faWallet } from '@fortawesome/free-solid-svg-icons';
+import { faBoltLightning, faClock, faStar, faUserGroup, faWallet } from '@fortawesome/free-solid-svg-icons';
 
 @NgModule({
   imports: [
@@ -24,7 +24,11 @@ import { faWallet } from '@fortawesome/free-solid-svg-icons';
 export class SharedModule {
   constructor(library: FaIconLibrary) {
     library.addIcons(
-      faWallet
+      faWallet,
+      faBoltLightning,
+      faUserGroup,
+      faStar,
+      faClock
     );
   }
 }
