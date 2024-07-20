@@ -1,3 +1,10 @@
-<p>
-  sector works!
-</p>
+<div class="sector">
+    <div class="wpapper">
+        <div class="sector__header">
+            <ng-content select=[header]></ng-content>
+        </div>
+        <div class="sector__body">
+            <ng-content select=[body]></ng-content>
+        </div>
+    </div>
+</div>

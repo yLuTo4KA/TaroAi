@@ -1,3 +1,17 @@
-<p>
-  avatar works!
-</p>
+<div class="avatar">
+    <ng-container *ngIf="photoURL; else initialIcon">
+        <img [class]="'avatar__image'" 
+        [src]="photoURL" alt="" 
+        [style.width.em]="width"
+        [style.height.em]="height">
+    </ng-container>
+    <ng-template #initialIcon>
+        <div [class]="'avatar__image avatar__image_icon'"
+        [style.width.em]="width "
+        [style.height.em]="height">
+            {{ getUserInitials(displayName) }}
+        </div>
+    </ng-template>
+    <ng-content id="place"></ng-content>
+    
+</div>

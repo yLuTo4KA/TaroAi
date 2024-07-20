@@ -13,7 +13,7 @@ export class ShellComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    this.authService.auth();
+    this.authService.auth().subscribe();
   }
 
 }

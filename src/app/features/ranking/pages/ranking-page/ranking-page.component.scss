@@ -1,13 +1,13 @@
 .ranking-page {
     height: calc(100vh - 30px);
+    overflow-y: scroll;
 
     &__top {
         width: 100%;
-        height: 30%;
     }
 
     &__list {
+        margin-top: 5%;
         width: 100%;
-        height: 70%;
     }
 }

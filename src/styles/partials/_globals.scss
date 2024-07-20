@@ -1,3 +1,22 @@
 * {
     box-sizing: border-box;
   }
+
+  :root {
+    --tg-theme-bg-color: #242d3c;
+    --tg-theme-text-color: #e5e6e8;
+    --tg-theme-second-text-color: #59686f;
+    --tg-theme-hint-color: #929292;
+    --tg-theme-link-color: #207ae4;
+    --tg-theme-sector-color: #181f29;
+    --tg-theme-button-color: #5584bc;
+    --tg-theme-button-text-color: #0a0a0a;
+    --tg-theme-secondary-bg-color: #f3f2f9;
+    --font-regular: "Lucida Regular";
+    --font-bold: "Lucida Bold";
+
+  }
+
+  ::-webkit-scrollbar {
+    display: none;
+  }

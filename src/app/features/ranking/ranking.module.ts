@@ -5,13 +5,15 @@ import { RankingRoutes } from './ranking.routing.module';
 import { RankingListComponent } from './components/ranking-list/ranking-list.component';
 import { RankingPageComponent } from './pages/ranking-page/ranking-page.component';
 import { RankingTopComponent } from './components/ranking-top/ranking-top.component';
+import { RankingItemComponent } from './components/ranking-item/ranking-item.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    SharedModule,
-    RankingRoutes
+  imports: [CommonModule, SharedModule, RankingRoutes],
+  declarations: [
+    RankingListComponent,
+    RankingPageComponent,
+    RankingTopComponent,
+    RankingItemComponent
   ],
-  declarations: [RankingListComponent, RankingPageComponent,RankingTopComponent]
 })
-export class RankingModule { }
+export class RankingModule {}
