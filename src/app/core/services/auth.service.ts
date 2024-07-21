@@ -47,6 +47,7 @@ export class AuthService {
     const params = {
       "InitData": this.telegramService.initData()
     }
+    console.log(params);
     this.loadingSubject.next(true);
     return this.http.post<AuthData>(this.apiUrl, params).pipe(
       tap(response => {
@@ -61,7 +62,7 @@ export class AuthService {
         this.loadingSubject.next(false);
       }),
       catchError((error: HttpErrorResponse) => {
-        return throwError(() => "error");
+        return throwError(() => error);
       }
       )
     )
