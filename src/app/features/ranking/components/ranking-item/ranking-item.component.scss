@@ -5,25 +5,38 @@
 
     &__container {
         display: flex;
-        align-items: flex-start;
-
+        align-items: center;
         width: 100%;
     }
-
+    &__avatar {
+        margin-right: 10px;
+    }
     &__user-block {
         display: flex;
         justify-content: space-between;
+        align-items: center;
         width: 100%;
         color: var(--tg-theme-text-color);
         font-family: var(--font-regular);
 
         &-userName {
             font-family: var(--font-bold);
-
+            display: flex;
+            align-items: center;
+            p {
+                margin-right: 5px;
+            }
         }
 
         &-score {
         }
+    }
+    &__currentUser {
+        background-color: var(--tg-theme-link-color);
+        line-height: 1;
+        padding: 5px;
+        font-size: 14px;
+        border-radius: 10px;
     }
 
     &__place {
