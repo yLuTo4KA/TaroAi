@@ -1,4 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { UserItem } from 'src/app/core/models/userItem.model';
 
 @Component({
   selector: 'app-ranking-top',
@@ -7,11 +8,16 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class RankingTopComponent implements OnInit {
 
-  @Input() user: any;
+  @Input() user!: UserItem;
+  @Output() openPaymentModalEmit = new EventEmitter<void>();
 
   constructor() { }
 
   ngOnInit() {
+  }
+
+  openPaymentModal(): void {
+    this.openPaymentModalEmit.emit();
   }
 
 }

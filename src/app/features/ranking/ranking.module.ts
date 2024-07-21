@@ -6,6 +6,7 @@ import { RankingListComponent } from './components/ranking-list/ranking-list.com
 import { RankingPageComponent } from './pages/ranking-page/ranking-page.component';
 import { RankingTopComponent } from './components/ranking-top/ranking-top.component';
 import { RankingItemComponent } from './components/ranking-item/ranking-item.component';
+import { RankingPaymentComponent } from './components/ranking-payment/ranking-payment.component';
 
 @NgModule({
   imports: [CommonModule, SharedModule, RankingRoutes],
@@ -13,6 +14,7 @@ import { RankingItemComponent } from './components/ranking-item/ranking-item.com
     RankingListComponent,
     RankingPageComponent,
     RankingTopComponent,
+    RankingPaymentComponent,
     RankingItemComponent
   ],
 })

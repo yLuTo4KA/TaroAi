@@ -28,7 +28,7 @@ export class AuthService {
   userData$: Observable<UserData | null> = this.userDataSubject.asObservable();
 
   tokenMock: string = "jJJFSn238dsjfJNSJKDnsfuNJDNSKDNjdfsjkdnmm";
-  fakeData: boolean = false;
+  fakeData: boolean = true;
 
   constructor(private http: HttpClient, private router: Router) {
   }

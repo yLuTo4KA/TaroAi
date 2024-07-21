@@ -2,15 +2,17 @@
   <div class="ranking-page__top">
     <app-ranking-top
     [user]="userData"
+    (openPaymentModalEmit)="this.openModal = true"
     ></app-ranking-top>
   </div>
   <div class="ranking-page__list">
-    <app-ranking-list
-
-    ></app-ranking-list>
+    <app-ranking-list></app-ranking-list>
   </div>
   <div class="ranking-page__user-stat" *ngIf="userData">
     <app-ranking-item [user]="userData" [currentUser]="true"></app-ranking-item>
   </div>
+  <app-modal [viewModal]="openModal" (closeModalEmit)="this.openModal = false">
+    <app-ranking-payment></app-ranking-payment>
+  </app-modal>
 </div>
 
