@@ -1,5 +1,5 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { TelegramService } from '../../services/telegram.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-shell',
@@ -8,12 +8,12 @@ import { TelegramService } from '../../services/telegram.service';
 })
 export class ShellComponent implements OnInit {
 
-  telegramService = inject(TelegramService);
+  authService = inject(AuthService);
 
   constructor() { }
 
   ngOnInit() {
-    this.telegramService.log()
+    this.authService.auth().subscribe();
   }
 
 }

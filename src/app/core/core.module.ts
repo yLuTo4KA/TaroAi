@@ -6,6 +6,7 @@ import { ShellComponent } from './components/shell/shell.component';
 import { RouterModule } from '@angular/router';
 import { SharedModule } from '../shared/shared.module';
 
+
 @NgModule({
   imports: [CommonModule,RouterModule,SharedModule],
   declarations: [ShellComponent, NotAuthComponent, FooterComponent],

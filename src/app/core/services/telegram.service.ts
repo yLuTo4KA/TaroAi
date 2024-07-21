@@ -5,18 +5,16 @@ import { Injectable, Inject } from '@angular/core';
   providedIn: 'root',
 })
 export class TelegramService {
-    window;
+    private window;
     tg;
+    dummyResponse = true; 
+
   constructor(@Inject(DOCUMENT) private _document: any) {
     this.window = this._document.defaultView;
     this.tg = this.window!.Telegram.WebApp;
   }
 
-  log(){
-    console.log(this.tg);
-    
+  initData(): string {
+    return this.tg.initData;
   }
-
-
-
 }

@@ -10,6 +10,7 @@ export class NotAuthComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    // повторить запрос на атворизацию.
   }
 
 }
