@@ -25,9 +25,10 @@ export class AuthService {
 
   loading$: Observable<boolean> = this.loadingSubject.asObservable();
   token$: Observable<string | null> = this.tokenSubject.asObservable();
+  userData$: Observable<UserData | null> = this.userDataSubject.asObservable();
 
   tokenMock: string = "jJJFSn238dsjfJNSJKDnsfuNJDNSKDNjdfsjkdnmm";
-  fakeData: boolean = true;
+  fakeData: boolean = false;
 
   constructor(private http: HttpClient, private router: Router) {
   }
@@ -46,13 +47,17 @@ export class AuthService {
   }
 
   auth(): Observable<AuthData> {
-    const params = {
-      "InitData": this.telegramService.initData()
+    let params;
+    if(this.fakeData){
+      params = {
+        "InitData": "query_id=AAH1wKJ0AgAAAPXAonRQHerI&user=%7B%22id%22%3A6251790581%2C%22first_name%22%3A%22Boba%22%2C%22last_name%22%3A%22Bongo%22%2C%22username%22%3A%22bobabonga%22%2C%22language_code%22%3A%22ru%22%2C%22allows_write_to_pm%22%3Atrue%7D&auth_date=1721516536&hash=239c49a9e3fbc2c0b4fdc28d4ab45dbed96bf1fa21bd54c4dc1476754b2f3a73"
+      }
+    } else {
+      params = {
+        "InitData": this.telegramService.initData()
+      }
     }
     this.loadingSubject.next(true);
-    if(this.fakeData) {
-      this.setToken(this.tokenMock);
-    }
     return this.http.post<AuthData>(this.apiUrl, params).pipe(
       tap(response => {
         if (response) {
