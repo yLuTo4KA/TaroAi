@@ -18,7 +18,8 @@ export class RankingPageComponent implements OnInit {
       "user_name": userData!.name,
       "telegram_id": userData!.telegram_id,
       "avatar_url": userData!.avatar_url,
-      "stars": userData!.start_total
+      "stars": userData!.start_total,
+      "global_rank": userData!.global_rank
     });
   }
 
