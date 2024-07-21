@@ -17,4 +17,7 @@ export class TelegramService {
   initData(): string {
     return this.tg.initData;
   }
+  expand(): void {
+    this.tg.expand();
+  }
 }
