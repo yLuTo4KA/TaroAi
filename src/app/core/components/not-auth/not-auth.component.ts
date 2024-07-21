@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
+import { Router } from '@material-ui/icons';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-not-auth',
@@ -7,10 +9,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NotAuthComponent implements OnInit {
 
-  constructor() { }
+  constructor(private authService: AuthService) { }
 
   ngOnInit() {
-    // повторить запрос на атворизацию.
+    this.authService.auth();
   }
 
 }

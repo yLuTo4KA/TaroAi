@@ -3,6 +3,7 @@ import { BehaviorSubject, catchError, finalize, Observable, tap, throwError } fr
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { TelegramService } from './telegram.service';
 import { UserData } from '../models/userData.model';
+import { Router } from '@angular/router';
 
 interface AuthData {
   "accessToken": string,
@@ -26,8 +27,9 @@ export class AuthService {
   token$: Observable<string | null> = this.tokenSubject.asObservable();
 
   tokenMock: string = "jJJFSn238dsjfJNSJKDnsfuNJDNSKDNjdfsjkdnmm";
+  fakeData: boolean = true;
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private router: Router) {
   }
 
   setToken(token: string): void {
@@ -48,6 +50,9 @@ export class AuthService {
       "InitData": this.telegramService.initData()
     }
     this.loadingSubject.next(true);
+    if(this.fakeData) {
+      this.setToken(this.tokenMock);
+    }
     return this.http.post<AuthData>(this.apiUrl, params).pipe(
       tap(response => {
         if (response) {
@@ -59,6 +64,7 @@ export class AuthService {
       }), 
       finalize(() => {
         this.loadingSubject.next(false);
+        this.router.navigate(['/ranking']);
       }),
       catchError((error: HttpErrorResponse) => {
         return throwError(() => "error");
