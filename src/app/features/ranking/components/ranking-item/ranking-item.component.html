@@ -1,22 +1,26 @@
 <div class="ranking-item">
   <div class="ranking-item__container">
     <app-avatar
-      [displayName]="user.displayName"
-      [photoURL]="user.photoUrl"
+      [displayName]="user.user_name"
+      [photoURL]="user.avatar_url"
       [height]="3"
       [width]="3"
+      class="ranking-item__avatar"
     ></app-avatar>
     <div class="ranking-item__user-block">
       <div class="wrapper">
         <div class="ranking-item__user-block-userName">
-          {{ user.displayName }}
+          <p>{{ user.user_name }}</p>
+          <div class="ranking-item__currentUser" *ngIf="currentUser">
+            You
+          </div>
         </div>
         <div class="ranking-item__user-block-score">
-          {{ user.userScore }}
+          {{ user.stars }}
         </div>
       </div>
       <div class="ranking-item__place">
-        {{ user.userPlace }}
+        {{ user.stars }}
       </div>
     </div>
   </div>

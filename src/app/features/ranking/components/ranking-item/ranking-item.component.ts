@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { UserModel } from '../../pages/ranking-page/ranking-page.component';
+import { UserData } from 'src/app/core/models/userData.model';
+import { UserItem } from 'src/app/core/models/userItem.model';
 
 @Component({
   selector: 'app-ranking-item',
@@ -8,7 +9,8 @@ import { UserModel } from '../../pages/ranking-page/ranking-page.component';
 })
 export class RankingItemComponent implements OnInit {
 
-  @Input() user = new UserModel();
+  @Input() user!: UserItem;
+  @Input() currentUser = false;
 
   constructor() { }
 
