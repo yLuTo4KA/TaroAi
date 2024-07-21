@@ -1,0 +1,10 @@
+<div class="modal" [class.modal__view]="viewModal">
+    <div class="modal__wrapper">
+        <div class="modal__header">
+            <div class="modal__close-btn" (click)="closeModal()">
+                X
+            </div>
+        </div>
+        <ng-content></ng-content>
+    </div>
+</div>

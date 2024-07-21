@@ -6,18 +6,20 @@ import { AvatarComponent } from './components/avatar/avatar.component';
 import { StatCardComponent } from './components/stat-card/stat-card.component';
 import { FaIconLibrary, FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faBoltLightning, faClock, faStar, faUserGroup, faWallet } from '@fortawesome/free-solid-svg-icons';
+import { ModalComponent } from './components/modal/modal.component';
 
 @NgModule({
   imports: [
     CommonModule,
     FontAwesomeModule
   ],
-  declarations: [SectorComponent, ButtonComponent, AvatarComponent, StatCardComponent],
+  declarations: [SectorComponent, ButtonComponent, AvatarComponent, StatCardComponent, ModalComponent],
   exports: [    
     SectorComponent,
     ButtonComponent,
     AvatarComponent,
     StatCardComponent,
+    ModalComponent,
     FontAwesomeModule
   ]
 })

@@ -1,14 +1,8 @@
 <div class="ranking-top">
   <div class="ranking-top__leaders">
-    <app-stat-card class="ranking-top__card"
-    [place]="2"
-    ></app-stat-card>
-    <app-stat-card class="ranking-top__card"
-    [place]="1"
-    ></app-stat-card>
-    <app-stat-card class="ranking-top__card"
-    [place]="3"
-    ></app-stat-card>
+    <app-stat-card class="ranking-top__card" [place]="2"></app-stat-card>
+    <app-stat-card class="ranking-top__card" [place]="1"></app-stat-card>
+    <app-stat-card class="ranking-top__card" [place]="3"></app-stat-card>
   </div>
 
   <div class="ranking-top__stats">
@@ -40,7 +34,7 @@
   </div>
 
   <div class="ranking-top__buttons">
-    <button customButton color="primary">
+    <button customButton color="primary" (click)="openPaymentModal()">
       Boost rank
       <img src="/assets/images/Telegram_Star.png" alt="" icon />
     </button>
