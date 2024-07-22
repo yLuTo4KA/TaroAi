@@ -6,7 +6,11 @@
     ></app-ranking-top>
   </div>
   <div class="ranking-page__list">
-    <app-ranking-list></app-ranking-list>
+    <app-ranking-list
+    [allLeaderboard]="allLeaderboard"
+    [weekLeaderboard]="weekLeaderboard"
+    [monthLeaderboard]="monthLeaderboard"
+    ></app-ranking-list>
   </div>
   <div class="ranking-page__user-stat" *ngIf="userData" (click)="openProfileModal = true">
     <app-ranking-item [user]="userData" [currentUser]="true"></app-ranking-item>

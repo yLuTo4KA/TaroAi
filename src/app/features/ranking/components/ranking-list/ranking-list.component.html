@@ -1,5 +1,26 @@
 <div class="ranking-list">
-  <div class="rank-list_container" *ngFor="let user of users">
+  <div class="ranking-list__options">
+    <div class="ranking-list__option"
+    [ngClass]="isSelected(RankingOptions.TOTAL)? 'selected': ''"
+    (click)="setOption(RankingOptions.TOTAL)"
+    >
+      Total
+    </div>
+    <div class="ranking-list__option"
+    [ngClass]="isSelected(RankingOptions.MONTHLY)? 'selected': ''"
+    (click)="setOption(RankingOptions.MONTHLY)"
+    >
+      Monthly
+    </div>
+    <div class="ranking-list__option"
+    [ngClass]="isSelected(RankingOptions.WEEKLY)? 'selected': ''"
+    (click)="setOption(RankingOptions.WEEKLY)"
+    >
+      Weekly
+    </div>
+
+  </div>
+  <div class="ranking-list_container" *ngFor="let user of users()">
       <app-ranking-item
       [user]="user"
       ></app-ranking-item>
