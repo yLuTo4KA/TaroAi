@@ -9,8 +9,8 @@ import { PaymentService } from 'src/app/core/services/payment.service';
 export class RankingPaymentComponent {
   public prices = [
     {
-      count: 500,
-      price: 500
+      count: 5,
+      price: 5
     },
     {
       count: 2500,
