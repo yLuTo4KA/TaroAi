@@ -1,7 +1,11 @@
 * {
   box-sizing: border-box;
+  
 }
-
+html, body {
+  color: var(--tg-theme-text-color);
+  font-family: var(--font-bold);
+}
 p {
   margin: 0;
 }

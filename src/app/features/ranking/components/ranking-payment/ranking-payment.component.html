@@ -1,7 +1,7 @@
 <div class="ranking-payment">
     <div class="ranking-payment__header">
         <div class="ranking-payment__header-icon">
-            Icon
+            [Icon]
         </div>
         <div class="ranking-payment__header-title">
             Boost Your Rank
@@ -11,6 +11,17 @@
         </div>
     </div>
     <div class="ranking-payment__body">
-        
+        <div class="ranking-payment__body-select-buttons" *ngFor="let data of prices">
+            <button customButton class="ranking-payment__button ranking-payment__button-select" [class.--current]="data.price === currentPrice" (click)="currentPrice = data.price">
+                <div class="ranking-payment__button-body">
+                    <span class="ranking-payment__button-body-old-count" *ngIf="action">{{formatNumber(data.count)}}</span>
+                    <span class="ranking-payment__button-body-count">{{action ? formatNumber(data.count * action) : formatNumber(data.count)}}</span>
+                    <span class="ranking-payment__button-body-title">Rating</span>
+                </div>
+            </button>
+        </div>
+        <button customButton class="ranking-payment__button rankign-payment__body-buttons-pay" (click)="buy(currentPrice)">
+            <div class="">Confrim And Pay [Icon] {{formatNumber(currentPrice)}}</div>
+        </button>
     </div>
 </div>
