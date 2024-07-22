@@ -19,7 +19,7 @@ export class PaymentService {
         const params = new HttpParams().set('payment_amount', amount.toString());
         this.http.get<any>(this.apiUrl, {params}).pipe(
             tap((response) => {
-                this.utils.openLink(response.url);
+                this.utils.openTelegramLink(response.url);
             }),
             finalize(() => {}),
             catchError((error: HttpErrorResponse) => {
