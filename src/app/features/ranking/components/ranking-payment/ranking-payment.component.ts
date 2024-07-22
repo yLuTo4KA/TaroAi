@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
+import { initInvoice } from '@telegram-apps/sdk';
+import { AuthService } from 'src/app/core/services/auth.service';
 import { PaymentService } from 'src/app/core/services/payment.service';
 
 @Component({
@@ -7,6 +9,8 @@ import { PaymentService } from 'src/app/core/services/payment.service';
   styleUrls: ['./ranking-payment.component.scss']
 })
 export class RankingPaymentComponent {
+  @Output() closeModalEmit = new EventEmitter<void>();
+  private invoice = initInvoice();
   public prices = [
     {
       count: 5,
@@ -33,13 +37,25 @@ export class RankingPaymentComponent {
   public action: number | null = null; // count x 2 (count 5000 = count 10000) 
 
   public currentPrice: number = this.prices[1].price;
-  constructor(private paymentService: PaymentService) { }
+  constructor(private paymentService: PaymentService, private authService: AuthService) { }
 
   formatNumber(number: number) {
     return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   }
 
   buy(currentPrice: number) {
-    this.paymentService.paymentRequest(currentPrice).subscribe();
+    this.paymentService.paymentRequest(currentPrice).subscribe(
+      (response) => {
+        if(response && response.url) {
+          this.invoice.open(response.url, 'url').then((status)=> {
+            if(status === 'paid') {
+              this.authService.auth();
+            }
+            this.closeModalEmit.emit();
+        })
+        }
+      },
+      (error) => {},
+    );
   }
 }
