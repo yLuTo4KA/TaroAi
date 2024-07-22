@@ -13,7 +13,7 @@ export class ApiService {
   constructor(private http: HttpClient) { }
 
   get<R>(path: string): Observable<R> {
-    const headers = this.getHeaders();
+    const headers = {}
     const url = `${this.apiUrl}/${path}`;
 
     return this.http.get<R>(url, headers);
@@ -28,7 +28,7 @@ export class ApiService {
   }
 
   put<R, B>(path: string, body: B): Observable<R> {
-    const headers = this.getHeaders();
+    const headers = {}
     const completeUrl = `${this.apiUrl}/${path}`;
 
     return this.http.put<R>(completeUrl, body, headers);

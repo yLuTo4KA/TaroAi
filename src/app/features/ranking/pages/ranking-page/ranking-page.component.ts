@@ -78,6 +78,7 @@ export class RankingPageComponent implements OnInit {
     this.allLeaderboard = [...payload.allLeaderboard];
     this.weekLeaderboard = [...payload.weekLeaderboard];
     this.monthLeaderboard = [...payload.monthLeaderboard];
+    console.log(this.allLeaderboard);
   }
 
   getLeaderboardsError() {

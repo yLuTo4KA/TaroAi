@@ -21,6 +21,7 @@ export class PaymentService {
         }
         return this.http.post<any>(this.apiUrl, params).pipe(
             tap((response) => {
+                console.log(response.url);
                 this.utils.openTelegramLink(response.url);
             }),
             finalize(() => {

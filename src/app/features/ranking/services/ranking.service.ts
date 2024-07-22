@@ -23,7 +23,6 @@ export class RankingService extends ApiService {
     return this.get<LeaderboardModel>(url).pipe(
       map((response) => {
         const users = UserModel.fromArrayJson(response.leaderbord);
-
         return users;
       })
     );
@@ -35,7 +34,7 @@ export class RankingService extends ApiService {
     return this.get<LeaderboardModel>(url).pipe(
       map((response) => {
         const users = UserModel.fromArrayJson(response.leaderbord);
-
+        console.log(users);
         return users;
       })
     );
