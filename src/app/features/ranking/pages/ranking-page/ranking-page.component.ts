@@ -10,7 +10,8 @@ import { AuthService } from 'src/app/core/services/auth.service';
 })
 export class RankingPageComponent implements OnInit {
   userData!: UserItem;
-  openModal: boolean = false;
+  openPaymentModal: boolean = false;
+  openProfileModal: boolean = false;
 
   constructor(private authService: AuthService) { }
 

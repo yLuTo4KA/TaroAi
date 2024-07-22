@@ -28,7 +28,7 @@ export class AuthService {
   userData$: Observable<UserData | null> = this.userDataSubject.asObservable();
 
   tokenMock: string = "jJJFSn238dsjfJNSJKDnsfuNJDNSKDNjdfsjkdnmm";
-  fakeData: boolean = false;
+  fakeData: boolean = true;
 
   constructor(private http: HttpClient, private router: Router) {
   }
@@ -51,7 +51,7 @@ export class AuthService {
     let params;
     if(this.fakeData){
       params = {
-        "InitData": "query_id=AAH1wKJ0AgAAAPXAonRQHerI&user=%7B%22id%22%3A6251790581%2C%22first_name%22%3A%22Boba%22%2C%22last_name%22%3A%22Bongo%22%2C%22username%22%3A%22bobabonga%22%2C%22language_code%22%3A%22ru%22%2C%22allows_write_to_pm%22%3Atrue%7D&auth_date=1721516536&hash=239c49a9e3fbc2c0b4fdc28d4ab45dbed96bf1fa21bd54c4dc1476754b2f3a73"
+        "InitData": "query_id=AAG2oygfAAAAALajKB_sDxlt&user=%7B%22id%22%3A522757046%2C%22first_name%22%3A%22%F0%9F%92%8E%22%2C%22last_name%22%3A%22Vladimir%22%2C%22username%22%3A%22PsihBoss%22%2C%22language_code%22%3A%22ru%22%2C%22is_premium%22%3Atrue%2C%22allows_write_to_pm%22%3Atrue%7D&auth_date=1721628148&hash=c130cce7a04edbeee6f849822a5d729f8f8003c65e9eb3d364d8e4e10bc4dc1c"
       }
     } else {
       params = {
