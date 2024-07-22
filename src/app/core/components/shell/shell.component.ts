@@ -16,6 +16,7 @@ export class ShellComponent implements OnInit, OnDestroy {
   
 
   ngOnInit() {
+    this.authService.deauth();
     this.tgService.expand();
     this.authService.auth().subscribe();
   }
