@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { TelegramService } from '../../services/telegram.service';
 
@@ -7,16 +7,20 @@ import { TelegramService } from '../../services/telegram.service';
   templateUrl: './shell.component.html',
   styleUrls: ['./shell.component.scss']
 })
-export class ShellComponent implements OnInit {
+export class ShellComponent implements OnInit, OnDestroy {
 
   authService = inject(AuthService);
   tgService = inject(TelegramService);
 
   constructor() { }
+  
 
   ngOnInit() {
     this.tgService.expand();
     this.authService.auth().subscribe();
   }
 
+  ngOnDestroy(): void {
+    this.authService.deauth();
+  }
 }
