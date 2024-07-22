@@ -28,7 +28,7 @@ export class AuthService {
   userData$: Observable<UserData | null> = this.userDataSubject.asObservable();
 
   tokenMock: string = "jJJFSn238dsjfJNSJKDnsfuNJDNSKDNjdfsjkdnmm";
-  fakeData: boolean = true;
+  fakeData: boolean = false;
 
   constructor(private http: HttpClient, private router: Router) {
   }
@@ -41,6 +41,7 @@ export class AuthService {
   getToken(): string | null {
     return localStorage.getItem("token");
   }
+  
 
   isLoggin(): boolean {
     return !!this.getToken();
@@ -78,6 +79,10 @@ export class AuthService {
       )
     )
   }
-
+  deauth(): void {
+    localStorage.removeItem("token");
+    this.tokenSubject.next(null);
+    this.userDataSubject.next(null);
+  }
 }
 
