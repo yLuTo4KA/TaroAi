@@ -9,28 +9,28 @@ import { PaymentService } from 'src/app/core/services/payment.service';
 export class RankingPaymentComponent {
   public prices = [
     {
-      count: 250,
+      count: 500,
       price: 500
     },
     {
-      count: 1250,
+      count: 2500,
       price: 2500
     },
     {
-      count: 5000,
+      count: 10000,
       price: 10000
     },
     {
-      count: 15000,
+      count: 30000,
       price: 30000
     },
     {
-      count: 25000,
+      count: 50000,
       price: 50000
     },
   ]
 
-  public action: number | null = 2; // count x 2 (count 5000 = count 10000) 
+  public action: number | null = null; // count x 2 (count 5000 = count 10000) 
 
   public currentPrice: number = this.prices[1].price;
   constructor(private paymentService: PaymentService) { }
@@ -40,6 +40,6 @@ export class RankingPaymentComponent {
   }
 
   buy(currentPrice: number) {
-    this.paymentService.paymentRequest(currentPrice);
+    this.paymentService.paymentRequest(currentPrice).subscribe();
   }
 }

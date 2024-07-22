@@ -1,7 +1,7 @@
 import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { initUtils } from '@telegram-apps/sdk';
-import { catchError, finalize, tap, throwError } from 'rxjs';
+import { catchError, finalize, Observable, tap, throwError } from 'rxjs';
 
 
 @Injectable({
@@ -15,13 +15,17 @@ export class PaymentService {
 
     constructor(private http: HttpClient) {}
 
-    paymentRequest(amount: number) {
-        const params = new HttpParams().set('payment_amount', amount.toString());
-        this.http.get<any>(this.apiUrl, {params}).pipe(
+    paymentRequest(amount: number): Observable<any> {
+        const params = {
+            "payment_amount": amount
+        }
+        return this.http.post<any>(this.apiUrl, params).pipe(
             tap((response) => {
+                console.log(response.url);
                 this.utils.openTelegramLink(response.url);
             }),
-            finalize(() => {}),
+            finalize(() => {
+            }),
             catchError((error: HttpErrorResponse) => {
                 return throwError(() => "error");
               }
