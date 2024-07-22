@@ -1,6 +1,6 @@
 import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { initUtils } from '@telegram-apps/sdk';
+import { initUtils, initInvoice } from '@telegram-apps/sdk';
 import { catchError, finalize, Observable, tap, throwError } from 'rxjs';
 
 
@@ -12,6 +12,7 @@ export class PaymentService {
 
     private apiUrl: string = "https://proj-2x-78a0ca7fa5b0.herokuapp.com/api/payment/stars-invoice-link";
     private utils = initUtils();
+    private invoice = initInvoice();
 
     constructor(private http: HttpClient) {}
 
@@ -19,16 +20,6 @@ export class PaymentService {
         const params = {
             "payment_amount": amount
         }
-        return this.http.post<any>(this.apiUrl, params).pipe(
-            tap((response) => {
-                console.log(response.url);
-                this.utils.openTelegramLink(response.url);
-            }),
-            finalize(() => {
-            }),
-            catchError((error: HttpErrorResponse) => {
-                return throwError(() => "error");
-              }
-        ))
+        return this.http.post<any>(this.apiUrl, params).pipe()
     }
 }
