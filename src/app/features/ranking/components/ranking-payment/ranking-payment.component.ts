@@ -30,7 +30,7 @@ export class RankingPaymentComponent {
     },
   ]
 
-  public action: number | null = 2; // count x 2 (count 5000 = count 10000) 
+  public action: number | null = null; // count x 2 (count 5000 = count 10000) 
 
   public currentPrice: number = this.prices[1].price;
   constructor(private paymentService: PaymentService) { }
@@ -40,6 +40,8 @@ export class RankingPaymentComponent {
   }
 
   buy(currentPrice: number) {
-    this.paymentService.paymentRequest(currentPrice);
+    this.paymentService.paymentRequest(currentPrice).subscribe(() => {
+      console.log(123);
+    });
   }
 }
