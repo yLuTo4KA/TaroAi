@@ -53,15 +53,14 @@ export class RankingPageComponent implements OnInit {
               console.log(status);
               this.profileService.getProfile().subscribe((response) => {
                 if(response) {
-                  this.authService.setUserData(response);
                   this.getLeaderboards();
+                  this.authService.setUserData(response);
                 }
               })
             }
-            this.openPaymentModal = false;
         })
         }
-        console.log(response);
+        this.openPaymentModal = false;
       },
       (error) => {},
     );

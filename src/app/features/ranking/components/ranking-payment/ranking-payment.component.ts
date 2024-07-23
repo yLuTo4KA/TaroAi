@@ -1,7 +1,4 @@
 import { Component, EventEmitter, Output } from '@angular/core';
-import { AuthService } from 'src/app/core/services/auth.service';
-import { PaymentService } from 'src/app/core/services/payment.service';
-import { ProfileService } from 'src/app/core/services/profile.service';
 
 @Component({
   selector: 'app-ranking-payment',
