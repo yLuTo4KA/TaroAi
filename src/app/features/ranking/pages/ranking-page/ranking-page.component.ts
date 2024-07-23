@@ -3,6 +3,9 @@ import { UserItem } from 'src/app/core/models/userItem.model';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { RankingService } from '../../services/ranking.service';
 import { EMPTY, catchError, finalize, forkJoin, map } from 'rxjs';
+import { initInvoice, number } from '@telegram-apps/sdk';
+import { PaymentService } from 'src/app/core/services/payment.service';
+import { ProfileService } from 'src/app/core/services/profile.service';
 
 @Component({
   selector: 'app-ranking-page',
@@ -10,7 +13,11 @@ import { EMPTY, catchError, finalize, forkJoin, map } from 'rxjs';
   styleUrls: ['./ranking-page.component.scss']
 })
 export class RankingPageComponent implements OnInit {
+  private invoice = initInvoice();
   rankingService = inject(RankingService);
+  authService = inject(AuthService);
+  paymentService = inject(PaymentService);
+  profileService = inject(ProfileService);
 
   allLeaderboard: UserModel[] = [];
   weekLeaderboard: UserModel[] = [];
@@ -25,7 +32,7 @@ export class RankingPageComponent implements OnInit {
 
   
 
-  constructor(private authService: AuthService) { }
+  constructor() { }
 
   ngOnInit() {
     this.getLeaderboards();
@@ -36,6 +43,31 @@ export class RankingPageComponent implements OnInit {
     }
   );
   }
+
+  startPayment(price: number) {
+    this.paymentService.paymentRequest(price).subscribe(
+      (response) => {
+        if(response && response.url) {
+          this.invoice.open(response.url, 'url').then((status)=> {
+            if(status === 'paid') {
+              console.log(status);
+              this.profileService.getProfile().subscribe((response) => {
+                if(response) {
+                  this.authService.setUserData(response);
+                  this.getLeaderboards();
+                }
+              })
+            }
+            this.openPaymentModal = false;
+        })
+        }
+        console.log(response);
+      },
+      (error) => {},
+    );
+  }
+
+
   getLeaderboards() {
     this.isLoading = true;
 
@@ -92,6 +124,7 @@ export class RankingPageComponent implements OnInit {
   }
 
 }
+
 
 
 // TO BE DELETED
