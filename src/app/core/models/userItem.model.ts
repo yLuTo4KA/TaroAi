@@ -3,5 +3,6 @@ export interface UserItem {
     "user_name": string,
     "avatar_url": string,
     "stars": number,
-    "global_rank"?: number
+    "userRank"?: number,
+    "rank"?: number
 }

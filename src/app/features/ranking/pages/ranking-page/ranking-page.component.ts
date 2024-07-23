@@ -29,13 +29,12 @@ export class RankingPageComponent implements OnInit {
 
   ngOnInit() {
     this.getLeaderboards();
-    this.authService.userData$.subscribe(userData => this.userData = {
-      "user_name": userData!.name,
-      "telegram_id": userData!.telegram_id,
-      "avatar_url": userData!.avatar_url,
-      "stars": userData!.start_total,
-      "global_rank": userData!.global_rank
-    });
+    this.authService.userData$.subscribe(userData => {
+      this.userData = UserModel.fromJson(userData);
+      console.log('new data');
+      console.log(userData);
+    }
+  );
   }
   getLeaderboards() {
     this.isLoading = true;
@@ -101,8 +100,9 @@ export class UserModel {
   constructor(
     public telegram_id: number = 123123,
     public user_name: string = "boba",
+    public stars: number = 100,
     public avatar_url: string = "",
-    public stars: number = 100
+    public rank?: number
   ) { }
 
   public static fromJson(json: any): UserModel {
@@ -111,6 +111,7 @@ export class UserModel {
       json.user_name,
       json.stars,
       json.avatar_url,
+      json.rank
     );
   }
 
