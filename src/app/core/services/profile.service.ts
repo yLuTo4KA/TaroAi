@@ -15,8 +15,7 @@ import { UserData } from "../models/userData.model";
     }
 
     getProfile(): Observable<UserData> {
-        const url = `${this.urlPath}/my_profile`
-        return this.get<UserData>(url).pipe()
+        const url = `${this.urlPath}/my_profile/`;
+        return this.get<UserData>(url);
     }
-
   }

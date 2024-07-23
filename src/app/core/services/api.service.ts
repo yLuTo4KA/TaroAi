@@ -13,7 +13,7 @@ export class ApiService {
   constructor(private http: HttpClient) { }
 
   get<R>(path: string): Observable<R> {
-    const headers = {}
+    const headers = this.getHeaders();
     const url = `${this.apiUrl}/${path}`;
 
     return this.http.get<R>(url, headers);
@@ -21,7 +21,7 @@ export class ApiService {
 
 
   post<R, B>(path: string, body: B): Observable<R> {
-    const headers = {}
+    const headers = this.getHeaders();
     const completeUrl = `${this.apiUrl}/${path}`;
 
     return this.http.post<R>(completeUrl, body, headers);
@@ -68,7 +68,7 @@ export class ApiService {
   private getHeaders() {
     return {
       headers: new HttpHeaders({
-        responseType: 'json'
+       'Content-Type': 'application/json',
       })
     };
   }
