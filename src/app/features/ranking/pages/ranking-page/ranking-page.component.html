@@ -16,7 +16,7 @@
     <app-ranking-item [user]="userData" [currentUser]="true"></app-ranking-item>
   </div>
   <app-modal [viewModal]="openPaymentModal" (closeModalEmit)="this.openPaymentModal = false">
-    <app-ranking-payment (closeModalEmit)="this.openPaymentModal = false" (buyEmit)="startPayment($event)"></app-ranking-payment>
+    <app-ranking-payment (buyEmit)="startPayment($event)"></app-ranking-payment>
   </app-modal>
   <app-modal [viewModal]="openProfileModal" (closeModalEmit)="this.openProfileModal = false">
     <app-ranking-profile [user]="userData"></app-ranking-profile>
