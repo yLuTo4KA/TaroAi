@@ -1,7 +1,7 @@
 export interface UserData { 
     "telegram_id": number,
-    "name": string,
+    "user_name": string,
     "avatar_url": string,
-    "start_total": number,
-    "global_rank": number
+    "stars": number,
+    "rank": number
 }

@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { UserData } from 'src/app/core/models/userData.model';
 import { UserItem } from 'src/app/core/models/userItem.model';
 
 @Component({

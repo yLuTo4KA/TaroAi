@@ -1,25 +1,30 @@
-import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { initUtils, initInvoice } from '@telegram-apps/sdk';
-import { catchError, finalize, Observable, tap, throwError } from 'rxjs';
+import { Observable } from 'rxjs';
+import { ApiService } from './api.service';
 
+interface paymentData {
+    url: string
+}
+interface PaymentParams {
+    payment_amount: number
+}
 
 @Injectable({
   providedIn: 'root',
 })
+export class PaymentService extends ApiService{
+    private urlPath = 'payment' as const;
 
-export class PaymentService {
+    constructor(http: HttpClient) {
+        super(http);
+    }
 
-    private apiUrl: string = "https://proj-2x-78a0ca7fa5b0.herokuapp.com/api/payment/stars-invoice-link";
-    private utils = initUtils();
-    private invoice = initInvoice();
-
-    constructor(private http: HttpClient) {}
-
-    paymentRequest(amount: number): Observable<any> {
+    paymentRequest(amount: number): Observable<paymentData> {
+        const url = `${this.urlPath}/stars-invoice-link`
         const params = {
             "payment_amount": amount
         }
-        return this.http.post<any>(this.apiUrl, params).pipe()
+        return this.post<paymentData, PaymentParams>(url, params).pipe()
     }
 }

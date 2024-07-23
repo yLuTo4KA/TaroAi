@@ -21,7 +21,7 @@ export class ApiService {
 
 
   post<R, B>(path: string, body: B): Observable<R> {
-    const headers = this.getHeaders();
+    const headers = {}
     const completeUrl = `${this.apiUrl}/${path}`;
 
     return this.http.post<R>(completeUrl, body, headers);
