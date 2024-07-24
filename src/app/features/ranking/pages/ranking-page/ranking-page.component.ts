@@ -6,6 +6,7 @@ import { EMPTY, catchError, finalize, forkJoin, map } from 'rxjs';
 import { initInvoice, number } from '@telegram-apps/sdk';
 import { PaymentService } from 'src/app/core/services/payment.service';
 import { ProfileService } from 'src/app/core/services/profile.service';
+import { environment } from 'src/environments/environments';
 
 @Component({
   selector: 'app-ranking-page',
@@ -13,7 +14,6 @@ import { ProfileService } from 'src/app/core/services/profile.service';
   styleUrls: ['./ranking-page.component.scss']
 })
 export class RankingPageComponent implements OnInit {
-  private invoice = initInvoice();
   rankingService = inject(RankingService);
   authService = inject(AuthService);
   paymentService = inject(PaymentService);
@@ -48,17 +48,22 @@ export class RankingPageComponent implements OnInit {
     this.paymentService.paymentRequest(price).subscribe(
       (response) => {
         if(response && response.url) {
-          this.invoice.open(response.url, 'url').then((status)=> {
-            if(status === 'paid') {
-              this.profileService.getProfile().subscribe((response) => {
-                if(response) {
-                  this.openPaymentModal = false;
-                  this.getLeaderboards();
-                  this.authService.setUserData(response);
-                }
-              })
-            }
-        });
+          if(environment.production) {
+            const invoice = initInvoice();
+            invoice.open(response.url, 'url').then((status)=> {
+              if(status === 'paid') {
+                this.profileService.getProfile().subscribe((response) => {
+                  if(response) {
+                    this.openPaymentModal = false;
+                    this.getLeaderboards();
+                    this.authService.setUserData(response);
+                  }
+                })
+              }
+          });
+          }else {
+            console.log(response);
+          }
         
         }
         

@@ -4,6 +4,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { TelegramService } from './telegram.service';
 import { UserData } from '../models/userData.model';
 import { Router } from '@angular/router';
+import { environment } from 'src/environments/environments';
 
 interface AuthData {
   "accessToken": string,
@@ -27,7 +28,6 @@ export class AuthService {
   token$: Observable<string | null> = this.tokenSubject.asObservable();
   userData$: Observable<UserData | null> = this.userDataSubject.asObservable();
 
-  fakeData: boolean = true;
 
   constructor(private http: HttpClient, private router: Router) {
 
@@ -53,9 +53,9 @@ export class AuthService {
 
   auth(): Observable<AuthData> {
     let params;
-    if(this.fakeData){
+    if(!environment.production){
       params = {
-        "InitData": "query_id=AAH1wKJ0AgAAAPXAonTVn8cF&user=%7B%22id%22%3A6251790581%2C%22first_name%22%3A%22Boba%22%2C%22last_name%22%3A%22Bongo%22%2C%22username%22%3A%22bobabonga%22%2C%22language_code%22%3A%22ru%22%2C%22allows_write_to_pm%22%3Atrue%7D&auth_date=1721718024&hash=a3334ed33f6127c7169042b344faf105654e69c883086427cb6b46ca0e7b2927"
+        "InitData": environment.InitData
       }
     } else {
       params = {
