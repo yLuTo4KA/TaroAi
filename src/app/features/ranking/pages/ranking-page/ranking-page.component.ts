@@ -50,17 +50,18 @@ export class RankingPageComponent implements OnInit {
         if(response && response.url) {
           this.invoice.open(response.url, 'url').then((status)=> {
             if(status === 'paid') {
-              console.log(status);
               this.profileService.getProfile().subscribe((response) => {
                 if(response) {
+                  this.openPaymentModal = false;
                   this.getLeaderboards();
                   this.authService.setUserData(response);
                 }
               })
             }
-        })
+        });
+        
         }
-        this.openPaymentModal = false;
+        
       },
       (error) => {},
     );
