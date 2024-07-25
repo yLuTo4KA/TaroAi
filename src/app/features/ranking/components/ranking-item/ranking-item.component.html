@@ -20,8 +20,7 @@
         </div>
       </div>
       <div class="ranking-item__place">
-        <p *ngIf="!currentUser; else elseRank">{{ user.userRank }}</p>
-        <ng-template #elseRank>{{user.rank}}</ng-template>
+        <p>{{ user.rank }}</p>
       </div>
     </div>
   </div>

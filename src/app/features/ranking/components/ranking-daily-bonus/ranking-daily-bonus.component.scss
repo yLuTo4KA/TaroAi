@@ -1,0 +1,75 @@
+.ranking-daily-bonus {
+    &__header {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: 45px;
+        color: var(--tg-theme-text-color);
+
+        &-icon {
+            margin-bottom: 10px;
+        }
+
+        &-title {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        &-subtitle {
+            font-size: 18px;
+            text-align: center;
+            padding: 0 20px;
+        }
+    }
+
+    .ranking-daily-bonus__body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding-bottom: 15px;
+    
+        &-slider {
+            margin-bottom: 45px;
+            width: 100%;
+    
+            &-wrapper {
+                display: flex;
+                overflow-x: auto;
+                white-space: nowrap;
+                scroll-behavior: smooth;
+                box-sizing: border-box;
+            }
+        }
+    
+        &-slide {
+            padding: 10px;
+            min-width: 200px;
+            box-sizing: border-box;
+            margin-right: 20px;
+            &-body,
+            &-header {
+                color: gray;
+            }
+    
+            &-body {
+                font-size: 24px;
+            }
+    
+            &-current {
+                .ranking-daily-bonus__body-slide {
+                    &-body {
+                        color: white;
+                    }
+                }
+            }
+        }
+    }
+    
+
+    &__button {
+        &-get {
+            width: 90%;
+        }
+    }
+
+}

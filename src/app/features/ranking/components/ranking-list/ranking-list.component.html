@@ -23,6 +23,8 @@
   <div class="ranking-list_container" *ngFor="let user of users()">
       <app-ranking-item
       [user]="user"
+      (click)="openProfile(user)"
+      class="ranking-list__item"
       ></app-ranking-item>
   </div>
 </div>

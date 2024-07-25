@@ -1,0 +1,30 @@
+<div class="ranking-daily-bonus">
+    <div class="ranking-daily-bonus__header">
+        <div class="ranking-daily-bonus__header-icon">
+            [Icon]
+        </div>
+        <div class="ranking-daily-bonus__header-title">
+            Take your daily bonus
+        </div>
+        <div class="ranking-daily-bonus__header-subtitle">
+            You got your first-day bonus. Keep open app every day to gain more
+        </div>
+    </div>
+    <div class="ranking-daily-bonus__body">
+        <div class="ranking-daily-bonus__body-slider">
+            <div class="ranking-daily-bonus__body-slider-wrapper" >
+                <app-sector class="ranking-daily-bonus__body-slide" [class.ranking-daily-bonus__body-slide-current]="bonusDay === getCurrentBonus()" *ngFor="let bonusDay of bonusData.bonuses">
+                    <div class="ranking-daily-bonus__body-slide-header" header>
+                        Day {{bonusDay.day}}
+                    </div>
+                    <div class="ranking-daily-bonus__body-slide-body" body>
+                        [Icon] {{bonusDay.price}}
+                    </div>
+                </app-sector>
+            </div>
+        </div>
+        <button customButton class="ranking-daily-bonus__button-get" (click)="closeModal()">
+            You got [Icon] {{getCurrentBonus()?.price}} daily bonus
+        </button>
+    </div>
+</div>

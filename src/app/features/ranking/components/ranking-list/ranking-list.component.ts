@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { UserModel } from '../../pages/ranking-page/ranking-page.component';
 import { RankingOptions } from '../../enums/ranking-options.enum';
 
@@ -12,6 +12,8 @@ export class RankingListComponent implements OnInit {
   @Input() allLeaderboard: UserModel[] = [];
   @Input() weekLeaderboard: UserModel[] = [];
   @Input() monthLeaderboard: UserModel[] = [];
+
+  @Output() openProfileEmit = new EventEmitter<UserModel>();
 
   selectedBoard:RankingOptions = RankingOptions.TOTAL;
   RankingOptions = RankingOptions;
@@ -52,5 +54,9 @@ export class RankingListComponent implements OnInit {
 
   setOption(option: RankingOptions) {
     this.selectedBoard = option;
+  }
+
+  openProfile(userData: UserModel): void {
+    this.openProfileEmit.emit(userData);
   }
 }
