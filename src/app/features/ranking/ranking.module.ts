@@ -8,6 +8,7 @@ import { RankingTopComponent } from './components/ranking-top/ranking-top.compon
 import { RankingItemComponent } from './components/ranking-item/ranking-item.component';
 import { RankingPaymentComponent } from './components/ranking-payment/ranking-payment.component';
 import { RankingProfileComponent } from './components/ranking-profile/ranking-profile.component';
+import { RankingDailyBonusComponent } from './components/ranking-daily-bonus/ranking-daily-bonus.component';
 
 @NgModule({
   imports: [CommonModule, SharedModule, RankingRoutes],
@@ -16,6 +17,7 @@ import { RankingProfileComponent } from './components/ranking-profile/ranking-pr
     RankingPageComponent,
     RankingTopComponent,
     RankingPaymentComponent,
+    RankingDailyBonusComponent,
     RankingItemComponent,
     RankingProfileComponent,
   ],

@@ -1,20 +1,20 @@
 <div class="footer">
   <div class="footer__container">
-    <div class="footer__button">
+    <router-link routerLink="/ranking" routerLinkActive="footer__button--active" class="footer__button">
       <fa-icon [icon]="['fas', 'star']"></fa-icon>
       <div class="footer__label">Stars</div>
-    </div>
-    <div class="footer__button">
+    </router-link>
+    <router-link routerLink="/refs" routerLinkActive="footer__button--active" class="footer__button">
       <fa-icon [icon]="['fas', 'user-group']"></fa-icon>
       <div class="footer__label">Friends</div>
-    </div>
-    <div class="footer__button">
+    </router-link>
+    <router-link routerLink="/earn" routerLinkActive="footer__button--active" class="footer__button">
       <fa-icon [icon]="['fas', 'bolt-lightning']"></fa-icon>
       <div class="footer__label">Earn</div>
-    </div>
-    <div class="footer__button">
+    </router-link>
+    <router-link routerLink="/history" routerLinkActive="footer__button--active" class="footer__button">
       <fa-icon [icon]="['fas', 'clock']"></fa-icon>
       <div class="footer__label">History</div>
-    </div>
+    </router-link>
   </div>
 </div>

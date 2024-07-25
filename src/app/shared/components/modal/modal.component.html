@@ -1,5 +1,5 @@
-<div class="modal" [class.modal__view]="viewModal">
-    <div class="modal__wrapper">
+<div class="modal" [class.modal__view]="viewModal" (click)="closeModal()">
+    <div class="modal__wrapper" (click)="$event.stopPropagation()">
         <div class="modal__header">
             <div class="modal__close-btn" (click)="closeModal()">
                 X
