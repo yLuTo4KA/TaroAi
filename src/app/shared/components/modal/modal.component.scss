@@ -7,12 +7,14 @@
     z-index: 1000;
     display: none;
     background-color: #00000059;
+    cursor: pointer;
     &__wrapper {
         background-color: var(--tg-theme-bg-color);
         height: max-content;
         border-start-start-radius: 15px;
         border-start-end-radius: 15px;
         padding: 8px;
+        cursor: default;
     }
     &__view {
         display: flex;

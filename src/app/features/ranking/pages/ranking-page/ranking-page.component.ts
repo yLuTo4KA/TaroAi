@@ -7,6 +7,8 @@ import { initInvoice, number } from '@telegram-apps/sdk';
 import { PaymentService } from 'src/app/core/services/payment.service';
 import { ProfileService } from 'src/app/core/services/profile.service';
 import { environment } from 'src/environments/environments';
+import { DailyBonusService } from '../../services/daily-bonus.service';
+import { DailyBonus } from '../../services/models/daily-bonus.model';
 
 @Component({
   selector: 'app-ranking-page',
@@ -14,61 +16,101 @@ import { environment } from 'src/environments/environments';
   styleUrls: ['./ranking-page.component.scss']
 })
 export class RankingPageComponent implements OnInit {
+  // Inject
   rankingService = inject(RankingService);
   authService = inject(AuthService);
   paymentService = inject(PaymentService);
   profileService = inject(ProfileService);
+  dailyBonusService = inject(DailyBonusService);
 
+  // LeaderBordsData
   allLeaderboard: UserModel[] = [];
   weekLeaderboard: UserModel[] = [];
   monthLeaderboard: UserModel[] = [];
+
+  // Data
+  userData!: UserItem;
+  dailyBonusData: DailyBonus | null = null;
+  profileData: UserModel | null = null;
+
+  // AnotherData
   startId = 0;
   isLoading = false;
 
-  userData!: UserItem;
-  openPaymentModal: boolean = false;
-  openProfileModal: boolean = false;
-  
+  // ModalData
+  viewPaymentModal: boolean = false;
+  viewProfileModal: boolean = false;
+  viewDailyModal: boolean = false;
 
-  
 
   constructor() { }
 
   ngOnInit() {
+    this.checkDailyBonus();
     this.getLeaderboards();
     this.authService.userData$.subscribe(userData => {
       this.userData = UserModel.fromJson(userData);
-      console.log('new data');
-      console.log(userData);
     }
-  );
+    );
   }
+
+  checkDailyBonus(): void {
+    this.dailyBonusService.getDailyBonus().subscribe(
+      {
+        next: (response) => {
+          if (response && response.is_available) {
+            this.dailyBonusData = response;
+            this.viewDailyModal = true;
+            this.claimDailyBonus();
+          }
+        },
+        error: (error) => console.log(error),
+        
+      }
+    )
+  }
+
+  claimDailyBonus(): void {
+    this.dailyBonusService.claimDailyBonus().subscribe({
+      next: (response) => {
+        console.log(response);
+      },
+      error: (error) => {
+        console.log(error);
+      }
+    })
+  }
+
+
 
   startPayment(price: number) {
     this.paymentService.paymentRequest(price).subscribe(
-      (response) => {
-        if(response && response.url) {
-          if(environment.production) {
-            const invoice = initInvoice();
-            invoice.open(response.url, 'url').then((status)=> {
-              if(status === 'paid') {
-                this.profileService.getProfile().subscribe((response) => {
-                  if(response) {
-                    this.openPaymentModal = false;
-                    this.getLeaderboards();
-                    this.authService.setUserData(response);
-                  }
-                })
-              }
-          });
-          }else {
-            console.log(response);
+      {
+        next: (response) => {
+          if (response && response.url) {
+            if (environment.production) {
+              const invoice = initInvoice();
+              invoice.open(response.url, 'url').then((status) => {
+                if (status === 'paid') {
+                  this.profileService.getProfile().subscribe((response) => {
+                    if (response) {
+                      this.viewPaymentModal = false;
+                      this.getLeaderboards();
+                      this.authService.setUserData(response);
+                    }
+                  })
+                }
+              });
+            } else {
+              console.log(response);
+            }
+
           }
-        
+        },
+        error: (error) => {
+          console.log(error)
         }
-        
-      },
-      (error) => {},
+      }
     );
   }
 
@@ -78,19 +120,19 @@ export class RankingPageComponent implements OnInit {
 
     const allLeaderboard$ = this.rankingService.getAllLeaderboard().pipe(
       catchError(() => this.getLeaderboardsError()),
-      map((data) => data.map((user) => ({ ...user, userRank: this.idGenerator().next().value } as UserModel))),
+      map((data) => data.map((user) => ({ ...user, rank: this.idGenerator().next().value } as UserModel))),
       finalize(() => this.startId = 0)
     );
 
     const weekLeaderboard$ = this.rankingService.getWeekLeaderboard().pipe(
       catchError(() => this.getLeaderboardsError()),
-      map((data) => data.map((user) => ({ ...user, userRank: this.idGenerator().next().value } as UserModel))),
+      map((data) => data.map((user) => ({ ...user, rank: this.idGenerator().next().value } as UserModel))),
       finalize(() => this.startId = 0)
     );
 
     const monthLeaderboard$ = this.rankingService.getMonthLeaderboard().pipe(
       catchError(() => this.getLeaderboardsError()),
-      map((data) => data.map((user) => ({ ...user, userRank: this.idGenerator().next().value } as UserModel))),
+      map((data) => data.map((user) => ({ ...user, rank: this.idGenerator().next().value } as UserModel))),
       finalize(() => this.startId = 0)
     );
 
@@ -123,9 +165,14 @@ export class RankingPageComponent implements OnInit {
 
   *idGenerator() {
     let id = this.startId;
-    while(true){
+    while (true) {
       yield ++id;
     }
+  }
+
+  setProfileData(profileData: UserModel): void {
+    this.profileData = profileData;
+    this.viewProfileModal = true;
   }
 
 }
