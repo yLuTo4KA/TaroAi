@@ -1,8 +1,8 @@
 <div class="ranking-top">
-  <div class="ranking-top__leaders">
-    <app-stat-card class="ranking-top__card" [place]="2"></app-stat-card>
-    <app-stat-card class="ranking-top__card" [place]="1"></app-stat-card>
-    <app-stat-card class="ranking-top__card" [place]="3"></app-stat-card>
+  <div class="ranking-top__leaders" *ngIf="userTop">
+    <app-stat-card class="ranking-top__card" [place]="2" [user]="userTop[1]" (click)="openProfile(userTop[1])"></app-stat-card>
+    <app-stat-card class="ranking-top__card" [place]="1" [user]="userTop[0]" (click)="openProfile(userTop[0])"></app-stat-card>
+    <app-stat-card class="ranking-top__card" [place]="3" [user]="userTop[2]" (click)="openProfile(userTop[2])"></app-stat-card>
   </div>
 
   <div class="ranking-top__stats">
@@ -36,7 +36,7 @@
   <div class="ranking-top__buttons">
     <button customButton color="primary" (click)="openPaymentModal()">
       Boost rank
-      <img src="/assets/images/Telegram_Star.png" alt="" icon />
+      <img src="assets/images/Telegram_Star.png" alt="" icon />
     </button>
 
   </div>
