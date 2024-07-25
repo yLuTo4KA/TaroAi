@@ -3,6 +3,8 @@
     <app-ranking-top
     [user]="userData"
     (openPaymentModalEmit)="this.viewPaymentModal = true"
+    [userTop]="topAllLeaderBoard"
+    (openProfileEmit)="setProfileData($event)"
     ></app-ranking-top>
   </div>
   <div class="ranking-page__list">

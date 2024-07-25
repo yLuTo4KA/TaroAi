@@ -25,8 +25,11 @@ export class RankingPageComponent implements OnInit {
 
   // LeaderBordsData
   allLeaderboard: UserModel[] = [];
+  topAllLeaderBoard!: UserModel[];
   weekLeaderboard: UserModel[] = [];
+  topWeekLeaderBoard!: UserModel[];
   monthLeaderboard: UserModel[] = [];
+  topMonthLeaderBoard!: UserModel[];
 
   // Data
   userData!: UserItem;
@@ -120,19 +123,19 @@ export class RankingPageComponent implements OnInit {
 
     const allLeaderboard$ = this.rankingService.getAllLeaderboard().pipe(
       catchError(() => this.getLeaderboardsError()),
-      map((data) => data.map((user) => ({ ...user, rank: this.idGenerator().next().value } as UserModel))),
+      map((data) => data.map((user) => ({ ...user, rank: this.idGenerator()} as UserModel))),
       finalize(() => this.startId = 0)
     );
 
     const weekLeaderboard$ = this.rankingService.getWeekLeaderboard().pipe(
       catchError(() => this.getLeaderboardsError()),
-      map((data) => data.map((user) => ({ ...user, rank: this.idGenerator().next().value } as UserModel))),
+      map((data) => data.map((user) => ({ ...user, rank: this.idGenerator()} as UserModel))),
       finalize(() => this.startId = 0)
     );
 
     const monthLeaderboard$ = this.rankingService.getMonthLeaderboard().pipe(
       catchError(() => this.getLeaderboardsError()),
-      map((data) => data.map((user) => ({ ...user, rank: this.idGenerator().next().value } as UserModel))),
+      map((data) => data.map((user) => ({ ...user, rank: this.idGenerator()} as UserModel))),
       finalize(() => this.startId = 0)
     );
 
@@ -154,20 +157,21 @@ export class RankingPageComponent implements OnInit {
 
   getLeaderboardsSuccess(payload: { allLeaderboard: UserModel[], weekLeaderboard: UserModel[], monthLeaderboard: UserModel[] }) {
     this.allLeaderboard = [...payload.allLeaderboard];
+    this.topAllLeaderBoard = this.allLeaderboard.splice(0, 3);
     this.weekLeaderboard = [...payload.weekLeaderboard];
+    this.topWeekLeaderBoard = this.weekLeaderboard.splice(0, 3);
     this.monthLeaderboard = [...payload.monthLeaderboard];
-    console.log(this.allLeaderboard);
+    this.topMonthLeaderBoard = this.monthLeaderboard.splice(0, 3);
+    console.log(this.topAllLeaderBoard)
+
   }
 
   getLeaderboardsError() {
     return EMPTY;
   }
 
-  *idGenerator() {
-    let id = this.startId;
-    while (true) {
-      yield ++id;
-    }
+  idGenerator(): number {
+    return ++this.startId;
   }
 
   setProfileData(profileData: UserModel): void {
