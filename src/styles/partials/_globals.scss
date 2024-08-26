@@ -22,7 +22,9 @@ p {
   --tg-theme-secondary-bg-color: #f3f2f9;
   --font-regular: "Lucida Regular";
   --font-bold: "Lucida Bold";
-
+  --light-purple: #503755;
+  --dark-purple: #311D35;
+  --bg-color: linear-gradient(0deg, var(--dark-purple) 0%, var(--light-purple) 100%);
 }
 
 ::-webkit-scrollbar {
