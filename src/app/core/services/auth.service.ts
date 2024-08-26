@@ -7,8 +7,11 @@ import { Router } from '@angular/router';
 import { environment } from 'src/environments/environments';
 
 interface AuthData {
-  "accessToken": string,
-  "userData": UserData
+  "success": string,
+  "data": {
+    "token": string,
+    "userData": UserData
+  }
 }
 
 @Injectable({
@@ -67,8 +70,8 @@ export class AuthService {
     return this.http.post<AuthData>(this.apiUrl, params).pipe(
       tap(response => {
         if (response) {
-          this.setToken(response.accessToken);
-          this.setUserData(response.userData);
+          this.setToken(response.data.token);
+          this.setUserData(response.data.userData);
         }
       }), 
       finalize(() => {
