@@ -2,7 +2,7 @@
   <div class="page-body">
     <router-outlet></router-outlet>
   </div>
-  <div class="page-footer">
-    <app-footer></app-footer>
+  <div class="page-footer" *ngIf="showFooter && userData">
+    <app-footer [avatar]="userData.avatar" [username]="userData.username"></app-footer>
   </div>
 </div>

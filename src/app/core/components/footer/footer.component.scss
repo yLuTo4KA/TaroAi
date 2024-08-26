@@ -29,6 +29,7 @@
         height: 60px;
         border-radius: 7px;
         color: var(--gold);
+        cursor: pointer;
         &.--active {
             background-color: var(--very-dark-purple);
         }

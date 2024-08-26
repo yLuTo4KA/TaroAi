@@ -3,8 +3,8 @@
     <ng-container *ngIf="photoURL; else initialIcon">
         <img [class]="'avatar__image'" 
         [src]="photoURL" alt="" 
-        [style.width.em]="width"
-        [style.height.em]="height">
+        [style.width.px]="width"
+        [style.height.px]="height">
     </ng-container>
     <ng-template #initialIcon>
         <div [class]="'avatar__image avatar__image_icon'"

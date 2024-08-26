@@ -3,13 +3,14 @@
     flex-wrap: nowrap;
     flex-direction: column;
     justify-content: space-between;
-    min-height: 100vh;
+    height: 100vh;
     background: var(--bg-color);
     position: relative;
   
     &-body {
       width: 100%;
-      height: calc(100vh - 60px);
+      min-height: 80vh;
+      padding: 8px;
     }
   
     &-footer {
@@ -18,7 +19,7 @@
       display: flex;
       align-items: center;
       z-index: 999;
-      position: fixed;
+      position: sticky;
       bottom: 25px;
     }
 }
