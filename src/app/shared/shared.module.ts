@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { SectorComponent } from './components/sector/sector.component';
 import { ButtonComponent } from './components/button/button.component';
 import { AvatarComponent } from './components/avatar/avatar.component';
-import { StatCardComponent } from './components/stat-card/stat-card.component';
+
 import { FaIconLibrary, FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faBoltLightning, faClock, faStar, faUserGroup, faWallet } from '@fortawesome/free-solid-svg-icons';
 import { ModalComponent } from './components/modal/modal.component';
@@ -13,12 +13,11 @@ import { ModalComponent } from './components/modal/modal.component';
     CommonModule,
     FontAwesomeModule
   ],
-  declarations: [SectorComponent, ButtonComponent, AvatarComponent, StatCardComponent, ModalComponent],
+  declarations: [SectorComponent, ButtonComponent, AvatarComponent, ModalComponent],
   exports: [    
     SectorComponent,
     ButtonComponent,
     AvatarComponent,
-    StatCardComponent,
     ModalComponent,
     FontAwesomeModule
   ]

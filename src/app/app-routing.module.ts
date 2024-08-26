@@ -9,22 +9,22 @@ const routes: Routes = [
   // import('./').then(((m => m.Module)))
   {
     path: '',
-    redirectTo: '/ranking',
+    redirectTo: '/',
     pathMatch: 'full'
   },
   {
     path: 'notAuth',
     component: NotAuthComponent,
   },
-  {
-    path: 'ranking',
-    loadChildren: () =>
-      import('./features/ranking/ranking.module').then((m) => m.RankingModule),
-    canActivate: [AuthGuard]
-  },
+  // {
+  //   path: 'ranking',
+  //   loadChildren: () =>
+  //     import('./features/ranking/ranking.module').then((m) => m.RankingModule),
+  //   canActivate: [AuthGuard]
+  // },
   {
     path: '**',
-    redirectTo: '/ranking',
+    redirectTo: '/',
     pathMatch: 'full'
   },
 ];

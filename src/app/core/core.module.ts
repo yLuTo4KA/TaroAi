@@ -7,11 +7,12 @@ import { RouterModule } from '@angular/router';
 import { SharedModule } from '../shared/shared.module';
 import { AuthInterceptor } from './services/auth.interceptor';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { MatIconModule } from '@angular/material/icon';
 
 
 
 @NgModule({
-  imports: [CommonModule,RouterModule,SharedModule],
+  imports: [CommonModule,RouterModule,SharedModule, MatIconModule],
   declarations: [ShellComponent, NotAuthComponent, FooterComponent],
   exports: [ShellComponent, NotAuthComponent, FooterComponent],
   providers: [

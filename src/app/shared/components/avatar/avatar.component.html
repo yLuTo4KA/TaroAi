@@ -1,4 +1,5 @@
-<div class="avatar">
+<div class="avatar"
+[style.fontSize.px]="width / 2 - 0.8">
     <ng-container *ngIf="photoURL; else initialIcon">
         <img [class]="'avatar__image'" 
         [src]="photoURL" alt="" 
@@ -7,9 +8,9 @@
     </ng-container>
     <ng-template #initialIcon>
         <div [class]="'avatar__image avatar__image_icon'"
-        [style.width.em]="width "
-        [style.height.em]="height">
-            {{ getUserInitials(displayName) }}
+        [style.width.px]="width "
+        [style.height.px]="height">
+            <p class="avatar__title">{{ getUserInitials(displayName) }}</p>
         </div>
     </ng-template>
     <ng-content id="place"></ng-content>

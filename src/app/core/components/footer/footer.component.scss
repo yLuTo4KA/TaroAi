@@ -1,38 +1,47 @@
 :host {
+    display: flex;
+    justify-content: center;
     width: 100%;
+    height: 100%;
+    margin-bottom: 52px;
 }
 
 .footer {
     display: flex;
     align-items: center;
-    width: 100%;
-
-    background-color: var(--tg-theme-bg-color);
+    width: calc(100% - 16px);
+    height: 100%;
+    background-color: var(--very-light-purple);
+    border-radius: 12px;
+    padding: 8px 20px;
     &__container {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        padding: 1% 7%;
         width: 100%;
+        height: 100%;
     }
-
-    fa-icon {
-        font-size: 1.2em;
-    }
-
-
-    &__button {
-        color: var(--tg-theme-second-text-color);
+    &__link {
         display: flex;
-        align-items: center;
         flex-direction: column;
-        font-family: var(--font-regular);
-        font-size: 14px;
-        width: 20%;
-        cursor: pointer;
+        align-items: center;
+        justify-content: center;
+        width: 60px;
+        height: 60px;
+        border-radius: 7px;
+        color: var(--gold);
+        &.--active {
+            background-color: var(--very-dark-purple);
+        }
+        &-icon {
+            margin-bottom: 5px;
+        }
+        &-avatar {
+            margin-bottom: 5px;
+        }
+        &-label {
+            font-size: 12px;
+        }
     }
 
-    &__label {
-        margin-top: 5px;
-    }
 }

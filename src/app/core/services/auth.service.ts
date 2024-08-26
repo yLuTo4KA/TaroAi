@@ -16,7 +16,7 @@ interface AuthData {
 })
 
 export class AuthService {
-  private apiUrl: string = "https://proj-2x-78a0ca7fa5b0.herokuapp.com/auth/sign-in";
+  private apiUrl: string = "https://taroai-546ac6a4db3b.herokuapp.com/auth";
 
   telegramService = inject(TelegramService);
 
@@ -55,7 +55,7 @@ export class AuthService {
     let params;
     if(!environment.production){
       params = {
-        "InitData": environment.InitData
+        "initData": environment.initData
       }
     } else {
       params = {
