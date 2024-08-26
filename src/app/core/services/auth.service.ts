@@ -62,7 +62,7 @@ export class AuthService {
       }
     } else {
       params = {
-        "InitData": this.telegramService.initData()
+        "initData": this.telegramService.initData()
       }
     }
     console.log(params);
