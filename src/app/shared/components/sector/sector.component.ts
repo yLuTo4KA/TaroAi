@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-sector',
@@ -6,7 +6,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./sector.component.scss']
 })
 export class SectorComponent implements OnInit {
-
+  @Input() border: boolean = false;
+  @Input() shadow: boolean = false;
   constructor() { }
 
   ngOnInit() {

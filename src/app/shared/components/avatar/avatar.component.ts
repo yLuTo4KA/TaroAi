@@ -10,6 +10,8 @@ export class AvatarComponent {
   @Input() width= 8;
   @Input() photoURL: string | null | undefined;
   @Input() displayName: string | null | undefined;
+  @Input() profileAvatar: boolean = false;  
+  @Input() zodiac: string | null = null;
   
   getUserInitials(displayName: string | null | undefined): string {
       const [firstName = '', lastName = ''] = (displayName || '').split(' ');

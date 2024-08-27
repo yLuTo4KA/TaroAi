@@ -1,0 +1,68 @@
+.profile-page {
+    &__user-info {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin: 30px 0 20px 0;
+    }
+
+    &__avatar {
+        margin-bottom: 10px;
+        position: relative;
+        background: green;
+        border-radius: 50%;
+        width: 106px;
+        height: 106px;
+
+        &-zodiac {
+            position: absolute;
+            bottom: 3px;
+            right: 3px;
+            background: #39753B;
+            -webkit-box-shadow: inset 0px 0px 6px 4px rgba(0, 0, 0, 0.5);
+            -moz-box-shadow: inset 0px 0px 6px 4px rgba(0, 0, 0, 0.5);
+            box-shadow: inset 0px 0px 6px 4px rgba(0, 0, 0, 0.5);
+            border: 2px solid #0C8E11;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    }
+
+    &__username {
+        font-size: 18px;
+    }
+}
+
+.menu {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 25px;
+    margin-bottom: 20px;
+    &__link {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 90px;
+        height: 60px;
+        border-radius: 7px;
+        color: var(--gold);
+        cursor: pointer;
+        &-icon {
+            margin-bottom: 5px;
+        }
+        &-label {
+            font-size: 12px;
+        }
+
+        &.--active {
+            background: var(--very-light-purple);
+        }
+    }
+}

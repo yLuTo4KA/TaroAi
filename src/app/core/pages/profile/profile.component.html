@@ -1,1 +1,36 @@
-<p>profile works!</p>
+<div class="profile-page">
+    <div class="profile-page__user-info">
+        <div class="profile-page__avatar">
+            <app-avatar [width]="100" [height]="100" [photoURL]="userData.avatar" [displayName]="userData.username" class="profile-page__avatar-img"></app-avatar>
+            <div class="profile-page__avatar-zodiac">+</div>
+        </div>
+        <div class="profile-page__username">{{userData.username}}</div>
+    </div>
+    <div class="profile-page__menu">
+        <app-sector>
+            <div class="menu" body>
+                <router-link routerLink="/profile/info" class="menu__link" routerLinkActive="--active">
+                    <mat-icon aria-hidden="false" aria-label="Example home icon" svgIcon="icon_profile" class="menu__link-icon"></mat-icon>
+                    <div class="menu__link-label">
+                      My profile
+                    </div>
+                  </router-link>
+                  <router-link routerLink="/profile/spreads" class="menu__link" routerLinkActive="--active">
+                    <mat-icon aria-hidden="false" aria-label="Example home icon" svgIcon="icon_cards" class="menu__link-icon"></mat-icon>
+                    <div class="menu__link-label">
+                      My spreads
+                    </div>
+                  </router-link>
+                  <router-link routerLink="/profile/settings" class="menu__link" routerLinkActive="--active">
+                    <mat-icon aria-hidden="false" aria-label="Example home icon" svgIcon="icon_settings" class="menu__link-icon"></mat-icon>
+                    <div class="menu__link-label">
+                      Settings
+                    </div>
+                  </router-link>
+            </div>
+        </app-sector>
+    </div>
+    <div class="profile-page__container">
+        <router-outlet></router-outlet>
+    </div>
+</div>

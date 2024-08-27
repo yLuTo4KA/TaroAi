@@ -13,12 +13,15 @@ import { ProfileComponent } from './pages/profile/profile.component';
 import { ShopComponent } from './pages/shop/shop.component';
 import { FriendsComponent } from './pages/friends/friends.component';
 import { TasksComponent } from './pages/tasks/tasks.component';
+import { ProfileInfoComponent } from './pages/profile/children/profile-info/profile-info.component';
+import { ProfileSpreadsComponent } from './pages/profile/children/profile-spreads/profile-spreads.component';
+import { ProfileSettingsComponent } from './pages/profile/children/profile-settings/profile-settings.component';
 
 
 
 @NgModule({
   imports: [CommonModule,RouterModule,SharedModule, MatIconModule],
-  declarations: [ShellComponent, NotAuthComponent, FooterComponent, TarotComponent, ProfileComponent, ShopComponent, FriendsComponent, TasksComponent],
+  declarations: [ShellComponent, NotAuthComponent, FooterComponent, TarotComponent, ProfileComponent, ShopComponent, FriendsComponent, TasksComponent, ProfileInfoComponent, ProfileSpreadsComponent, ProfileSettingsComponent],
   exports: [ShellComponent, NotAuthComponent, FooterComponent],
   providers: [
     {
