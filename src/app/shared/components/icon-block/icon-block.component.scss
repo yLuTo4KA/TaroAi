@@ -1,0 +1,11 @@
+.icon-block {
+    width: 75px;
+    height: 75px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    -webkit-box-shadow: inset 0px 0px 9px 3px rgba(234,234,234,0.25);
+    -moz-box-shadow: inset 0px 0px 9px 3px rgba(234,234,234,0.25);
+    box-shadow: inset 0px 0px 9px 3px rgba(234,234,234,0.25);
+    border-radius: 12px;
+}

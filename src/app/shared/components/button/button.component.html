@@ -1,7 +1,3 @@
-<span
-  class="custom-button__wrapper"
-  [class.custom-button__wrapper__icon-left]="iconPosition === 'left'"
->
-  <ng-content></ng-content>
-  <ng-content select="icon"></ng-content>
-</span>
+<div class="button" [ngClass]="{'--small': small}">
+    <ng-content select="[title]"></ng-content>
+</div>

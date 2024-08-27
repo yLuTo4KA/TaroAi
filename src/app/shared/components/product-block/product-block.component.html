@@ -1,0 +1,13 @@
+<div class="product-block">
+    <app-sector>
+        <div class="product-block__body" body>
+            <app-icon-block class="product-block__body-icon" [iconName]="iconName" [width]="width" [height]="height"></app-icon-block>
+            <div class="product-block__body-content">
+                <ng-content class="product-block__body-content" select="[body]"></ng-content>
+            </div>
+            <app-button [small]="true" (click)="buttonClick()">
+                <p title>{{buttonName}}</p>
+            </app-button>
+        </div>
+    </app-sector>
+</div>
