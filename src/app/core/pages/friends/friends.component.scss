@@ -1,5 +1,41 @@
 .friends-page {
     &__header {
-        padding: 55px 55px 0 55px;
+        padding: 40px;
+        padding-bottom: 0;
+        margin-bottom: 35px;
+    }
+
+    &__block {
+        margin-bottom: 10px;
+        &-info {
+            height: 125px;
+            padding: 26px;
+            display: flex;
+            &-img {
+                margin-right: 35px;
+            }
+            &-body {
+                font-size: 14px;
+            
+            }
+            &-text {
+                margin-bottom: 15px;
+            }
+        }
+    }
+
+    &__invite {
+        &-info {
+            margin-bottom: 40px;
+        }
+        &-referrals {
+            .referrals {
+                &-info {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                }
+            }
+        }
     }
 }

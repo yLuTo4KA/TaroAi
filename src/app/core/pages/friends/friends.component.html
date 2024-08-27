@@ -7,4 +7,51 @@
             You and your friends will receive divinations
         </div>
     </div>
+    <div class="friends-page__container">
+        
+        <div class="friends-page__invite-info">
+            <div class="friends-page__block">
+                <app-sector [shadow]="true" [border]="true">
+                    <div class="friends-page__block-info" body>
+                        <div class="friends-page__block-info-img">
+                            <img src="assets/images/friend.png" alt="friend">
+                        </div>
+                        <div class="friends-page__block-info-body">
+                            <p class="friends-page__block-info-text">Invite a friend</p>
+                            <div class="friends-page__block-info-plus">
+                                <app-balance>
+                                    <p balance><b>+5</b> for you and your friends</p>
+                                </app-balance>
+                            </div>
+                        </div>
+                    </div>
+                </app-sector>
+            </div>
+            <div class="friends-page__block">
+                <app-sector [shadow]="true" [border]="true">
+                    <div class="friends-page__block-info" body>
+                        <div class="friends-page__block-info-img">
+                            <img src="assets/images/friend_prem.png" alt="friend">
+                        </div>
+                        <div class="friends-page__block-info-body">
+                            <p class="friends-page__block-info-text">Invite a friend with Telegram Premium</p>
+                            <div class="friends-page__block-info-plus">
+                                <app-balance>
+                                    <p balance><b>+10</b> for you and your friends</p>
+                                </app-balance>
+                            </div>
+                        </div>
+                    </div>
+                </app-sector>
+            </div>
+        </div>
+        <div class="friends-page__invite-referrals">
+            <div class="referrals-info">
+                <p>Your {{3}} refferals:</p>
+                <app-balance>
+                    <p balance>+7</p>
+                </app-balance>
+            </div>
+        </div>
+    </div>
 </div>
