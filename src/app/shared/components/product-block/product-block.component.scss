@@ -1,0 +1,13 @@
+.product-block {
+    &__body {
+        padding: 12px;
+        display: flex;
+        align-items: center;
+        &-icon {
+            margin-right: 10px;
+        }
+        &-content {
+            flex: 1;
+        }
+    }
+}
