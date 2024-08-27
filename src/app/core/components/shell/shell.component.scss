@@ -10,7 +10,8 @@
     &-body {
       width: 100%;
       min-height: 80vh;
-      padding: 8px;
+      padding: 12px 12px 40px 12px;
+      overflow: auto;
     }
   
     &-footer {
