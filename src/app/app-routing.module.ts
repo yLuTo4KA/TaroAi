@@ -7,6 +7,9 @@ import { ProfileComponent } from './core/pages/profile/profile.component';
 import { FriendsComponent } from './core/pages/friends/friends.component';
 import { TasksComponent } from './core/pages/tasks/tasks.component';
 import { ShopComponent } from './core/pages/shop/shop.component';
+import { ProfileInfoComponent } from './core/pages/profile/children/profile-info/profile-info.component';
+import { ProfileSpreadsComponent } from './core/pages/profile/children/profile-spreads/profile-spreads.component';
+import { ProfileSettingsComponent } from './core/pages/profile/children/profile-settings/profile-settings.component';
 
 const routes: Routes = [
   // path: 'authentication',
@@ -35,7 +38,34 @@ const routes: Routes = [
   {
     path: 'profile',
     component: ProfileComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
+    children: [
+      {
+        path: '',
+        redirectTo: '/profile/info',
+        pathMatch: 'full'
+      },
+      {
+        path: 'info',
+        component: ProfileInfoComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'spreads',
+        component: ProfileSpreadsComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'settings',
+        component: ProfileSettingsComponent,
+        canActivate: [AuthGuard]
+      },
+      {
+        path: '**',
+        redirectTo: '/profile/info',
+        pathMatch: 'full'
+      },
+    ]
   },
   {
     path: 'friends',

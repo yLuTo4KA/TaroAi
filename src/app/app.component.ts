@@ -24,5 +24,13 @@ export class AppComponent {
       'icon_shop',
       this.domSanitizer.bypassSecurityTrustResourceUrl("assets/icons/shop.svg")
     );
+    this.matIconRegistry.addSvgIcon(
+      'icon_profile',
+      this.domSanitizer.bypassSecurityTrustResourceUrl("assets/icons/profile.svg")
+    );
+    this.matIconRegistry.addSvgIcon(
+      'icon_settings',
+      this.domSanitizer.bypassSecurityTrustResourceUrl("assets/icons/settings.svg")
+    );
   }
 }

@@ -34,6 +34,24 @@ p {
   --gray: #858585;
 }
 
+.page {
+  &-header {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+  &-title {
+    font-size: 38px;
+    margin-bottom: 15px;
+  }
+  &-subtitle {
+    font-size: 20px;
+    padding: 0 10px;
+  }
+}
+
 ::-webkit-scrollbar {
   display: none;
 }
