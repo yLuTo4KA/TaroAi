@@ -62,6 +62,11 @@ const UserSchema = new mongoose.Schema({
         required: false,
         default: null
     },
+    invited: {
+        type: Boolean,
+        required: false,
+        default: false
+    },
     DIV_balance: {
         type: Number,
         required: true,
@@ -107,29 +112,43 @@ const AnswerSchema = new mongoose.Schema({
 const ReferralSchema = new mongoose.Schema({
     referrer: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
+        ref: 'Users',
         required: true
     },
     referral: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
+        ref: 'Users',
         required: true
     },
     bonus: {
-        type: mongoose.Schema.Types.Decimal128,
+        type: Number,
         required: false
-    }
-}, {
-    unique: true,
-    index: {
-        fields: {
-            referrer: 1,
-            referral: 1
-        },
-        unique: true
     }
 });
 const UserModel = new mongoose.model("Users", UserSchema);
+
+ReferralSchema.index({ referrer: 1, referral: 1 }, { unique: true });
+ReferralSchema.pre('save', async function (next) {
+    try {
+        const existingReferral1 = await mongoose.models.Referral.findOne({
+            referrer: this.referrer,
+            referral: this.referral
+        });
+
+        const existingReferral2 = await mongoose.models.Referral.findOne({
+            referrer: this.referral,
+            referral: this.referrer
+        });
+
+        if (existingReferral1 || existingReferral2) {
+            return next(new Error('Referral already exists in either direction.'));
+        }
+
+        next();
+    } catch (err) {
+        next(err);
+    }
+});
 const ReferralModel = new mongoose.model("Referral", ReferralSchema);
 
 module.exports = {UserModel, ReferralModel};

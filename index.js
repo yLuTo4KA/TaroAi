@@ -3,7 +3,7 @@ const express = require('express');
 const crypto = require('crypto');
 require('dotenv').config();
 const jwt = require('jsonwebtoken');
-const { UserModel } = require("./db");
+const { UserModel, ReferralModel } = require("./db");
 const { Telegraf } = require('telegraf');
 
 
@@ -56,6 +56,7 @@ function checkTelegramAuth(initData) {
     const arr = decoded.split('&');
     const hashIndex = arr.findIndex(str => str.startsWith('hash='));
     const hash = arr.splice(hashIndex)[0].split('=')[1];
+   
 
     // Удаляем параметр 'hash' из массива
     arr.sort((a, b) => a.localeCompare(b));
@@ -77,7 +78,6 @@ function checkTelegramAuth(initData) {
 }
 function getUserData(initData) {
     const parsedData = new URLSearchParams(initData);
-
     const userJson = decodeURIComponent(parsedData.get('user'));
     const user = JSON.parse(userJson);
     return user;
@@ -97,60 +97,115 @@ async function getUserAvatar(userId) {
         return avatarUrl;
 }
 function generateToken(userData) {
-    return jwt.sign(userData, process.env.SALT, { expiresIn: expToken });
+    const userId = userData._id
+    return jwt.sign({_id: userId}, process.env.SALT, { expiresIn: expToken });
 };
 function generateRefKey(userId) {
     const randomPart = crypto.randomBytes(3).toString('hex');
     const userPart = Buffer.from(userId.toString()).toString('hex');
     return `${randomPart}-${userPart}`;
 }
-function getRefLink(refKey) {
-    const refLink = `https://t.me/${process.env.BOT_NAME}/${process.env.BOT_START}?startapp=${refKey}`;
-    return refLink;
+async function updateDIVbalance(userId, count) {
+    await UserModel.updateOne(
+        { _id: userId },
+        { $inc: { DIV_balance: count }}
+    )
+}
+async function addReferral(referrerKey, referralKey, bonus) {
+    try {
+        const referrer = await UserModel.findOne({ ref_key: referrerKey });
+        const referral = await UserModel.findOne({ ref_key: referralKey });
+
+        if (!referrer || !referral) {
+            throw new Error('Referrer or referral user not found');
+        }
+
+        const refBonus = await ReferralModel.findOne({ referrer: referrer._id, referral: referral._id });
+
+        if (referrer._id.equals(referral._id)) {
+            throw new Error('Referrer and referral cannot be the same user');
+        }
+
+        if (!refBonus) {
+            await ReferralModel.create({
+                referrer: referrer._id,
+                referral: referral._id,
+                bonus: bonus
+            });
+
+            await UserModel.updateOne(
+                { _id: referral._id},
+                { $set: { invited: true },
+                  $inc: { DIV_balance: bonus }
+                }
+            );
+            await updateDIVbalance(referrer._id, bonus);
+
+            console.log('Referral added successfully');
+        } else {
+            console.log('Referral already exists');
+        }
+    } catch (e) {
+        console.error('Error adding referral:', e.message);
+    }
 }
 
 
 
 //open routes
 app.post('/auth', async (req, res) => {
-    const initData = req.body.initData;
+    try {
+        const initData = req.body.initData;
 
-    if (checkTelegramAuth(initData)) {
-
-        const userData = getUserData(initData);
-        const existingUser = await UserModel.findOne({ id: userData.id });
-        const token = generateToken(userData);
-        const refKey = generateRefKey(userData.id);
-        const avatarUrl = await getUserAvatar(userData.id);
-
-        if (!existingUser) {
-            const data = {...userData, avatar: avatarUrl, ref_key: refKey}
-            await UserModel.insertMany(data);
-            const user = await UserModel.findOne({ id: userData.id });
-            res.status(200).json({
-                success: true, data: {
-                    token: token,
-                    userData: user
+        const parsedData = new URLSearchParams(initData);
+        const startParams = decodeURIComponent(parsedData.get('start_param'));
+        const verifyData = checkTelegramAuth(initData)
+    
+        if (verifyData) {
+            const userData = getUserData(initData);
+            const existingUser = await UserModel.findOne({ id: userData.id });
+            const avatarUrl = await getUserAvatar(userData.id);
+            const isPremium = userData.is_premium;
+    
+            if (!existingUser) {
+                const refKey = generateRefKey(userData.id);
+                const data = {...userData, avatar: avatarUrl, ref_key: refKey}
+                await UserModel.insertMany(data);
+                const user = await UserModel.findOne({ id: userData.id });
+                const token = generateToken(user);
+                if(startParams && !user.invited) {
+                    await addReferral(startParams, user.ref_key, isPremium ? 10 : 5);
                 }
-            })
-        }else {
-            if(existingUser.avatar !== avatarUrl) {
-                console.log('avatar upd!');
-                existingUser.avatar = avatarUrl;
+                res.status(200).json({
+                    success: true, data: {
+                        token: token,
+                        userData: user
+                    }
+                })
+            }else {
+                if(existingUser.avatar !== avatarUrl) {
+                    existingUser.avatar = avatarUrl;
+                }
+                if(startParams && !existingUser.invited) {
+                    await addReferral(startParams, existingUser.ref_key, isPremium ? 10 : 5);
+                }
+                const token = generateToken(existingUser);
+                
+                res.status(200).json({
+                    success: true, data: {
+                        token: token,
+                        userData: existingUser
+                    }
+                })
             }
+    
+    
             
-            res.status(200).json({
-                success: true, data: {
-                    token: token,
-                    userData: existingUser
-                }
-            })
+        } else {
+            res.status(403).json({ success: false, message: 'Fake data detected!' });
         }
-
-
-        
-    } else {
-        res.status(403).json({ success: false, message: 'Fake data detected!' });
+    } catch(e) {
+        res.status(404).json({ success: false, message: e.message });
     }
 });
 
@@ -166,8 +221,20 @@ app.get('/getUser', verifyToken, async(req, res) => {
     if(!user) {
         return res.status(404).json({message: "No data!"});
     }
-    console.log(getRefLink(user.ref_key));
     res.status(200).json(user);
+})
+
+app.get('/getReferrals', verifyToken, async(req, res) => {
+    try {
+        const userId = req.user._id;
+
+        const referrals = await ReferralModel.find({ referrer: userId }).populate('referral', 'username avatar -_id').select('referral bonus');
+        const totalBonus = referrals.reduce((sum, referral) => sum + referral.bonus, 0);
+
+        res.status(200).json({referrals, totalBonus});
+    }catch(e) {
+        res.status(500).json({message: 'Internal error', error: e.message})
+    }
 })
 
 
