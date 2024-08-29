@@ -185,6 +185,10 @@ app.post('/auth', async (req, res) => {
             }else {
                 if(existingUser.avatar !== avatarUrl) {
                     existingUser.avatar = avatarUrl;
+                    await UserModel.updateOne(
+                        existingUser,
+                        {$set: {avatar: avatarUrl}}
+                    )
                 }
                 if(startParams && !existingUser.invited) {
                     await addReferral(startParams, existingUser.ref_key, isPremium ? 10 : 5);
