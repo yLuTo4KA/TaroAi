@@ -12,24 +12,16 @@ import { ProfileSpreadsComponent } from './core/pages/profile/children/profile-s
 import { ProfileSettingsComponent } from './core/pages/profile/children/profile-settings/profile-settings.component';
 
 const routes: Routes = [
-  // path: 'authentication',
-  // loadChildren: () =>
-  // import('./').then(((m => m.Module)))
   {
     path: '',
     redirectTo: '/tarot',
-    pathMatch: 'full'
+    pathMatch: 'full',
   },
   {
     path: 'notAuth',
     component: NotAuthComponent,
   },
-  // {
-  //   path: 'ranking',
-  //   loadChildren: () =>
-  //     import('./features/ranking/ranking.module').then((m) => m.RankingModule),
-  //   canActivate: [AuthGuard]
-  // },
+
   {
     path: 'tarot',
     component: TarotComponent,
