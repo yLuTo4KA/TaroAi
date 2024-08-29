@@ -3,7 +3,6 @@ import { ReferralsService } from '../../services/referrals.service';
 import { Referral } from '../../models/referral.model';
 import { TelegramService } from '../../services/telegram.service';
 import { AuthService } from '../../services/auth.service';
-import { UserData } from '../../models/userData.model';
 import { Subscription } from 'rxjs';
 
 @Component({
