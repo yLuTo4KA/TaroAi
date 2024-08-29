@@ -34,6 +34,29 @@
                     display: flex;
                     justify-content: space-between;
                     align-items: center;
+                    margin-bottom: 20px;
+                }
+
+                &-list {
+            
+                }
+                &-item {
+                    margin-bottom: 10px;
+                }
+            }
+            .referral {
+                height: 50px;
+                padding: 0 10px;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                font-size: 12px;
+                &__info {
+                    display: flex;
+                    align-items: center;
+                    &-img {
+                        margin-right: 10px;
+                    }
                 }
             }
         }
