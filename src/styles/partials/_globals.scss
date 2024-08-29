@@ -6,6 +6,7 @@ html, body {
   color: var(--tg-theme-text-color);
   font-family: var(--font-bold);
   background-color: var(--dark-purple);
+  overflow: hidden;
 }
 
 p {
