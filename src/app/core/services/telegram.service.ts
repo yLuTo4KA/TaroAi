@@ -24,6 +24,7 @@ export class TelegramService {
   }
 
   shareRefLink(refKey: string): void {
-    this.utils.shareURL(refKey);
+    const url = `https://t.me/TarotsAi_bot/Tarot?startapp=${refKey}`;
+    this.utils.shareURL(url);
   }
 }
