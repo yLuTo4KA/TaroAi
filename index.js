@@ -186,7 +186,7 @@ app.post('/auth', async (req, res) => {
                 if(existingUser.avatar !== avatarUrl) {
                     existingUser.avatar = avatarUrl;
                     await UserModel.updateOne(
-                        existingUser,
+                        {_id: existingUser._id},
                         {$set: {avatar: avatarUrl}}
                     )
                 }
