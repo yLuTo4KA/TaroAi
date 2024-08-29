@@ -1,5 +1,5 @@
 export interface UserData {
-    _id: any,
+    _id: string,
     id: number,
     username: string,
     first_name: string,
@@ -10,5 +10,6 @@ export interface UserData {
     ref_key: string,
     DIV_balance: number,
     rating: number,
-    last_visit: Date
+    last_visit: Date,
+    invited: boolean
 }

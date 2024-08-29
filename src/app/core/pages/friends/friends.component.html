@@ -45,12 +45,29 @@
                 </app-sector>
             </div>
         </div>
-        <div class="friends-page__invite-referrals">
+        <div class="friends-page__invite-referrals" *ngIf="referrals">
             <div class="referrals-info">
-                <p>Your {{3}} refferals:</p>
+                <p>Your {{referrals.length}} refferals:</p>
                 <app-balance>
-                    <p balance>+7</p>
+                    <p balance>+{{totalBonus}}</p>
                 </app-balance>
+            </div>
+            <div class="referrals-list">
+                <div class="referrals-item" *ngFor="let ref of referrals">
+                    <app-sector [shadow]="true" [border]="true">
+                        <div class="referral" body>
+                            <div class="referral__info">
+                                <app-avatar [displayName]="ref.referral.username" [photoURL]="ref.referral.avatar" [height]="24" [width]="24" class="referral__info-img"></app-avatar>
+                                <p class="referral__info-username">{{ref.referral.username}}</p>
+                            </div>
+                            <div class="referral__bonus">
+                                <app-balance [width]="18" [height]="18">
+                                    <div balance>+{{ref.bonus}}</div>
+                                </app-balance>
+                            </div>
+                        </div>
+                    </app-sector>
+                </div>
             </div>
         </div>
     </div>
