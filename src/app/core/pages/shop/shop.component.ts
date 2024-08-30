@@ -35,7 +35,7 @@ export class ShopComponent {
       price: 400
     },
   ]
-  public currentPrice: number = this.prices[1].price;
+  public currentPrice = this.prices[1];
 
   closeTokenModal(): void {
     this.viewTokenModal = false;
@@ -44,7 +44,7 @@ export class ShopComponent {
     this.viewTokenModal = true;
   }
 
-  pickPrice(price: number) {
+  pickPrice(price: any) {
     this.currentPrice = price;
   }
 

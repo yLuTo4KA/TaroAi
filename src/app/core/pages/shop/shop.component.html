@@ -23,12 +23,12 @@
         </div>
         <div class="token-modal__body">
             <div class="token-modal__price-list">
-                <div class="token-modal__price-item" *ngFor="let item of prices" [class.--current]="item.price === currentPrice" (click)="pickPrice(item.price)">
+                <div class="token-modal__price-item" *ngFor="let item of prices" [class.--current]="item.price === currentPrice.price" (click)="pickPrice(item)">
                     <mat-icon aria-hidden="false" aria-label="Example home icon" svgIcon="icon_token" class="token-modal__price-item__img"></mat-icon>
                     <p class="token-modal__price-title">{{item.count}} DIV Token</p>
                 </div>
-                <app-button [paddingX]="15" [paddingY]="15">
-                    Confrim And Pay {{currentPrice}} Stars
+                <app-button [paddingX]="15" [paddingY]="15" (click)="handlePaymentRequest(currentPrice.price, currentPrice.count)">
+                    Confrim And Pay {{currentPrice.price}} Stars
                 </app-button>
             </div>
         </div>
