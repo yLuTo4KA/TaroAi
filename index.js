@@ -34,7 +34,7 @@ bot.launch(
     {
         webhook: {
             domain: 'taroai-546ac6a4db3b.herokuapp.com/payment/status',
-            port: 0
+            path: '/telegraf/' + process.env.WEBHOOK_SECRET
         }
     }
 );
@@ -293,7 +293,11 @@ app.post('/payment/getLink', verifyToken, async (req, res) => {
         res.status(404).json({ message: "Internal error", error: e });
     }
 });
-app.post('/payment/status', async (req, res) => {
+app.post('/payment/status/:secret', async (req, res) => {
+    const {secret} = req.params;
+    if(secret !== process.env.WEBHOOK_SECRET) {
+        return res.status(403).send("Forbidden");
+    }
     try {
         const update = req.body;
         console.log(update);
