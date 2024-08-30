@@ -36,5 +36,9 @@ export class AppComponent {
       'icon_token',
       this.domSanitizer.bypassSecurityTrustResourceUrl("assets/icons/token.svg")
     );
+    this.matIconRegistry.addSvgIcon(
+      'icon_close',
+      this.domSanitizer.bypassSecurityTrustResourceUrl("assets/icons/close.svg")
+    );
   }
 }

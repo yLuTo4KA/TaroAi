@@ -9,11 +9,13 @@
     background-color: #00000059;
     cursor: pointer;
     &__wrapper {
-        background-color: var(--tg-theme-bg-color);
+        background: var(--bg-color);
         height: max-content;
         border-start-start-radius: 15px;
         border-start-end-radius: 15px;
         padding: 8px;
+        min-height: 200px;
+        overflow: auto;
         cursor: default;
     }
     &__view {
@@ -29,8 +31,8 @@
 
     &__close-btn {
         border-radius: 50%;
-        background-color: #7676801f;
-        color: var(--tg-theme-second-text-color);
+        color: var(--gold);
+        font-size: 24px;
         cursor: pointer;
         width: 30px;
         height: 30px;

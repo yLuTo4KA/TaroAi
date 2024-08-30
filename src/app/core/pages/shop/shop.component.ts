@@ -6,5 +6,13 @@ import { Component } from '@angular/core';
   styleUrls: ['./shop.component.scss']
 })
 export class ShopComponent {
+  viewTokenModal: boolean = false;
+
+  closeTokenModal(): void {
+    this.viewTokenModal = false;
+  }
+  openTokenModal(): void {
+    this.viewTokenModal = true;
+  }
 
 }

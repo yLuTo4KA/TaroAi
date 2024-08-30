@@ -1,9 +1,7 @@
 <div class="modal" [class.modal__view]="viewModal" (click)="closeModal()">
     <div class="modal__wrapper" (click)="$event.stopPropagation()">
         <div class="modal__header">
-            <div class="modal__close-btn" (click)="closeModal()">
-                X
-            </div>
+            <mat-icon aria-hidden="false" aria-label="Example home icon" svgIcon="icon_close" class="modal__close-btn" (click)="closeModal()"></mat-icon>
         </div>
         <ng-content></ng-content>
     </div>
