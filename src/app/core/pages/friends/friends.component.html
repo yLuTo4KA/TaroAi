@@ -1,10 +1,10 @@
 <div class="friends-page">
     <div class="friends-page__header page-header">
         <div class="page-title">
-            Invite friends!
+            {{'FRIENDS.TITLE' | translate}}
         </div>
         <div class="page-subtitle">
-            You and your friends will receive divinations
+            {{'FRIENDS.SUBTITLE' | translate}}
         </div>
     </div>
     <div class="friends-page__container">
@@ -17,10 +17,10 @@
                             <img src="assets/images/friend.png" alt="friend">
                         </div>
                         <div class="friends-page__block-info-body">
-                            <p class="friends-page__block-info-text">Invite a friend</p>
+                            <p class="friends-page__block-info-text">{{'FRIENDS.INVITE' | translate}}</p>
                             <div class="friends-page__block-info-plus">
                                 <app-balance>
-                                    <p balance><b>+5</b> for you and your friends</p>
+                                    <p balance><b>+5</b> {{'FRIENDS.YOU_AND_FRIEND' | translate}}</p>
                                 </app-balance>
                             </div>
                         </div>
@@ -34,20 +34,23 @@
                             <img src="assets/images/friend_prem.png" alt="friend">
                         </div>
                         <div class="friends-page__block-info-body">
-                            <p class="friends-page__block-info-text">Invite a friend with Telegram Premium</p>
+                            <p class="friends-page__block-info-text">{{'FRIENDS.INVITE_PREM' | translate}}</p>
                             <div class="friends-page__block-info-plus">
                                 <app-balance>
-                                    <p balance><b>+10</b> for you and your friends</p>
+                                    <p balance><b>+10</b> {{'FRIENDS.YOU_AND_FRIEND' | translate}}</p>
                                 </app-balance>
                             </div>
                         </div>
                     </div>
                 </app-sector>
             </div>
+            <app-button [paddingX]="15" [paddingY]="15" class="friends-page__invite-button" (click)="openInviteModal()">
+                <p title>{{'FRIENDS.INVITE_BUTTON' | translate}}</p>
+            </app-button>
         </div>
         <div class="friends-page__invite-referrals" *ngIf="referrals">
             <div class="referrals-info">
-                <p>Your {{referrals.length}} refferals:</p>
+                <p>{{'FRIENDS.YOUR' | translate}} {{referrals.length}} {{'FRIENDS.REFERALS' | translate}}:</p>
                 <app-balance>
                     <p balance>+{{totalBonus}}</p>
                 </app-balance>
@@ -71,7 +74,4 @@
             </div>
         </div>
     </div>
-    <app-button class="friends-page__invite-button" (click)="openInviteModal()">
-        <p title>Invite friends</p>
-    </app-button>
 </div>

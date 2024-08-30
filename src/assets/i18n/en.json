@@ -1,0 +1,40 @@
+{
+    "FOOTER": {
+        "LINK_SHOP": "Shop",
+        "LINK_TASKS": "Tasks",
+        "LINK_TAROT": "Tarot",
+        "LINK_FRIENDS": "Friends",
+        "LINK_PROFILE": "Profile"
+    },
+    "PROFILE": {
+        "LINK_PROFILE": "My profile",
+        "LINK_SPREADS": "My spreads",
+        "LINK_SETTINGS": "Settings",
+        "PROFILE_INFO": {
+            "BALANCE": "Balance",
+            "EARN": "Earn"
+        }
+    },
+    "FRIENDS": {
+        "TITLE": "Invite friends!",
+        "SUBTITLE": "You and your friends will receive divinations",
+        "INVITE": "Invite a friend",
+        "INVITE_PREM": "Invite a friend with Telegram Premium",
+        "INVITE_BUTTON": "Invite a friend",
+        "YOU_AND_FRIEND": "for you and your friends",
+        "YOUR": "Your",
+        "REFERALS": "referrals"
+    }, 
+    "SHOP": {
+        "SUBTITLE": "A hidden shop with a mysterious merchant",
+        "SHOP": "Shop",
+        "SELECT": "Select",
+        "MODAL": {
+            "INFO": "You can also earn Divinations tokens by",
+            "INVITING": "inviting friends",
+            "AND_FOR": "and for",
+            "TASKS": "completing tasks",
+            "CONFRIM": "Confrim And Pay"
+        }
+    }
+}
