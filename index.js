@@ -22,24 +22,6 @@ app.use((req, res, next) => {
 
 const bot = new Telegraf(process.env.BOT_TOKEN);
 // bot.telegram.setWebhook('https://taroai-546ac6a4db3b.herokuapp.com/payment/status');
-bot.on('pre_checkout_query', async (ctx) => {
-    const preCheckoutQueryId = ctx.update.pre_checkout_query.id;
-
-    try {
-        // Check if the goods are available, etc.
-        const allGoodsAvailable = true; // Replace with your actual check
-
-        if (allGoodsAvailable) {
-            // Respond positively
-            await ctx.telegram.answerPreCheckoutQuery(preCheckoutQueryId, true);
-        } else {
-            // Respond with an error message
-            await ctx.telegram.answerPreCheckoutQuery(preCheckoutQueryId, false, "Sorry, the item you wanted is no longer available. Please choose another item.");
-        }
-    } catch (error) {
-        console.error('Error handling pre-checkout query:', error);
-    }
-});
 
 
 const expToken = '1d';
@@ -312,31 +294,50 @@ app.post('/payment/getLink', verifyToken, async (req, res) => {
     }
 });
 app.post('/payment/status/telegraf/:secret', async (req, res) => {
-    const {secret} = req.params;
-    if(secret !== process.env.WEBHOOK_SECRET) {
+    const { secret } = req.params;
+    if (secret !== process.env.WEBHOOK_SECRET) {
         return res.status(403).send("Forbidden");
     }
+    
     try {
         const update = req.body;
-        console.log(update.pre);
+        console.log(update);
 
-        if (update.invoice_payload && update.payment) {
+        if (update.pre_checkout_query) {
+            // Handle pre-checkout query
+            const { id, from, invoice_payload, shipping_option_id, order_info } = update.pre_checkout_query;
+            // Example: Check if the goods are available
+            const allGoodsAvailable = true; // Replace with actual check
+
+            if (allGoodsAvailable) {
+                // Confirm the pre-checkout query
+                await bot.telegram.answerPreCheckoutQuery(id, true);
+            } else {
+                // Reject the pre-checkout query with an error message
+                await bot.telegram.answerPreCheckoutQuery(id, false, "Sorry, the item you wanted is no longer available. Please choose another item.");
+            }
+        } else if (update.invoice_payload && update.payment) {
+            // Handle payment update
             const transactionId = update.invoice_payload;
             const paymentStatus = update.payment.status;
             const transaction = await TransactionModel.findOneAndUpdate(
                 { _id: transactionId },
                 { status: paymentStatus },
                 { new: true }
-            )
+            );
+
             if (paymentStatus === 'paid') {
                 await UserModel.updateOne({_id: transaction.user_id}, {$inc: {DIV_balance: transaction.div_amount}});
             }
         }
-        res.status(200).json({update});
+
+        res.status(200).json({ update });
     } catch (e) {
-        res.status(500).send('internal error');
+        console.error('Error handling payment or pre-checkout query:', e.message);
+        res.status(500).send('Internal error');
     }
-})
+});
+
 
 
 // code  123
