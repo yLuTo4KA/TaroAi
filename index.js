@@ -301,7 +301,7 @@ app.post('/payment/status', async (req, res) => {
                 await UserModel.updateOne({_id: transaction.user_id}, {$inc: {DIV_balance: transaction.div_amount}});
             }
         }
-
+        res.status(200).send("OK");
     } catch (e) {
         res.status(500).send("internal error");
     }
