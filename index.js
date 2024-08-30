@@ -312,11 +312,11 @@ app.post('/payment/status/telegraf/:secret', async (req, res) => {
             } else {
                 await bot.telegram.answerPreCheckoutQuery(id, false, "Sorry, the item you wanted is no longer available. Please choose another item.");
             }
-        } else if (update.message.successful_payment) {
-            const transactionId = update.message.invoice_payload;
+        } else if (update.successful_payment) {
+            const { invoice_payload, successful_payment } = update;
             const paymentStatus = "Paid"
             const transaction = await TransactionModel.findOneAndUpdate(
-                { _id: transactionId },
+                { _id: invoice_payload },
                 { status: paymentStatus },
                 { new: true }
             );
