@@ -16,11 +16,12 @@ import { TasksComponent } from './pages/tasks/tasks.component';
 import { ProfileInfoComponent } from './pages/profile/children/profile-info/profile-info.component';
 import { ProfileSpreadsComponent } from './pages/profile/children/profile-spreads/profile-spreads.component';
 import { ProfileSettingsComponent } from './pages/profile/children/profile-settings/profile-settings.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 
 
 @NgModule({
-  imports: [CommonModule,RouterModule,SharedModule, MatIconModule],
+  imports: [CommonModule,RouterModule,SharedModule, MatIconModule, TranslateModule],
   declarations: [ShellComponent, NotAuthComponent, FooterComponent, TarotComponent, ProfileComponent, ShopComponent, FriendsComponent, TasksComponent, ProfileInfoComponent, ProfileSpreadsComponent, ProfileSettingsComponent],
   exports: [ShellComponent, NotAuthComponent, FooterComponent],
   providers: [

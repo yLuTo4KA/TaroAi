@@ -1,7 +1,7 @@
 <div class="profile-page__info">
-    <app-product-block iconName="icon_token" [width]="50" [height]="50" buttonName="Earn" (clickButton)="redirectToEarn()">
+    <app-product-block iconName="icon_token" [width]="50" [height]="50" [buttonName]="'PROFILE.PROFILE_INFO.EARN' | translate" (clickButton)="redirectToEarn()">
         <div class="info__balance" body>
-            <p class="info__balance-title --item">Balance</p>
+            <p class="info__balance-title --item">{{'PROFILE.PROFILE_INFO.BALANCE' | translate}}</p>
             <app-balance class="--item" *ngIf="userData">
                 <p balance>{{userData.DIV_balance}}</p>
             </app-balance>

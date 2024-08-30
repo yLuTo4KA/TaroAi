@@ -24,6 +24,8 @@
     "@fortawesome/angular-fontawesome": "^0.13.0",
     "@fortawesome/free-solid-svg-icons": "^6.6.0",
     "@material-ui/icons": "^4.11.3",
+    "@ngx-translate/core": "^15.0.0",
+    "@ngx-translate/http-loader": "^8.0.0",
     "@telegram-apps/sdk": "^1.1.3",
     "lodash": "^4.17.21",
     "normalize.css": "^8.0.1",

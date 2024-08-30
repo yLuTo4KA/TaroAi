@@ -4,6 +4,7 @@ import { TelegramService } from '../../services/telegram.service';
 import {Router, NavigationEnd} from '@angular/router';
 import { filter, Subscription } from 'rxjs';
 import { UserData } from '../../models/userData.model';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-shell',
@@ -16,9 +17,10 @@ export class ShellComponent implements OnInit, OnDestroy {
   tgService = inject(TelegramService);
   showFooter: boolean = true;
   userData: UserData | null = null;
+  lang: string = 'en';
   private userDataSubscription: Subscription | undefined;
 
-  constructor(private router: Router) { 
+  constructor(private router: Router, private translate: TranslateService) { 
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd)
     ).subscribe(() => {
@@ -33,8 +35,14 @@ export class ShellComponent implements OnInit, OnDestroy {
     this.authService.auth().subscribe();
 
     this.userDataSubscription = this.authService.userData$.subscribe(data => {
-      this.userData = data;
+      if(data) {
+        this.userData = data;
+        this.lang = data.language_code === 'ru' ? 'ru' : 'en';
+        this.translate.use(this.lang);
+      }
     })
+
+   
   }
 
   ngOnDestroy(): void {

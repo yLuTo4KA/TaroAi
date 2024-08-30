@@ -1,11 +1,11 @@
 <div class="shop-page">
     <div class="shop-page__header page-header">
         <img src="assets/images/bot_tasks.png" alt="Tasks" class="shop-page__header-img">
-        <p class="page-subtitle">A hidden shop with a mysterious merchant</p>
+        <p class="page-subtitle">{{'SHOP.SUBTITLE' | translate}}</p>
     </div>
     <div class="shop-page__container">
-        <p class="shop-page__list-name">Shop</p>
-        <app-product-block iconName="icon_token" [width]="50" [height]="50" [buttonName]="'Buy'" (clickButton)="openTokenModal()">
+        <p class="shop-page__list-name">{{'SHOP.SHOP' | translate}}</p>
+        <app-product-block iconName="icon_token" [width]="50" [height]="50" [buttonName]="'SHOP.SELECT' | translate" (clickButton)="openTokenModal()">
             <p body>Divinations token</p>
         </app-product-block>
     </div>
@@ -18,7 +18,7 @@
                 Divinations token
             </div>
             <div class="modal-subtitle">
-                You can also earn Divinations tokens by <router-link routerLink="/friends" class="router-link">inviting friends</router-link> and for <router-link routerLink="/tasks" class="router-link">completing tasks</router-link>
+                {{'SHOP.MODAL.INFO' | translate}} <router-link routerLink="/friends" class="router-link">{{'SHOP.MODAL.INVITING' | translate}}</router-link> {{'SHOP.MODAL.AND_FOR' | translate}} <router-link routerLink="/tasks" class="router-link"> {{'SHOP.MODAL.TASKS' | translate}}</router-link>
             </div>
         </div>
         <div class="token-modal__body">
@@ -28,7 +28,7 @@
                     <p class="token-modal__price-title">{{item.count}} DIV Token</p>
                 </div>
                 <app-button [paddingX]="15" [paddingY]="15" (click)="handlePaymentRequest(currentPrice.price, currentPrice.count)">
-                    Confrim And Pay {{currentPrice.price}} Stars
+                    {{'SHOP.MODAL.CONFRIM' | translate}} {{currentPrice.price}} Stars
                 </app-button>
             </div>
         </div>
