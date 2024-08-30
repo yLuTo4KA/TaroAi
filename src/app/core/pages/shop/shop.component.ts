@@ -50,9 +50,9 @@ export class ShopComponent {
 
   handlePaymentRequest(star_amount: number, div_amount: number): void {
     this.paymentService.paymentRequest(star_amount, div_amount).subscribe(response => {
-      if(response && response.url) {
+      if(response && response.link) {
         const invoice = initInvoice();
-        invoice.open(response.url, 'url').then((status) => {
+        invoice.open(response.link, 'url').then((status) => {
           if(status === 'paid') {
             this.authService.getProfile().subscribe(response => {
               if(response) {
