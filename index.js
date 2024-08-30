@@ -170,10 +170,10 @@ async function  generateInvoiceLink(amount, userId) {
             currency: 'XTR',
             prices: [{ label: 'Divinations token', amount: amount }],
         }
-        const invoiceLink = await bot.telegram.createInvoiceLink(invoice)
+        const invoiceLink = await bot.telegram.createInvoiceLink(invoice);
         return invoiceLink;
     } catch(e) {
-        throw new Error(e);
+        console.log(123);
     }
 }
 
