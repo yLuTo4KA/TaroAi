@@ -304,33 +304,52 @@ app.post('/payment/status/telegraf/:secret', async (req, res) => {
         console.log(update);
 
         if (update.pre_checkout_query) {
-            // Handle pre-checkout query
             const { id, from, invoice_payload, shipping_option_id, order_info } = update.pre_checkout_query;
-            // Example: Check if the goods are available
-            const allGoodsAvailable = true; // Replace with actual check
+            const allGoodsAvailable = true;
 
             if (allGoodsAvailable) {
-                // Confirm the pre-checkout query
                 await bot.telegram.answerPreCheckoutQuery(id, true);
             } else {
-                // Reject the pre-checkout query with an error message
                 await bot.telegram.answerPreCheckoutQuery(id, false, "Sorry, the item you wanted is no longer available. Please choose another item.");
             }
-        } else if (update.invoice_payload && update.payment) {
-            // Handle payment update
-            const transactionId = update.invoice_payload;
-            const paymentStatus = update.payment.status;
+        } else if (update.message.successful_payment) {
+            const transactionId = update.message.invoice_payload;
+            const paymentStatus = "Paid"
             const transaction = await TransactionModel.findOneAndUpdate(
                 { _id: transactionId },
                 { status: paymentStatus },
                 { new: true }
             );
-
-            if (paymentStatus === 'paid') {
-                await UserModel.updateOne({_id: transaction.user_id}, {$inc: {DIV_balance: transaction.div_amount}});
+            await UserModel.updateOne({_id: transaction.user_id}, {$inc: {DIV_balance: transaction.div_amount}});
+        }
+        const lol = {
+            update_id: 269268876,
+            message: {
+                message_id: 64,
+                from: {
+                    id: 901201138,
+                    is_bot: false,
+                    first_name: 'yLuTo4KA',
+                    username: 'yLuTo4KA',
+                    language_code: 'ru'
+                },
+                chat: {
+                    id: 901201138,
+                    first_name: 'yLuTo4KA',
+                    username: 'yLuTo4KA',
+                    type: 'private'
+                },
+                date: 1725031498,
+                successful_payment: {
+                    currency: 'XTR',
+                    total_amount: 1,
+                    invoice_payload: '66d11df64823626617f8a77b',
+                    telegram_payment_charge_id: 'stxuhdLOFtONuMgAzez1f-aNFn56sVmZgD8QmPZt5wbtMAd1E9RkSdjAk8yUT9o7zkuCw64Gcgx0_6X1MmvsjVN1pqdTB9XWNLHUyUyrYfUmjxNI9iEmnS_QPNEu8aHzT9c',
+                    provider_payment_charge_id: '901201138_12'
+                }
             }
         }
-
+        
         res.status(200).json({ update });
     } catch (e) {
         console.error('Error handling payment or pre-checkout query:', e.message);
