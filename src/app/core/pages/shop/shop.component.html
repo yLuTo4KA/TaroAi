@@ -1,1 +1,16 @@
-<p>shop works!</p>
+<div class="shop-page">
+    <div class="shop-page__header page-header">
+        <img src="/assets/images/bot_tasks.png" alt="Tasks" class="shop-page__header-img">
+        <p class="page-subtitle">A hidden shop with a mysterious merchant</p>
+    </div>
+    <div class="shop-page__container">
+        <p class="shop-page__list-name">Shop</p>
+        <app-product-block iconName="icon_token" [width]="50" [height]="50" [buttonName]="'Buy'" (clickButton)="openTokenModal()">
+            <p body>Divinations token</p>
+        </app-product-block>
+    </div>
+</div>
+
+<app-modal [viewModal]="viewTokenModal" (closeModalEmit)="closeTokenModal()">
+    <div class="123">HEllO!</div>
+</app-modal>
