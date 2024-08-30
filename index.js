@@ -1,6 +1,7 @@
 // init
 const express = require('express');
 const crypto = require('crypto');
+const bodyParser = require('body-parser');
 require('dotenv').config();
 const jwt = require('jsonwebtoken');
 const { UserModel, ReferralModel, TransactionModel } = require("./db");
@@ -10,6 +11,7 @@ const { Telegraf } = require('telegraf');
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 app.use((req, res, next) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
     res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
@@ -29,7 +31,7 @@ bot.command('start', (ctx) => ctx.reply('ping'));
 
 bot.launch();
 bot.telegram.setWebhook('https://taroai-546ac6a4db3b.herokuapp.com/payment/status');
-
+app.use(bot.webhookCallback('/payment/status'));
 app.get('/', (req, res) => {
     res.send('Tg mini app work1');
 })
