@@ -7,7 +7,8 @@ interface paymentData {
     url: string
 }
 interface PaymentParams {
-    payment_amount: number
+    star_amount: number,
+    div_amount: number
 }
 
 @Injectable({
@@ -20,11 +21,9 @@ export class PaymentService extends ApiService{
         super(http);
     }
 
-    paymentRequest(amount: number): Observable<paymentData> {
-        const url = `${this.urlPath}/stars-invoice-link`
-        const params = {
-            "payment_amount": amount
-        }
+    paymentRequest(star_amount: number, div_amount: number): Observable<paymentData> {
+        const url = `${this.urlPath}/getLink`
+        const params = {star_amount, div_amount};
         return this.post<paymentData, PaymentParams>(url, params).pipe()
     }
 }

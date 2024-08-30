@@ -20,6 +20,7 @@ interface AuthData {
 
 export class AuthService {
   private apiUrl: string = "https://taroai-546ac6a4db3b.herokuapp.com/auth";
+  private apiProfileUrl: string = "https://taroai-546ac6a4db3b.herokuapp.com/profile";
 
   telegramService = inject(TelegramService);
 
@@ -84,6 +85,21 @@ export class AuthService {
       )
     )
   }
+  getProfile(): Observable<UserData> {
+    const url = this.apiProfileUrl + "/getProfile";
+    return this.http.get<UserData>(url, {}).pipe(
+      tap(response => {
+        this.setUserData(response);
+      }),
+      finalize(() => {
+        this.loadingSubject.next(false);
+      }),
+      catchError((error: HttpErrorResponse) => {
+        return throwError(() => error);
+      })
+    )
+  }
+
   deauth(): void {
     localStorage.removeItem("token");
     this.tokenSubject.next(null);
