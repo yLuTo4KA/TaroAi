@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { ApiService } from './api.service';
 
 interface paymentData {
-    url: string
+    link: string
 }
 interface PaymentParams {
     star_amount: number,
