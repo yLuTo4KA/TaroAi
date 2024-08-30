@@ -125,8 +125,37 @@ const ReferralSchema = new mongoose.Schema({
         required: false
     }
 });
-const UserModel = new mongoose.model("Users", UserSchema);
 
+const TransactionSchema = new mongoose.Schema({
+    type: {
+        type: String,
+        required: true
+    },
+    user_id: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true
+    },
+    date: {
+        type: Date,
+        required: true
+    },
+    amount: {
+        type: Number,
+        required: true
+    },
+    currency: {
+        type: String,
+        required: true
+    },
+    status: {
+        type: String,
+        required: true,
+        default: "Created",
+    }
+})
+
+
+const UserModel = new mongoose.model("Users", UserSchema);
 ReferralSchema.index({ referrer: 1, referral: 1 }, { unique: true });
 ReferralSchema.pre('save', async function (next) {
     try {
@@ -150,5 +179,6 @@ ReferralSchema.pre('save', async function (next) {
     }
 });
 const ReferralModel = new mongoose.model("Referral", ReferralSchema);
+const TransactionModel = new mongoose.model("Transaction", TransactionSchema);
 
-module.exports = {UserModel, ReferralModel};
+module.exports = {UserModel, ReferralModel, TransactionModel};

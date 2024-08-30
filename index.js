@@ -3,7 +3,7 @@ const express = require('express');
 const crypto = require('crypto');
 require('dotenv').config();
 const jwt = require('jsonwebtoken');
-const { UserModel, ReferralModel } = require("./db");
+const { UserModel, ReferralModel, TransactionModel } = require("./db");
 const { Telegraf } = require('telegraf');
 
 
@@ -150,6 +150,33 @@ async function addReferral(referrerKey, referralKey, bonus) {
     }
 }
 
+async function  generateInvoiceLink(amount, userId) {
+    try {
+        const transaction = await TransactionModel.create(
+            {
+                type: "Purchase",
+                user_id: userId,
+                date: Date.now(),
+                amount: amount,
+                currency: "XTR",
+                status: "Pending"
+            }
+        )
+        const invoice = {
+            title: 'Divinations token',
+            description: 'Divinations token - To be able to do a tarot reading in the app',
+            payload: transaction._id.toString(),
+            provider_token: '',
+            currency: 'XTR',
+            prices: [{ label: 'Divinations token', amount: amount }],
+        }
+        const invoiceLink = await bot.telegram.createInvoiceLink(invoice)
+        return invoiceLink;
+    } catch(e) {
+        throw new Error(e);
+    }
+}
+
 
 
 //open routes
@@ -238,6 +265,18 @@ app.get('/getReferrals', verifyToken, async(req, res) => {
         res.status(200).json({referrals, totalBonus});
     }catch(e) {
         res.status(500).json({message: 'Internal error', error: e.message})
+    }
+})
+
+app.post('/payment/getLink', verifyToken, async(req, res) => {
+    try {
+        const userId = req.user._id;
+        const amount = req.body.amount;
+
+        const link = await generateInvoiceLink(amount, userId);
+        req.status(200).json({link: link});
+    }catch(e) {
+        req.status(404).json({message: "Internal error", error: e});
     }
 })
 
