@@ -139,9 +139,13 @@ const TransactionSchema = new mongoose.Schema({
         type: Date,
         required: true
     },
-    amount: {
+    star_amount: {
         type: Number,
         required: true
+    },
+    div_amount: {
+        type: Number,
+        required: true,
     },
     currency: {
         type: String,

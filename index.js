@@ -28,6 +28,7 @@ bot.start((ctx) => ctx.reply('welcome'));
 bot.command('start', (ctx) => ctx.reply('ping'));
 
 bot.launch();
+bot.telegram.setWebhook('https://taroai-546ac6a4db3b.herokuapp.com/payment/status');
 
 app.get('/', (req, res) => {
     res.send('Tg mini app work1');
@@ -56,7 +57,7 @@ function checkTelegramAuth(initData) {
     const arr = decoded.split('&');
     const hashIndex = arr.findIndex(str => str.startsWith('hash='));
     const hash = arr.splice(hashIndex)[0].split('=')[1];
-   
+
 
     // Удаляем параметр 'hash' из массива
     arr.sort((a, b) => a.localeCompare(b));
@@ -84,21 +85,21 @@ function getUserData(initData) {
 
 }
 async function getUserAvatar(userId) {
-        const userProfilePhotos = await bot.telegram.getUserProfilePhotos(userId);
-        let avatarUrl = null;
+    const userProfilePhotos = await bot.telegram.getUserProfilePhotos(userId);
+    let avatarUrl = null;
 
-        if (userProfilePhotos.total_count > 0) {
-            const photo = userProfilePhotos.photos[0][0]; 
-            const fileId = photo.file_id;
+    if (userProfilePhotos.total_count > 0) {
+        const photo = userProfilePhotos.photos[0][0];
+        const fileId = photo.file_id;
 
-            const file = await bot.telegram.getFile(fileId);
-            avatarUrl = `https://api.telegram.org/file/bot${process.env.BOT_TOKEN}/${file.file_path}`;
-        }
-        return avatarUrl;
+        const file = await bot.telegram.getFile(fileId);
+        avatarUrl = `https://api.telegram.org/file/bot${process.env.BOT_TOKEN}/${file.file_path}`;
+    }
+    return avatarUrl;
 }
 function generateToken(userData) {
     const userId = userData._id
-    return jwt.sign({_id: userId}, process.env.SALT, { expiresIn: expToken });
+    return jwt.sign({ _id: userId }, process.env.SALT, { expiresIn: expToken });
 };
 function generateRefKey(userId) {
     const randomPart = crypto.randomBytes(3).toString('hex');
@@ -108,7 +109,7 @@ function generateRefKey(userId) {
 async function updateDIVbalance(userId, count) {
     await UserModel.updateOne(
         { _id: userId },
-        { $inc: { DIV_balance: count }}
+        { $inc: { DIV_balance: count } }
     )
 }
 async function addReferral(referrerKey, referralKey, bonus) {
@@ -134,9 +135,10 @@ async function addReferral(referrerKey, referralKey, bonus) {
             });
 
             await UserModel.updateOne(
-                { _id: referral._id},
-                { $set: { invited: true },
-                  $inc: { DIV_balance: bonus }
+                { _id: referral._id },
+                {
+                    $set: { invited: true },
+                    $inc: { DIV_balance: bonus }
                 }
             );
             await updateDIVbalance(referrer._id, bonus);
@@ -150,30 +152,31 @@ async function addReferral(referrerKey, referralKey, bonus) {
     }
 }
 
-async function  generateInvoiceLink(amount, userId) {
+async function generateInvoiceLink(star_amount, div_amount, userId) {
     try {
         const transaction = await TransactionModel.create(
             {
                 type: "Purchase",
                 user_id: userId,
                 date: Date.now(),
-                amount: amount,
+                star_amount: star_amount,
+                div_amount: div_amount,
                 currency: "XTR",
                 status: "Pending"
             }
         )
         const invoice = {
-            title: 'Divinations token',
+            title: `${div_amount} Divinations token`,
             description: 'Divinations token - To be able to do a tarot reading in the app',
             payload: transaction._id.toString(),
             provider_token: '',
             currency: 'XTR',
-            prices: [{ label: 'Divinations token', amount: amount }],
+            prices: [{ label: `Divinations token`, amount: star_amount }],
         }
         const invoiceLink = await bot.telegram.createInvoiceLink(invoice);
         return invoiceLink;
-    } catch(e) {
-        console.log(123);
+    } catch (e) {
+        throw new Error(e);
     }
 }
 
@@ -187,20 +190,20 @@ app.post('/auth', async (req, res) => {
         const parsedData = new URLSearchParams(initData);
         const startParams = decodeURIComponent(parsedData.get('start_param'));
         const verifyData = checkTelegramAuth(initData)
-    
+
         if (verifyData) {
             const userData = getUserData(initData);
             const existingUser = await UserModel.findOne({ id: userData.id });
             const avatarUrl = await getUserAvatar(userData.id);
             const isPremium = userData.is_premium;
-    
+
             if (!existingUser) {
                 const refKey = generateRefKey(userData.id);
-                const data = {...userData, avatar: avatarUrl, ref_key: refKey}
+                const data = { ...userData, avatar: avatarUrl, ref_key: refKey }
                 await UserModel.insertMany(data);
                 const user = await UserModel.findOne({ id: userData.id });
                 const token = generateToken(user);
-                if(startParams && !user.invited) {
+                if (startParams && !user.invited) {
                     await addReferral(startParams, user.ref_key, isPremium ? 10 : 5);
                 }
                 res.status(200).json({
@@ -209,19 +212,19 @@ app.post('/auth', async (req, res) => {
                         userData: user
                     }
                 })
-            }else {
-                if(existingUser.avatar !== avatarUrl) {
+            } else {
+                if (existingUser.avatar !== avatarUrl) {
                     existingUser.avatar = avatarUrl;
                     await UserModel.updateOne(
-                        {_id: existingUser._id},
-                        {$set: {avatar: avatarUrl}}
+                        { _id: existingUser._id },
+                        { $set: { avatar: avatarUrl } }
                     )
                 }
-                if(startParams && !existingUser.invited) {
+                if (startParams && !existingUser.invited) {
                     await addReferral(startParams, existingUser.ref_key, isPremium ? 10 : 5);
                 }
                 const token = generateToken(existingUser);
-                
+
                 res.status(200).json({
                     success: true, data: {
                         token: token,
@@ -229,13 +232,13 @@ app.post('/auth', async (req, res) => {
                     }
                 })
             }
-    
-    
-            
+
+
+
         } else {
             res.status(403).json({ success: false, message: 'Fake data detected!' });
         }
-    } catch(e) {
+    } catch (e) {
         res.status(404).json({ success: false, message: e.message });
     }
 });
@@ -243,40 +246,63 @@ app.post('/auth', async (req, res) => {
 
 
 // closed routes
-app.get('/getUser', verifyToken, async(req, res) => {
+app.get('/getUser', verifyToken, async (req, res) => {
     const token = req.headers.authorization;
     const decodeToken = jwt.verify(token, process.env.SALT);
     const userId = decodeToken.id;
 
-    const user = await UserModel.findOne({id: userId})
-    if(!user) {
-        return res.status(404).json({message: "No data!"});
+    const user = await UserModel.findOne({ id: userId })
+    if (!user) {
+        return res.status(404).json({ message: "No data!" });
     }
     res.status(200).json(user);
 })
 
-app.get('/getReferrals', verifyToken, async(req, res) => {
+app.get('/getReferrals', verifyToken, async (req, res) => {
     try {
         const userId = req.user._id;
 
         const referrals = await ReferralModel.find({ referrer: userId }).populate('referral', 'username avatar -_id').select('referral bonus');
         const totalBonus = referrals.reduce((sum, referral) => sum + referral.bonus, 0);
 
-        res.status(200).json({referrals, totalBonus});
-    }catch(e) {
-        res.status(500).json({message: 'Internal error', error: e.message})
+        res.status(200).json({ referrals, totalBonus });
+    } catch (e) {
+        res.status(500).json({ message: 'Internal error', error: e.message })
     }
 })
 
-app.post('/payment/getLink', verifyToken, async(req, res) => {
+app.post('/payment/getLink', verifyToken, async (req, res) => {
     try {
         const userId = req.user._id;
-        const amount = req.body.amount;
+        const starAmount = req.body.star_amount;
+        const divAmount = req.body.div_amount;
 
-        const link = await generateInvoiceLink(amount, userId);
-        req.status(200).json({link: link});
-    }catch(e) {
-        req.status(404).json({message: "Internal error", error: e});
+        const link = await generateInvoiceLink(starAmount, divAmount, userId);
+        res.status(200).json({ link: link });
+    } catch (e) {
+        res.status(404).json({ message: "Internal error", error: e });
+    }
+});
+app.post('/payment/status', async (req, res) => {
+    try {
+        const update = req.body;
+
+        if (update.invoice_payload && update.payment) {
+            const transactionId = update.invoice_payload;
+            const paymentStatus = update.payment.status;
+
+            if (paymentStatus === 'paid') {
+                const transaction = await TransactionModel.findOneAndUpdate(
+                    { _id: transactionId },
+                    { status: 'Completed' },
+                    { new: true }
+                )
+                await UserModel.updateOne({_id: transaction.user_id}, {$inc: {DIV_balance: transaction.div_amount}});
+            }
+        }
+
+    } catch (e) {
+        res.status(500).send("internal error");
     }
 })
 
