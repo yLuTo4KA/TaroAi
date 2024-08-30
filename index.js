@@ -21,7 +21,7 @@ app.use((req, res, next) => {
 });
 
 const bot = new Telegraf(process.env.BOT_TOKEN);
-
+bot.telegram.setWebhook('https://taroai-546ac6a4db3b.herokuapp.com/payment/status');
 
 const expToken = '1d';
 
@@ -288,6 +288,7 @@ app.post('/payment/getLink', verifyToken, async (req, res) => {
 app.post('/payment/status', async (req, res) => {
     try {
         const update = req.body;
+        console.log(update);
 
         if (update.invoice_payload && update.payment) {
             const transactionId = update.invoice_payload;
@@ -312,7 +313,7 @@ app.post('/payment/status', async (req, res) => {
 // settings
 const PORT = process.env.PORT || 3000;
 const HOST = '0.0.0.0';
-bot.telegram.setWebhook('https://taroai-546ac6a4db3b.herokuapp.com/payment/status');
+
 app.listen(PORT, HOST, () => {
     console.log('app listen to 3000');
     console.log(`App is listening on http://${HOST}:${PORT}`);
