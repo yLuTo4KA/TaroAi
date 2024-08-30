@@ -293,7 +293,7 @@ app.post('/payment/getLink', verifyToken, async (req, res) => {
         res.status(404).json({ message: "Internal error", error: e });
     }
 });
-app.post('/payment/status/:secret', async (req, res) => {
+app.post('/payment/status/telegraf/:secret', async (req, res) => {
     const {secret} = req.params;
     if(secret !== process.env.WEBHOOK_SECRET) {
         return res.status(403).send("Forbidden");
