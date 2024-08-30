@@ -30,8 +30,8 @@ bot.start((ctx) => ctx.reply('welcome'));
 bot.command('start', (ctx) => ctx.reply('ping'));
 
 bot.launch();
-bot.telegram.setWebhook('https://taroai-546ac6a4db3b.herokuapp.com/payment/status');
-app.use(bot.webhookCallback('/payment/status'));
+
+
 app.get('/', (req, res) => {
     res.send('Tg mini app work1');
 })
@@ -301,9 +301,9 @@ app.post('/payment/status', async (req, res) => {
                 await UserModel.updateOne({_id: transaction.user_id}, {$inc: {DIV_balance: transaction.div_amount}});
             }
         }
-        res.status(200).send("OK");
+        res.status(200).json({update});
     } catch (e) {
-        res.status(500).send("internal error");
+        res.status(500).send('internal error');
     }
 })
 
@@ -312,7 +312,7 @@ app.post('/payment/status', async (req, res) => {
 // settings
 const PORT = process.env.PORT || 3000;
 const HOST = '0.0.0.0';
-
+bot.telegram.setWebhook('https://taroai-546ac6a4db3b.herokuapp.com/payment/status');
 app.listen(PORT, HOST, () => {
     console.log('app listen to 3000');
     console.log(`App is listening on http://${HOST}:${PORT}`);
