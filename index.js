@@ -33,7 +33,7 @@ bot.command('start', (ctx) => ctx.reply('ping'));
 bot.launch(
     {
         webhook: {
-            domain: 'https://taroai-546ac6a4db3b.herokuapp.com/payment/status',
+            domain: 'taroai-546ac6a4db3b.herokuapp.com/payment/status',
             port: 88
         }
     }
