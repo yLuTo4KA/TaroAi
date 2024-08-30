@@ -1,3 +1,3 @@
-<div class="button" [ngClass]="{'--small': small}">
-    <ng-content select="[title]"></ng-content>
+<div class="button" [ngClass]="{'--small': small}" [style.paddingBottom.px]="[paddingY]" [style.paddingTop.px]="paddingY" [style.paddingLeft.px]="paddingX" [style.paddingRight.px]="paddingX">
+    <ng-content></ng-content>
 </div>

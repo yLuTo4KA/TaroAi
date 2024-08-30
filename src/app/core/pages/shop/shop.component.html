@@ -1,6 +1,6 @@
 <div class="shop-page">
     <div class="shop-page__header page-header">
-        <img src="/assets/images/bot_tasks.png" alt="Tasks" class="shop-page__header-img">
+        <img src="assets/images/bot_tasks.png" alt="Tasks" class="shop-page__header-img">
         <p class="page-subtitle">A hidden shop with a mysterious merchant</p>
     </div>
     <div class="shop-page__container">
@@ -12,5 +12,25 @@
 </div>
 
 <app-modal [viewModal]="viewTokenModal" (closeModalEmit)="closeTokenModal()">
-    <div class="123">HEllO!</div>
+    <div class="token-modal">
+        <div class="token-modal__header">
+            <div class="modal-title">
+                Divinations token
+            </div>
+            <div class="modal-subtitle">
+                You can also earn Divinations tokens by <router-link routerLink="/friends" class="router-link">inviting friends</router-link> and for <router-link routerLink="/tasks" class="router-link">completing tasks</router-link>
+            </div>
+        </div>
+        <div class="token-modal__body">
+            <div class="token-modal__price-list">
+                <div class="token-modal__price-item" *ngFor="let item of prices" [class.--current]="item.price === currentPrice" (click)="pickPrice(item.price)">
+                    <mat-icon aria-hidden="false" aria-label="Example home icon" svgIcon="icon_token" class="token-modal__price-item__img"></mat-icon>
+                    <p class="token-modal__price-title">{{item.count}} DIV Token</p>
+                </div>
+                <app-button [paddingX]="15" [paddingY]="15">
+                    Confrim And Pay {{currentPrice}} Stars
+                </app-button>
+            </div>
+        </div>
+    </div>
 </app-modal>

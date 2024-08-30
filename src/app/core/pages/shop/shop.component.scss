@@ -11,3 +11,32 @@
         margin-bottom: 10px;
     }
 }
+
+.token-modal {
+    &__header {
+        margin-bottom: 20px;
+    }
+    &__price {
+        &-list {
+            padding: 0 10px;
+        }
+        &-item {
+            background: var(--very-dark-purple);
+            border-radius: 7px;
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            font-size: 14px;
+            box-sizing: border-box;
+            margin-bottom: 15px;
+            border: 1px solid var(--gray);
+            &.--current {
+                border: 1px solid var(--gold);
+                color: var(--gold);
+            }
+            &__img {
+                margin-right: 15px;
+            }
+        }
+    }
+}
