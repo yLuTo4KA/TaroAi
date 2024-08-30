@@ -313,7 +313,7 @@ app.post('/payment/status/telegraf/:secret', async (req, res) => {
             }
         } else if (update.message.successful_payment) {
             console.log(update.message);
-            const { invoice_payload, successful_payment } = update;
+            const { invoice_payload } = update.message.successful_payment;
             const paymentStatus = "Paid"
             const transaction = await TransactionModel.findOneAndUpdate(
                 { _id: invoice_payload },
