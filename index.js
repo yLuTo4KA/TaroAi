@@ -22,6 +22,24 @@ app.use((req, res, next) => {
 
 const bot = new Telegraf(process.env.BOT_TOKEN);
 // bot.telegram.setWebhook('https://taroai-546ac6a4db3b.herokuapp.com/payment/status');
+bot.on('pre_checkout_query', async (ctx) => {
+    const preCheckoutQueryId = ctx.update.pre_checkout_query.id;
+
+    try {
+        // Check if the goods are available, etc.
+        const allGoodsAvailable = true; // Replace with your actual check
+
+        if (allGoodsAvailable) {
+            // Respond positively
+            await ctx.telegram.answerPreCheckoutQuery(preCheckoutQueryId, true);
+        } else {
+            // Respond with an error message
+            await ctx.telegram.answerPreCheckoutQuery(preCheckoutQueryId, false, "Sorry, the item you wanted is no longer available. Please choose another item.");
+        }
+    } catch (error) {
+        console.error('Error handling pre-checkout query:', error);
+    }
+});
 
 
 const expToken = '1d';
@@ -300,7 +318,7 @@ app.post('/payment/status/telegraf/:secret', async (req, res) => {
     }
     try {
         const update = req.body;
-        console.log(update);
+        console.log(update.pre);
 
         if (update.invoice_payload && update.payment) {
             const transactionId = update.invoice_payload;
@@ -319,6 +337,7 @@ app.post('/payment/status/telegraf/:secret', async (req, res) => {
         res.status(500).send('internal error');
     }
 })
+
 
 // code  123
 
