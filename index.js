@@ -290,13 +290,12 @@ app.post('/payment/status', async (req, res) => {
         if (update.invoice_payload && update.payment) {
             const transactionId = update.invoice_payload;
             const paymentStatus = update.payment.status;
-
+            const transaction = await TransactionModel.findOneAndUpdate(
+                { _id: transactionId },
+                { status: paymentStatus },
+                { new: true }
+            )
             if (paymentStatus === 'paid') {
-                const transaction = await TransactionModel.findOneAndUpdate(
-                    { _id: transactionId },
-                    { status: 'Completed' },
-                    { new: true }
-                )
                 await UserModel.updateOne({_id: transaction.user_id}, {$inc: {DIV_balance: transaction.div_amount}});
             }
         }
