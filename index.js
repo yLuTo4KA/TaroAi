@@ -256,16 +256,15 @@ app.post('/auth', async (req, res) => {
 
 
 // closed routes
-app.get('/getUser', verifyToken, async (req, res) => {
-    const token = req.headers.authorization;
-    const decodeToken = jwt.verify(token, process.env.SALT);
-    const userId = decodeToken.id;
+app.get('/profile/getProfile', verifyToken, async(req, res) => {
+    try {
+        const {_id} = req.user;
+        const user = await UserModel.findOne({_id: _id});
 
-    const user = await UserModel.findOne({ id: userId })
-    if (!user) {
-        return res.status(404).json({ message: "No data!" });
+        res.status(200).json(user);
+    }catch(e) {
+        res.status(403).json({message: "internal error", error: e})
     }
-    res.status(200).json(user);
 })
 
 app.get('/getReferrals', verifyToken, async (req, res) => {
@@ -293,6 +292,7 @@ app.post('/payment/getLink', verifyToken, async (req, res) => {
         res.status(404).json({ message: "Internal error", error: e });
     }
 });
+
 app.post('/payment/status/telegraf/:secret', async (req, res) => {
     const { secret } = req.params;
     if (secret !== process.env.WEBHOOK_SECRET) {
@@ -321,33 +321,6 @@ app.post('/payment/status/telegraf/:secret', async (req, res) => {
                 { new: true }
             );
             await UserModel.updateOne({_id: transaction.user_id}, {$inc: {DIV_balance: transaction.div_amount}});
-        }
-        const lol = {
-            update_id: 269268876,
-            message: {
-                message_id: 64,
-                from: {
-                    id: 901201138,
-                    is_bot: false,
-                    first_name: 'yLuTo4KA',
-                    username: 'yLuTo4KA',
-                    language_code: 'ru'
-                },
-                chat: {
-                    id: 901201138,
-                    first_name: 'yLuTo4KA',
-                    username: 'yLuTo4KA',
-                    type: 'private'
-                },
-                date: 1725031498,
-                successful_payment: {
-                    currency: 'XTR',
-                    total_amount: 1,
-                    invoice_payload: '66d11df64823626617f8a77b',
-                    telegram_payment_charge_id: 'stxuhdLOFtONuMgAzez1f-aNFn56sVmZgD8QmPZt5wbtMAd1E9RkSdjAk8yUT9o7zkuCw64Gcgx0_6X1MmvsjVN1pqdTB9XWNLHUyUyrYfUmjxNI9iEmnS_QPNEu8aHzT9c',
-                    provider_payment_charge_id: '901201138_12'
-                }
-            }
         }
         
         res.status(200).json({ update });
