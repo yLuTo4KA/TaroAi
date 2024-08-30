@@ -22,7 +22,7 @@ app.use((req, res, next) => {
 
 const bot = new Telegraf(process.env.BOT_TOKEN);
 // bot.telegram.setWebhook('https://taroai-546ac6a4db3b.herokuapp.com/payment/status');
-
+app.use(await bot.createWebhook({domain: 'taroai-546ac6a4db3b.herokuapp.com/payment/status'}));
 
 const expToken = '1d';
 
@@ -30,13 +30,7 @@ const expToken = '1d';
 bot.start((ctx) => ctx.reply('welcome'));
 bot.command('start', (ctx) => ctx.reply('ping'));
 
-bot.launch(
-    {
-        webhook: {
-            domain: 'taroai-546ac6a4db3b.herokuapp.com/payment/status'
-        }
-    }
-);
+bot.launch();
 
 
 app.get('/', (req, res) => {
