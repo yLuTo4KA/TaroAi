@@ -5,7 +5,7 @@
             <div class="product-block__body-content">
                 <ng-content class="product-block__body-content" select="[body]"></ng-content>
             </div>
-            <app-button (click)="buttonClick()">
+            <app-button (click)="buttonClick()" class="product-block__button">
                 <p title>{{buttonName}}</p>
             </app-button>
         </div>

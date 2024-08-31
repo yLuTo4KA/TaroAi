@@ -17,7 +17,8 @@ export class ShellComponent implements OnInit, OnDestroy {
   tgService = inject(TelegramService);
   showFooter: boolean = true;
   userData: UserData | null = null;
-  lang: string = 'en';
+  localLang: string | null | undefined = localStorage.getItem('lang');
+  lang: string = this.localLang || 'en';
   private userDataSubscription: Subscription | undefined;
 
   constructor(private router: Router, private translate: TranslateService) { 
@@ -37,7 +38,9 @@ export class ShellComponent implements OnInit, OnDestroy {
     this.userDataSubscription = this.authService.userData$.subscribe(data => {
       if(data) {
         this.userData = data;
-        this.lang = data.language_code === 'ru' ? 'ru' : 'en';
+        if(!this.localLang) {
+          this.lang = data.language_code === 'ru' ? 'ru' : 'en';
+        }
         this.translate.use(this.lang);
       }
     })
