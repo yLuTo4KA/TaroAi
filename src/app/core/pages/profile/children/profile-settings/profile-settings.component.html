@@ -1,1 +1,24 @@
-<p>profile-settings works!</p>
+<div class="profile-page__settings">
+    <app-product-block [small]="true" [buttonName]="'PROFILE.PROFILE_SETTINGS.CHANGE' | translate" [iconName]="selectLang.icon" (clickButton)="changeViewLangModal()">
+        <p>{{'PROFILE.PROFILE_SETTINGS.LANGUAGE' | translate}}</p>
+    </app-product-block>
+</div>
+
+<app-modal [viewModal]="viewChangeLangModal" (closeModalEmit)="changeViewLangModal()">
+    <div class="change-lang-modal">
+        <div class="change-lang-modal__header">
+            <div class="modal-title">
+                {{"PROFILE.PROFILE_SETTINGS.MODAL.SELECT_LANG" | translate}}
+            </div>
+        </div>
+        <div class="change-lang-modal__body">
+            <div class="select-lang__list">
+                <div class="select-lang__item" *ngFor="let langItem of availableLang" (click)="changeLanguage(langItem)">
+                    <app-product-block [small]="true" [iconName]="langItem.icon" [active]="langItem === selectLang">
+                        <p>{{langItem.title}}</p>
+                    </app-product-block>
+                </div>
+            </div>
+        </div>
+    </div>
+</app-modal>

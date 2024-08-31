@@ -9,4 +9,5 @@ export class IconBlockComponent {
   @Input() iconName: string = '';
   @Input() width: number = 24;
   @Input() height: number = 24;
+  @Input() small: boolean = false;
 }
