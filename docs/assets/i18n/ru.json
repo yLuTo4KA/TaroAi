@@ -13,6 +13,13 @@
         "PROFILE_INFO": {
             "BALANCE": "Баланс",
             "EARN": "Заработать"
+        },
+        "PROFILE_SETTINGS": {
+            "LANGUAGE": "Язык",
+            "CHANGE": "Изменить",
+            "MODAL": {
+                "SELECT_LANG": "Выберите язык"
+            }
         }
     },
     "FRIENDS": {
