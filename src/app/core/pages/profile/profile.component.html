@@ -2,7 +2,9 @@
     <div class="profile-page__user-info">
         <div class="profile-page__avatar">
             <app-avatar [width]="100" [height]="100" [photoURL]="userData.avatar" [displayName]="userData.username" class="profile-page__avatar-img"></app-avatar>
-            <div class="profile-page__avatar-zodiac">+</div>
+            <div class="profile-page__avatar-zodiac" (click)="openChangeZodiacModal()">
+              <mat-icon aria-hidden="false" aria-label="zodiac" svgIcon="icon_libra" class="profile-page__avatar-zodiac-icon"></mat-icon>
+            </div>
         </div>
         <div class="profile-page__username">{{userData.username}}</div>
     </div>
@@ -34,3 +36,7 @@
         <router-outlet></router-outlet>
     </div>
 </div>
+
+<app-modal (closeModalEmit)="closeChangeZodiacModal()" [viewModal]="viewChangeZodiacModal">
+  Zodiac change
+</app-modal>

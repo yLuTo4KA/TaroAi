@@ -1,6 +1,6 @@
 .friends-page {
     &__header {
-        padding: 40px;
+        padding: 22px;
         padding-bottom: 0;
         margin-bottom: 35px;
     }
@@ -38,6 +38,7 @@
                     justify-content: space-between;
                     align-items: center;
                     margin-bottom: 20px;
+                    font-weight: bold;
                 }
 
                 &-list {
@@ -57,9 +58,13 @@
                 &__info {
                     display: flex;
                     align-items: center;
+                    font-weight: bold;
                     &-img {
                         margin-right: 10px;
                     }
+                }
+                &__bonus {
+                    font-weight: bold;
                 }
             }
         }

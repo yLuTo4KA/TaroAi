@@ -40,5 +40,10 @@ export class AppComponent {
       'icon_close',
       this.domSanitizer.bypassSecurityTrustResourceUrl("assets/icons/close.svg")
     );
+    this.matIconRegistry.addSvgIcon(
+      'icon_libra',
+      this.domSanitizer.bypassSecurityTrustResourceUrl("assets/icons/libra.svg")
+    );
+    
   }
 }
