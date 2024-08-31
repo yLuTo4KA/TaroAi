@@ -13,4 +13,7 @@
     &-border {
         border: 0.5px solid #858585;
     }
+    &-active {
+        border: 1px solid var(--gold);
+    }
 }

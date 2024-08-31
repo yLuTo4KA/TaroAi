@@ -8,6 +8,7 @@ import { Component, Input, OnInit } from '@angular/core';
 export class SectorComponent implements OnInit {
   @Input() border: boolean = false;
   @Input() shadow: boolean = false;
+  @Input() active: boolean = false;
   constructor() { }
 
   ngOnInit() {

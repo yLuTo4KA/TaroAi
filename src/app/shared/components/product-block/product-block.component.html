@@ -1,11 +1,11 @@
 <div class="product-block">
-    <app-sector [shadow]="true" [border]="true">
+    <app-sector [shadow]="true" [border]="true" [active]="active">
         <div class="product-block__body" body>
-            <app-icon-block class="product-block__body-icon" [iconName]="iconName" [width]="width" [height]="height"></app-icon-block>
+            <app-icon-block class="product-block__body-icon" [iconName]="iconName" [width]="width" [height]="height" [small]="small"></app-icon-block>
             <div class="product-block__body-content">
-                <ng-content class="product-block__body-content" select="[body]"></ng-content>
+                <ng-content class="product-block__body-content"></ng-content>
             </div>
-            <app-button (click)="buttonClick()" class="product-block__button">
+            <app-button (click)="buttonClick()" class="product-block__button" *ngIf="buttonName">
                 <p title>{{buttonName}}</p>
             </app-button>
         </div>

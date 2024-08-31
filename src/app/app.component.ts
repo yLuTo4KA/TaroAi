@@ -41,9 +41,19 @@ export class AppComponent {
       this.domSanitizer.bypassSecurityTrustResourceUrl("assets/icons/close.svg")
     );
     this.matIconRegistry.addSvgIcon(
+      'icon_ruFlag',
+      this.domSanitizer.bypassSecurityTrustResourceUrl("assets/icons/ruFlag.svg")
+    );
+    this.matIconRegistry.addSvgIcon(
+      'icon_usaFlag',
+      this.domSanitizer.bypassSecurityTrustResourceUrl("assets/icons/usaFlag.svg")
+    );
+    this.matIconRegistry.addSvgIcon(
       'icon_libra',
       this.domSanitizer.bypassSecurityTrustResourceUrl("assets/icons/libra.svg")
     );
+
+
     
   }
 }
