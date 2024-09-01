@@ -219,9 +219,11 @@ async function updateUserIncome(userId) {
                 )
                 purchase.lastIncome = now;
                 await purchase.save();
+                return true
             }
         }
     }
+    return false
 }
 
 async function updateItem(userId, itemId) {

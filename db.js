@@ -180,6 +180,7 @@ const ItemSchema = new mongoose.Schema({
     }
 });
 
+
 const PurchaseSchema = new mongoose.Schema({
     user_id: {
         type: mongoose.Schema.Types.ObjectId,
