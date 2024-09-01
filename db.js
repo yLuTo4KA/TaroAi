@@ -156,6 +156,50 @@ const TransactionSchema = new mongoose.Schema({
         required: true,
         default: "Created",
     }
+});
+
+const ItemSchema = new mongoose.Schema({
+    title: {
+        type: String,
+        requried: true
+    },
+    baseIncome: {
+        type: Number,
+        required: true,
+        default: 0
+    },
+    incomePerLevel: {
+        type: Number,
+        required: true,
+        default: 1
+    },
+    price: {
+        type: Number,
+        required: true,
+        default: 50
+    }
+});
+
+const PurchaseSchema = new mongoose.Schema({
+    user_id: {
+        type: mongoose.Schema.Types.ObjectId(),
+        ref: "Users",
+        required: true
+    },
+    item_id: {
+        type: mongoose.Schema.Types.ObjectId(),
+        ref: "Item",
+        required: true
+    },
+    level: {
+        type: Number,
+        default: 0
+    },
+    lastIncome: {
+        type: Date,
+        required: true,
+        default: Date.now
+    }
 })
 
 
@@ -184,5 +228,7 @@ ReferralSchema.pre('save', async function (next) {
 });
 const ReferralModel = new mongoose.model("Referral", ReferralSchema);
 const TransactionModel = new mongoose.model("Transaction", TransactionSchema);
+const ItemModel = new mongoose.model("Item", ItemSchema);
+const PurchaseModel = new mongoose.model("Purchase", PurchaseSchema)
 
-module.exports = {UserModel, ReferralModel, TransactionModel};
+module.exports = {UserModel, ReferralModel, TransactionModel, ItemModel, PurchaseModel};

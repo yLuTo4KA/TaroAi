@@ -4,7 +4,7 @@ const crypto = require('crypto');
 const bodyParser = require('body-parser');
 require('dotenv').config();
 const jwt = require('jsonwebtoken');
-const { UserModel, ReferralModel, TransactionModel } = require("./db");
+const { UserModel, ReferralModel, TransactionModel, PurchaseModel, ItemModel } = require("./db");
 const { Telegraf } = require('telegraf');
 
 
@@ -190,7 +190,75 @@ async function generateInvoiceLink(star_amount, div_amount, userId) {
     }
 }
 
+function getHoursPassed(lastIncomeDate, date) {
+    const hoursPassed = Math.floor((now - lastIncomeDate) / (1000 * 60 * 60));
+    return hoursPassed;
+};
 
+function calculateIncome(item, level, hoursPassed) {
+    const maxHoursPassed = hoursPassed < 30 ? hoursPassed : 30;
+    const incomePerHour = item.baseIncome + (level * item.incomePerLevel);
+
+    const income = incomePerHour * maxHoursPassed;
+
+    return income;
+}
+
+async function updateUserIncome(userId) {
+    const purchases = await PurchaseModel.find({ user_id: userId }).populate("item_id");
+    if (purchases) {
+        for (const purchase of purchases) {
+            const now = Date.now();
+            const hoursPassed = getHoursPassed(purchase.lastIncome, now);
+            if (hoursPassed > 0) {
+                const income = calculateIncome(purchase.item_id, purchase.level, hoursPassed);
+
+                await UserModel.findByIdAndUpdate(
+                    userId,
+                    { $inc: { DIV_balance: income } }
+                )
+                purchase.lastIncome = now;
+                await purchase.save();
+            }
+        }
+    }
+}
+
+async function updateItem(userId, itemId) {
+    const item = await ItemModel.findById(itemId);
+    const user = await UserModel.findById(userId);
+
+    if (!item) {
+        throw new Error('item not found');
+    }
+    if (item.price > user.DIV_balance) {
+        throw new Error('Balance is low!');
+    }
+
+    let purchase = await PurchaseModel.findOne({ user_id: userId, item_id: itemId });
+
+    if (!purchase) {
+        purchase = new PurchaseModel({
+            user_id: userId,
+            item_id: itemId,
+            level: 1,
+            lastIncome: new Date()
+        });
+
+        await purchase.save();
+
+        user.DIV_balance -= item.price;
+        await user.save();
+    } else if (purchase.level >= 5) {
+        throw new Error('level max!!!')
+    } else {
+        purchase.level += 1;
+
+        await purchase.save();
+        user.DIV_balance -= item.price;
+        await user.save();
+    }
+}
 
 //open routes
 app.post('/auth', async (req, res) => {
@@ -202,8 +270,10 @@ app.post('/auth', async (req, res) => {
         const verifyData = checkTelegramAuth(initData)
 
         if (verifyData) {
+            const now = Date.now();
             const userData = getUserData(initData);
-            const existingUser = await UserModel.findOne({ id: userData.id });
+            await updateUserIncome(userData.id);
+            const existingUser = await UserModel.findOneAndUpdate({ id: userData.id }, { last_visit: now }, { new: true });
             const avatarUrl = await getUserAvatar(userData.id);
             const isPremium = userData.is_premium;
 
@@ -211,10 +281,11 @@ app.post('/auth', async (req, res) => {
                 const refKey = generateRefKey(userData.id);
                 const data = { ...userData, avatar: avatarUrl, ref_key: refKey }
                 await UserModel.insertMany(data);
-                const user = await UserModel.findOne({ id: userData.id });
+                let user = await UserModel.findOne({ id: userData.id });
                 const token = generateToken(user);
                 if (startParams && !user.invited) {
                     await addReferral(startParams, user.ref_key, isPremium ? 10 : 5);
+                    user = await UserModel.findOne({ id: userData.id });
                 }
                 res.status(200).json({
                     success: true, data: {
@@ -253,17 +324,15 @@ app.post('/auth', async (req, res) => {
     }
 });
 
-
-
 // closed routes
-app.get('/profile/getProfile', verifyToken, async(req, res) => {
+app.get('/profile/getProfile', verifyToken, async (req, res) => {
     try {
-        const {_id} = req.user;
-        const user = await UserModel.findOne({_id: _id});
+        const { _id } = req.user;
+        const user = await UserModel.findOne({ _id: _id });
 
         res.status(200).json(user);
-    }catch(e) {
-        res.status(403).json({message: "internal error", error: e})
+    } catch (e) {
+        res.status(403).json({ message: "internal error", error: e })
     }
 })
 
@@ -298,7 +367,7 @@ app.post('/payment/status/telegraf/:secret', async (req, res) => {
     if (secret !== process.env.WEBHOOK_SECRET) {
         return res.status(403).send("Forbidden");
     }
-    
+
     try {
         const update = req.body;
 
@@ -320,15 +389,29 @@ app.post('/payment/status/telegraf/:secret', async (req, res) => {
                 { status: paymentStatus },
                 { new: true }
             );
-            await UserModel.updateOne({_id: transaction.user_id}, {$inc: {DIV_balance: transaction.div_amount}});
+            await UserModel.updateOne({ _id: transaction.user_id }, { $inc: { DIV_balance: transaction.div_amount } });
         }
-        
+
         res.status(200).json({ update });
     } catch (e) {
         console.error('Error handling payment or pre-checkout query:', e.message);
         res.status(500).send('Internal error');
     }
 });
+
+app.post('/shop/upgrage', verifyToken, async (req, res) => {
+
+    try {
+        const userId = req.user._id;
+        const itemId = req.body.itemId;
+
+        await updateItem(userId, itemId);
+
+        res.status(200).send("OK");
+    } catch(e) {
+        res.status(403).json({message: "Error!", error: e})
+    }
+})
 
 
 
