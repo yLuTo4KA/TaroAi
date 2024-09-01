@@ -425,7 +425,7 @@ app.post('/shop/upgrade', verifyToken, async (req, res) => {
 
         await updateItem(userId, itemId);
 
-        res.status(200).send("OK");
+        res.status(200).json({message: "OK!"});
     } catch (e) {
         res.status(403).json({ message: "Error!", error: e })
     }
