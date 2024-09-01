@@ -306,7 +306,7 @@ app.post('/auth', async (req, res) => {
                 }
                 const userIncome = await updateUserIncome(existingUser._id);
                 if(userIncome) {
-                    existingUser = await UserModel.findOneAndUpdate({ id: userData.id }, { last_visit: now }, { new: true }); = await UserModel.find
+                    existingUser = await UserModel.findOneAndUpdate({ id: userData.id }, { last_visit: now }, { new: true });
                 }
                 const token = generateToken(existingUser);
 
