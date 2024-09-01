@@ -417,7 +417,7 @@ app.post('/payment/status/telegraf/:secret', async (req, res) => {
     }
 });
 
-app.post('/shop/upgrage', verifyToken, async (req, res) => {
+app.post('/shop/upgrade', verifyToken, async (req, res) => {
 
     try {
         const userId = req.user._id;

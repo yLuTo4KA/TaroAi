@@ -177,7 +177,11 @@ const ItemSchema = new mongoose.Schema({
         type: Number,
         required: true,
         default: 50
-    }
+    },
+    max_level: {
+        type: Number,
+        default: 5
+    },
 });
 
 
