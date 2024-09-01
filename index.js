@@ -274,7 +274,7 @@ app.post('/auth', async (req, res) => {
         if (verifyData) {
             const now = Date.now();
             const userData = getUserData(initData);
-            
+
             let existingUser = await UserModel.findOneAndUpdate({ id: userData.id }, { last_visit: now }, { new: true });
             const avatarUrl = await getUserAvatar(userData.id);
             const isPremium = userData.is_premium;
@@ -307,7 +307,7 @@ app.post('/auth', async (req, res) => {
                     await addReferral(startParams, existingUser.ref_key, isPremium ? 10 : 5);
                 }
                 const userIncome = await updateUserIncome(existingUser._id) || 0;
-                if(userIncome) {
+                if (userIncome) {
                     existingUser = await UserModel.findOneAndUpdate({ id: userData.id }, { last_visit: now }, { new: true });
                 }
                 const token = generateToken(existingUser);
@@ -340,6 +340,17 @@ app.get('/profile/getProfile', verifyToken, async (req, res) => {
         res.status(200).json(user);
     } catch (e) {
         res.status(403).json({ message: "internal error", error: e })
+    }
+})
+
+app.get('/profile/getPurchase', verifyToken, async (req, res) => {
+    try {
+        const userId = req.user._id;
+        const purchases = await PurchaseModel.find({user_id: userId});
+        
+        res.status(200).json({purchases: purchases});
+    } catch (e) {
+        res.status(403).json({ message: "internal error", error: e });
     }
 })
 
@@ -415,10 +426,22 @@ app.post('/shop/upgrage', verifyToken, async (req, res) => {
         await updateItem(userId, itemId);
 
         res.status(200).send("OK");
-    } catch(e) {
-        res.status(403).json({message: "Error!", error: e})
+    } catch (e) {
+        res.status(403).json({ message: "Error!", error: e })
     }
-})
+});
+
+app.get('/shop/getItems', verifyToken, async (req, res) => {
+    try {
+        const items = await ItemModel.find({});
+        if (items.length === 0) {
+            throw new Error("No items");
+        }
+        res.status.json({shopItem: items});
+    } catch (e) {
+        res.status(403).json({ message: "Internal error", error: e });
+    }
+});
 
 
 
