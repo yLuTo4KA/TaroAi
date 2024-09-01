@@ -437,7 +437,7 @@ app.get('/shop/getItems', verifyToken, async (req, res) => {
         if (items.length === 0) {
             throw new Error("No items");
         }
-        res.status.json({shopItem: items});
+        res.status(200).json({shopItems: items});
     } catch (e) {
         res.status(403).json({ message: "Internal error", error: e });
     }
