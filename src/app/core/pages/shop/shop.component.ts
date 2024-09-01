@@ -53,6 +53,8 @@ export class ShopComponent implements OnInit {
   public shopItems: ShopItem[] | null = null;
   private shopItemsSub: Subscription | undefined;
 
+  public loadingUpgrade: boolean = false;
+
   public selectItem: ShopItem | null = null;
 
   constructor(private sanitizer: DomSanitizer) { }
@@ -139,14 +141,20 @@ export class ShopComponent implements OnInit {
   }
 
   upgradeItem(currentItem: ShopItem): void {
-    if (this.userData) {
+    if (this.userData && !this.loadingUpgrade) {
       if (this.userData?.DIV_balance >= currentItem.price) {
-        this.shopService.upgradeItem(currentItem._id).subscribe(response => {
-          if (response) {
+        this.loadingUpgrade = true;
+        this.shopService.upgradeItem(currentItem._id).subscribe({
+          next: (response) => {
             this.authService.getProfile().subscribe();
-            this.authService.getPurchases().subscribe();
-            this.loadShopItems();
-            this.changeViewUpgeadeModal();
+            this.authService.getPurchases().subscribe(response => {
+              this.loadingUpgrade = false;
+              this.loadShopItems();
+              this.changeViewUpgeadeModal();
+            });
+          },
+          error: (error) => {
+            this.loadingUpgrade = false;
           }
         })
       } else {

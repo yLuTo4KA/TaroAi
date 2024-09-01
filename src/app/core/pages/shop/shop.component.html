@@ -83,7 +83,7 @@
                     </app-balance>
                 </div>
             </div>
-            <app-button class="upgrade-modal__body-price" (click)="upgradeItem(selectItem)">
+            <app-button class="upgrade-modal__body-price" (click)="upgradeItem(selectItem)" *ngIf="!itsMax(selectItem)">
                 <app-balance>
                     <p>{{selectItem.price}} DIV</p>
                 </app-balance>
