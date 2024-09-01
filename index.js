@@ -272,8 +272,8 @@ app.post('/auth', async (req, res) => {
         if (verifyData) {
             const now = Date.now();
             const userData = getUserData(initData);
-            await updateUserIncome(userData.id);
-            const existingUser = await UserModel.findOneAndUpdate({ id: userData.id }, { last_visit: now }, { new: true });
+            
+            let existingUser = await UserModel.findOneAndUpdate({ id: userData.id }, { last_visit: now }, { new: true });
             const avatarUrl = await getUserAvatar(userData.id);
             const isPremium = userData.is_premium;
 
@@ -303,6 +303,10 @@ app.post('/auth', async (req, res) => {
                 }
                 if (startParams && !existingUser.invited) {
                     await addReferral(startParams, existingUser.ref_key, isPremium ? 10 : 5);
+                }
+                const userIncome = await updateUserIncome(existingUser._id);
+                if(userIncome) {
+                    existingUser = await UserModel.findOneAndUpdate({ id: userData.id }, { last_visit: now }, { new: true }); = await UserModel.find
                 }
                 const token = generateToken(existingUser);
 
