@@ -191,7 +191,7 @@ async function generateInvoiceLink(star_amount, div_amount, userId) {
 }
 
 function getHoursPassed(lastIncomeDate, date) {
-    const hoursPassed = Math.floor((now - lastIncomeDate) / (1000 * 60 * 60));
+    const hoursPassed = Math.floor((date - lastIncomeDate) / (1000 * 60 * 60));
     return hoursPassed;
 };
 
@@ -219,11 +219,11 @@ async function updateUserIncome(userId) {
                 )
                 purchase.lastIncome = now;
                 await purchase.save();
-                return true
+                return income;
             }
         }
     }
-    return false
+    return 0
 }
 
 async function updateItem(userId, itemId) {
@@ -306,7 +306,7 @@ app.post('/auth', async (req, res) => {
                 if (startParams && !existingUser.invited) {
                     await addReferral(startParams, existingUser.ref_key, isPremium ? 10 : 5);
                 }
-                const userIncome = await updateUserIncome(existingUser._id);
+                const userIncome = await updateUserIncome(existingUser._id) || 0;
                 if(userIncome) {
                     existingUser = await UserModel.findOneAndUpdate({ id: userData.id }, { last_visit: now }, { new: true });
                 }
@@ -315,7 +315,8 @@ app.post('/auth', async (req, res) => {
                 res.status(200).json({
                     success: true, data: {
                         token: token,
-                        userData: existingUser
+                        userData: existingUser,
+                        income: userIncome
                     }
                 })
             }
