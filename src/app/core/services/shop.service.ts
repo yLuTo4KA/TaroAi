@@ -32,4 +32,9 @@ export class ShopService extends ApiService {
         }
         return this.shopItemsSubject.asObservable();
     }
+
+    upgradeItem(itemId: string): Observable<string> {
+        const url = `${this.urlPath}/upgrade`;
+        return this.post(url, {itemId: itemId});
+    }
 }

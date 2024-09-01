@@ -3,6 +3,8 @@
     flex: 0;
 }
 .button {
+    display: flex;
+    justify-content: center;
     text-align: center;
     background: var(--gold);
     color: var(--very-dark-purple);
@@ -12,5 +14,9 @@
     &.--small {
         width: 75px;
         padding: 7px 0;
+    }
+    &.--disabled {
+        pointer-events: none;
+        background: var(--gray);
     }
 }

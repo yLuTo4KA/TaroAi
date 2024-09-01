@@ -36,6 +36,10 @@
         "SUBTITLE": "A hidden shop with a mysterious merchant",
         "SHOP": "Shop",
         "SELECT": "Select",
+        "UPGRADE": "Upgrade",
+        "HOUR": "Hour",
+        "Magic Hat": "Magic Hat",
+        "Magic Ball": "Magic Ball",
         "MODAL": {
             "INFO": "You can also earn Divinations tokens by",
             "INVITING": "inviting friends",

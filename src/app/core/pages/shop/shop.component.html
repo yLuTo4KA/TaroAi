@@ -8,18 +8,18 @@
             <p class="shop-page__list-name">{{'SHOP.SHOP' | translate}}</p>
             <div class="shop-page__item">
                 <app-product-block iconName="icon_token" [width]="50" [height]="50"
-                    [buttonName]="'SHOP.SELECT' | translate" (clickButton)="openTokenModal()">
+                    [buttonName]="'SHOP.SELECT' | translate" (clickButton)="changeViewTokenModal()">
                     <p body>Divinations token</p>
                 </app-product-block>
             </div>
-            <div class="shop-page__item" *ngFor="let shopItem of shopItems.reverse()">
-                <app-product-block [width]="50" [height]="50" [buttonName]="'Upgrade'" [iconName]="'icon_' + shopItem._id">
+            <div class="shop-page__item" *ngFor="let shopItem of shopItems">
+                <app-product-block [width]="50" [height]="50" [buttonName]="itsMax(shopItem) ? null  : 'SHOP.UPGRADE' | translate  " [iconName]="'icon_' + shopItem._id" (clickButton)="changeViewUpgeadeModal(shopItem)">
                     <div class="shop-page__item-body">
-                        <p class="shop-page__item-title">{{shopItem.title}}</p>
-                        <p class="shop-page__item-level">{{getCurrentLevel(shopItem._id)}} Lvl -> {{getCurrentLevel(shopItem._id) + 1}} Lvl</p>
+                        <p class="shop-page__item-title">{{'SHOP.' + shopItem.title | translate}}</p>
+                        <div class="shop-page__item-level" [innerHTML]="getLevelInfo(shopItem)"></div>
                         <div class="shop-page__item-income">
                             <app-balance [width]="16" [height]="16">
-                                <p balance>+{{shopItem.incomePerLevel * (getCurrentLevel(shopItem._id) + 1)}} / Hour</p>
+                                <p balance>+{{shopItem.incomePerLevel * (getCurrentLevel(shopItem._id, shopItem.max_level) + (itsMax(shopItem) ? 0 : 1))}} / {{"SHOP.HOUR" | translate}}</p>
                             </app-balance>
                         </div>
                     </div>
@@ -29,7 +29,7 @@
     </div>
 </div>
 
-<app-modal [viewModal]="viewTokenModal" (closeModalEmit)="closeTokenModal()">
+<app-modal [viewModal]="viewTokenModal" (closeModalEmit)="changeViewTokenModal()">
     <div class="token-modal">
         <div class="token-modal__header">
             <div class="modal-title">
@@ -58,3 +58,40 @@
         </div>
     </div>
 </app-modal>
+
+<app-modal [viewModal]="viewUpgradeModal" (closeModalEmit)="changeViewUpgeadeModal()" *ngIf="selectItem">
+    <div class="upgrade-modal">
+        <div class="upgrade-modal__header">
+            <app-icon-block class="upgrade-modal__header-icon" [iconName]="'icon_' + selectItem._id" [width]="100" [height]="100" [big]="true"></app-icon-block>
+            <p class="upgrade-modal__header-title">{{'SHOP.' + selectItem.title | translate}}</p>
+            <p class="upgrade-modal__header-subtitle">
+                Приобретая вы получаете ...
+            </p>
+        </div>
+        <div class="upgrade-modal__body">
+            <div class="upgrade-modal__body-level" [innerHTML]="getLevelInfo(selectItem)"></div>
+            <div class="upgrade-modal__body-income">
+                <div class="upgrade-modal__body-income-info">
+                    <app-balance [width]="24" [height]="24">
+                        <p balance>+{{selectItem.incomePerLevel * (getCurrentLevel(selectItem._id, selectItem.max_level))}} / {{"SHOP.HOUR" | translate}}</p>
+                    </app-balance>
+                </div>
+                <div class="upgrade-modal__body-income-to">-></div>
+                <div class="upgrade-modal__body-income-info">
+                    <app-balance [width]="24" [height]="24">
+                        <p balance>+{{selectItem.incomePerLevel * (getCurrentLevel(selectItem._id, selectItem.max_level) + (itsMax(selectItem) ? 0 : 1))}} / {{"SHOP.HOUR" | translate}}</p>
+                    </app-balance>
+                </div>
+            </div>
+            <app-button class="upgrade-modal__body-price" (click)="upgradeItem(selectItem)">
+                <app-balance>
+                    <p>{{selectItem.price}} DIV</p>
+                </app-balance>
+            </app-button>
+        </div>
+    </div>
+</app-modal>
+
+
+
+  
