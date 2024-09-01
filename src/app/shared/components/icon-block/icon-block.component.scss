@@ -13,4 +13,9 @@
         height: 40px;
         border-radius: 7px;
     }
+    &.--big {
+        width: 125px;
+        height: 125px;
+        border-radius: 16px;
+    }
 }

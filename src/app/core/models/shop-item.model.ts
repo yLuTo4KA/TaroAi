@@ -3,5 +3,6 @@ export interface ShopItem {
     title: string,
     baseIncome: number,
     incomePerLevel: number,
-    price: number
+    price: number,
+    max_level: number
 }
