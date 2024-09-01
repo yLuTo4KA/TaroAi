@@ -43,7 +43,7 @@ export class ShellComponent implements OnInit, OnDestroy {
         }
         this.translate.use(this.lang);
       }
-    })
+    });
 
    
   }

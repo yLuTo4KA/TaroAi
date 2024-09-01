@@ -5,6 +5,7 @@ import { TelegramService } from './telegram.service';
 import { UserData } from '../models/userData.model';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environments';
+import { PurchaseItem } from '../models/purhcase-item.model';
 
 interface AuthData {
   "success": string,
@@ -12,6 +13,10 @@ interface AuthData {
     "token": string,
     "userData": UserData
   }
+}
+
+interface PurchaseResponse {
+  "purchases": PurchaseItem[]
 }
 
 @Injectable({
@@ -27,10 +32,12 @@ export class AuthService {
   private loadingSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   private tokenSubject: BehaviorSubject<string | null> = new BehaviorSubject<string | null>(this.getToken());
   private userDataSubject: BehaviorSubject<UserData | null> = new BehaviorSubject<UserData | null>(null);
+  private userPurchasesSubject: BehaviorSubject<PurchaseItem[] | null> = new BehaviorSubject<PurchaseItem[] | null>(null);
 
   loading$: Observable<boolean> = this.loadingSubject.asObservable();
   token$: Observable<string | null> = this.tokenSubject.asObservable();
   userData$: Observable<UserData | null> = this.userDataSubject.asObservable();
+  userPurchases$: Observable<PurchaseItem[] | null> = this.userPurchasesSubject.asObservable();
 
 
   constructor(private http: HttpClient, private router: Router) {
@@ -48,6 +55,9 @@ export class AuthService {
 
   setUserData(userData: UserData | null): void {
     this.userDataSubject.next(userData);
+  }
+  setPurchasesData(purchases: PurchaseItem[] | null): void {
+    this.userPurchasesSubject.next(purchases);
   }
   
 
@@ -73,6 +83,7 @@ export class AuthService {
         if (response) {
           this.setToken(response.data.token);
           this.setUserData(response.data.userData);
+          this.getPurchases().subscribe();
         }
       }), 
       finalize(() => {
@@ -87,9 +98,29 @@ export class AuthService {
   }
   getProfile(): Observable<UserData> {
     const url = this.apiProfileUrl + "/getProfile";
+    this.loadingSubject.next(true);
     return this.http.get<UserData>(url, {}).pipe(
       tap(response => {
         this.setUserData(response);
+        this.getPurchases().subscribe();
+      }),
+      finalize(() => {
+        this.loadingSubject.next(false);
+      }),
+      catchError((error: HttpErrorResponse) => {
+        return throwError(() => error);
+      })
+    )
+  }
+
+  getPurchases(): Observable<PurchaseResponse> {
+    const url = this.apiProfileUrl + "/getPurchase";
+
+    this.loadingSubject.next(true);
+
+    return this.http.get<PurchaseResponse>(url, {}).pipe(
+      tap(response => {
+        this.setPurchasesData(response.purchases);
       }),
       finalize(() => {
         this.loadingSubject.next(false);
