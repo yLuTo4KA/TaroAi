@@ -52,6 +52,15 @@ export class AppComponent {
       'icon_libra',
       this.domSanitizer.bypassSecurityTrustResourceUrl("assets/icons/libra.svg")
     );
+    
+    this.matIconRegistry.addSvgIcon(
+      'icon_66d3cda2ae2c211714765915',
+      this.domSanitizer.bypassSecurityTrustResourceUrl("assets/icons/66d3cda2ae2c211714765915.svg")
+    );
+    this.matIconRegistry.addSvgIcon(
+      'icon_66d3cd0eae2c21171476590d',
+      this.domSanitizer.bypassSecurityTrustResourceUrl("assets/icons/66d3cd0eae2c21171476590d.svg")
+    );
 
 
     

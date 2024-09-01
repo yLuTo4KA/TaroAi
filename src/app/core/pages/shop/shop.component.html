@@ -4,10 +4,28 @@
         <p class="page-subtitle">{{'SHOP.SUBTITLE' | translate}}</p>
     </div>
     <div class="shop-page__container">
-        <p class="shop-page__list-name">{{'SHOP.SHOP' | translate}}</p>
-        <app-product-block iconName="icon_token" [width]="50" [height]="50" [buttonName]="'SHOP.SELECT' | translate" (clickButton)="openTokenModal()">
-            <p body>Divinations token</p>
-        </app-product-block>
+        <div class="shop-page__list" *ngIf="shopItems">
+            <p class="shop-page__list-name">{{'SHOP.SHOP' | translate}}</p>
+            <div class="shop-page__item">
+                <app-product-block iconName="icon_token" [width]="50" [height]="50"
+                    [buttonName]="'SHOP.SELECT' | translate" (clickButton)="openTokenModal()">
+                    <p body>Divinations token</p>
+                </app-product-block>
+            </div>
+            <div class="shop-page__item" *ngFor="let shopItem of shopItems.reverse()">
+                <app-product-block [width]="50" [height]="50" [buttonName]="'Upgrade'" [iconName]="'icon_' + shopItem._id">
+                    <div class="shop-page__item-body">
+                        <p class="shop-page__item-title">{{shopItem.title}}</p>
+                        <p class="shop-page__item-level">{{getCurrentLevel(shopItem._id)}} Lvl -> {{getCurrentLevel(shopItem._id) + 1}} Lvl</p>
+                        <div class="shop-page__item-income">
+                            <app-balance [width]="16" [height]="16">
+                                <p balance>+{{shopItem.incomePerLevel * (getCurrentLevel(shopItem._id) + 1)}} / Hour</p>
+                            </app-balance>
+                        </div>
+                    </div>
+                </app-product-block>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -18,16 +36,22 @@
                 Divinations token
             </div>
             <div class="modal-subtitle">
-                {{'SHOP.MODAL.INFO' | translate}} <router-link routerLink="/friends" class="router-link">{{'SHOP.MODAL.INVITING' | translate}}</router-link> {{'SHOP.MODAL.AND_FOR' | translate}} <router-link routerLink="/tasks" class="router-link"> {{'SHOP.MODAL.TASKS' | translate}}</router-link>
+                {{'SHOP.MODAL.INFO' | translate}} <router-link routerLink="/friends"
+                    class="router-link">{{'SHOP.MODAL.INVITING' | translate}}</router-link> {{'SHOP.MODAL.AND_FOR' |
+                translate}} <router-link routerLink="/tasks" class="router-link"> {{'SHOP.MODAL.TASKS' |
+                    translate}}</router-link>
             </div>
         </div>
         <div class="token-modal__body">
             <div class="token-modal__price-list">
-                <div class="token-modal__price-item" *ngFor="let item of prices" [class.--current]="item.price === currentPrice.price" (click)="pickPrice(item)">
-                    <mat-icon aria-hidden="false" aria-label="Example home icon" svgIcon="icon_token" class="token-modal__price-item__img"></mat-icon>
+                <div class="token-modal__price-item" *ngFor="let item of prices"
+                    [class.--current]="item.price === currentPrice.price" (click)="pickPrice(item)">
+                    <mat-icon aria-hidden="false" aria-label="Example home icon" svgIcon="icon_token"
+                        class="token-modal__price-item__img"></mat-icon>
                     <p class="token-modal__price-title">{{item.count}} DIV Token</p>
                 </div>
-                <app-button [paddingX]="15" [paddingY]="15" (click)="handlePaymentRequest(currentPrice.price, currentPrice.count)">
+                <app-button [paddingX]="15" [paddingY]="15"
+                    (click)="handlePaymentRequest(currentPrice.price, currentPrice.count)">
                     {{'SHOP.MODAL.CONFRIM' | translate}} {{currentPrice.price}} Stars
                 </app-button>
             </div>
