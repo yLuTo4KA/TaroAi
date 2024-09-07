@@ -311,7 +311,7 @@ app.post('/auth', async (req, res) => {
                     existingUser = await UserModel.findOneAndUpdate({ id: userData.id }, { last_visit: now }, { new: true });
                 }
                 const token = generateToken(existingUser);
-                const user = await UserModel.findOne({id: existingUser.userData.id});
+                const user = await UserModel.findOne({id: userData.id});
                 res.status(200).json({
                     success: true, data: {
                         token: token,
