@@ -159,9 +159,11 @@ async function addReferral(referrerKey, referralKey, bonus) {
             return referralData;
         } else {
             console.log('Referral already exists');
+            return refferal;
         }
     } catch (e) {
         console.error('Error adding referral:', e.message);
+        return refferal;
     }
 }
 
