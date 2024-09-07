@@ -144,17 +144,19 @@ async function addReferral(referrerKey, referralKey, bonus) {
                 bonus: bonus
             });
 
-            await UserModel.updateOne(
+            const referralData = await UserModel.findOneAndUpdate(
                 { _id: referral._id },
                 {
                     $set: { invited: true },
                     $inc: { DIV_balance: bonus }
-                }
+                },
+                { new: true } // возвращает обновленный документ
             );
+            
             await updateDIVbalance(referrer._id, bonus);
 
             console.log('Referral added successfully');
-            return referral;
+            return referralData;
         } else {
             console.log('Referral already exists');
         }
