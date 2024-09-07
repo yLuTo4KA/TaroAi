@@ -144,26 +144,21 @@ async function addReferral(referrerKey, referralKey, bonus) {
                 bonus: bonus
             });
 
-            const referralData = await UserModel.findOneAndUpdate(
+            await UserModel.updateOne(
                 { _id: referral._id },
                 {
                     $set: { invited: true },
                     $inc: { DIV_balance: bonus }
-                },
-                { new: true } // возвращает обновленный документ
+                }
             );
-
             await updateDIVbalance(referrer._id, bonus);
 
             console.log('Referral added successfully');
-            return referralData;
         } else {
             console.log('Referral already exists');
-            return refferal;
         }
     } catch (e) {
         console.error('Error adding referral:', e.message);
-        return refferal;
     }
 }
 
@@ -291,7 +286,8 @@ app.post('/auth', async (req, res) => {
                 let user = await UserModel.findOne({ id: userData.id });
                 const token = generateToken(user);
                 if (startParams && !user.invited) {
-                    user = await addReferral(startParams, user.ref_key, isPremium ? 10 : 5);
+                    await addReferral(startParams, user.ref_key, isPremium ? 10 : 5);
+                    user = await UserModel.findOne({ id: userData.id });
                 }
                 res.status(200).json({
                     success: true, data: {
@@ -299,7 +295,6 @@ app.post('/auth', async (req, res) => {
                         userData: user
                     }
                 })
-
             } else {
                 if (existingUser.avatar !== avatarUrl) {
                     existingUser.avatar = avatarUrl;
@@ -309,18 +304,18 @@ app.post('/auth', async (req, res) => {
                     )
                 }
                 if (startParams && !existingUser.invited) {
-                    existingUser = await addReferral(startParams, existingUser.ref_key, isPremium ? 10 : 5);
+                    await addReferral(startParams, existingUser.ref_key, isPremium ? 10 : 5);
                 }
                 const userIncome = await updateUserIncome(existingUser._id) || 0;
                 if (userIncome) {
                     existingUser = await UserModel.findOneAndUpdate({ id: userData.id }, { last_visit: now }, { new: true });
                 }
                 const token = generateToken(existingUser);
-
+                const user = await UserModel.findOne({id: existingUser.userData.id});
                 res.status(200).json({
                     success: true, data: {
                         token: token,
-                        userData: existingUser,
+                        userData: user,
                         income: userIncome
                     }
                 })
@@ -351,9 +346,9 @@ app.get('/profile/getProfile', verifyToken, async (req, res) => {
 app.get('/profile/getPurchase', verifyToken, async (req, res) => {
     try {
         const userId = req.user._id;
-        const purchases = await PurchaseModel.find({ user_id: userId });
-
-        res.status(200).json({ purchases: purchases });
+        const purchases = await PurchaseModel.find({user_id: userId});
+        
+        res.status(200).json({purchases: purchases});
     } catch (e) {
         res.status(403).json({ message: "internal error", error: e });
     }
@@ -430,7 +425,7 @@ app.post('/shop/upgrade', verifyToken, async (req, res) => {
 
         await updateItem(userId, itemId);
 
-        res.status(200).json({ message: "OK!" });
+        res.status(200).json({message: "OK!"});
     } catch (e) {
         res.status(403).json({ message: "Error!", error: e })
     }
@@ -442,7 +437,7 @@ app.get('/shop/getItems', verifyToken, async (req, res) => {
         if (items.length === 0) {
             throw new Error("No items");
         }
-        res.status(200).json({ shopItems: items });
+        res.status(200).json({shopItems: items});
     } catch (e) {
         res.status(403).json({ message: "Internal error", error: e });
     }
