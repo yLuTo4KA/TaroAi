@@ -77,6 +77,15 @@ const UserSchema = new mongoose.Schema({
         required: true,
         default: 0
     },
+    subscription: {
+        type: Boolean,
+        required: false,
+        default: false,
+    },
+    subExpired: {
+        type: Date,
+        required: false
+    },
     last_visit: {
         type: Date,
         required: false,

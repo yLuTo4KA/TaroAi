@@ -154,6 +154,7 @@ async function addReferral(referrerKey, referralKey, bonus) {
             await updateDIVbalance(referrer._id, bonus);
 
             console.log('Referral added successfully');
+            return referral;
         } else {
             console.log('Referral already exists');
         }
@@ -286,15 +287,21 @@ app.post('/auth', async (req, res) => {
                 let user = await UserModel.findOne({ id: userData.id });
                 const token = generateToken(user);
                 if (startParams && !user.invited) {
-                    await addReferral(startParams, user.ref_key, isPremium ? 10 : 5);
-                    user = await UserModel.findOne({ id: userData.id });
+                    const userRef = await addReferral(startParams, user.ref_key, isPremium ? 10 : 5);
+                    res.status(200).json({
+                        success: true, data: {
+                            token: token,
+                            userData: userRef
+                        }
+                    })
+                } else {
+                    res.status(200).json({
+                        success: true, data: {
+                            token: token,
+                            userData: user
+                        }
+                    })
                 }
-                res.status(200).json({
-                    success: true, data: {
-                        token: token,
-                        userData: user
-                    }
-                })
             } else {
                 if (existingUser.avatar !== avatarUrl) {
                     existingUser.avatar = avatarUrl;
