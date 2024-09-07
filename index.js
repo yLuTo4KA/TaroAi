@@ -287,7 +287,8 @@ app.post('/auth', async (req, res) => {
                 let user = await UserModel.findOne({ id: userData.id });
                 const token = generateToken(user);
                 if (startParams && !user.invited) {
-                    const userRef = await addReferral(startParams, user.ref_key, isPremium ? 10 : 5);
+                    await addReferral(startParams, user.ref_key, isPremium ? 10 : 5);
+                    const userRef = await UserModel.findOne({id: userData.id});
                     res.status(200).json({
                         success: true, data: {
                             token: token,
@@ -302,6 +303,7 @@ app.post('/auth', async (req, res) => {
                         }
                     })
                 }
+
             } else {
                 if (existingUser.avatar !== avatarUrl) {
                     existingUser.avatar = avatarUrl;
