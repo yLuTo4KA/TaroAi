@@ -152,7 +152,7 @@ async function addReferral(referrerKey, referralKey, bonus) {
                 },
                 { new: true } // возвращает обновленный документ
             );
-            
+
             await updateDIVbalance(referrer._id, bonus);
 
             console.log('Referral added successfully');
@@ -289,22 +289,14 @@ app.post('/auth', async (req, res) => {
                 let user = await UserModel.findOne({ id: userData.id });
                 const token = generateToken(user);
                 if (startParams && !user.invited) {
-                    await addReferral(startParams, user.ref_key, isPremium ? 10 : 5);
-                    const userRef = await UserModel.findOne({id: userData.id});
-                    res.status(200).json({
-                        success: true, data: {
-                            token: token,
-                            userData: userRef
-                        }
-                    })
-                } else {
-                    res.status(200).json({
-                        success: true, data: {
-                            token: token,
-                            userData: user
-                        }
-                    })
+                    user = await addReferral(startParams, user.ref_key, isPremium ? 10 : 5);
                 }
+                res.status(200).json({
+                    success: true, data: {
+                        token: token,
+                        userData: user
+                    }
+                })
 
             } else {
                 if (existingUser.avatar !== avatarUrl) {
@@ -315,7 +307,7 @@ app.post('/auth', async (req, res) => {
                     )
                 }
                 if (startParams && !existingUser.invited) {
-                    await addReferral(startParams, existingUser.ref_key, isPremium ? 10 : 5);
+                    existingUser = await addReferral(startParams, existingUser.ref_key, isPremium ? 10 : 5);
                 }
                 const userIncome = await updateUserIncome(existingUser._id) || 0;
                 if (userIncome) {
@@ -357,9 +349,9 @@ app.get('/profile/getProfile', verifyToken, async (req, res) => {
 app.get('/profile/getPurchase', verifyToken, async (req, res) => {
     try {
         const userId = req.user._id;
-        const purchases = await PurchaseModel.find({user_id: userId});
-        
-        res.status(200).json({purchases: purchases});
+        const purchases = await PurchaseModel.find({ user_id: userId });
+
+        res.status(200).json({ purchases: purchases });
     } catch (e) {
         res.status(403).json({ message: "internal error", error: e });
     }
@@ -436,7 +428,7 @@ app.post('/shop/upgrade', verifyToken, async (req, res) => {
 
         await updateItem(userId, itemId);
 
-        res.status(200).json({message: "OK!"});
+        res.status(200).json({ message: "OK!" });
     } catch (e) {
         res.status(403).json({ message: "Error!", error: e })
     }
@@ -448,7 +440,7 @@ app.get('/shop/getItems', verifyToken, async (req, res) => {
         if (items.length === 0) {
             throw new Error("No items");
         }
-        res.status(200).json({shopItems: items});
+        res.status(200).json({ shopItems: items });
     } catch (e) {
         res.status(403).json({ message: "Internal error", error: e });
     }
